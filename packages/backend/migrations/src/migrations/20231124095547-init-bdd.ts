@@ -4,6 +4,19 @@ import { sql } from 'kysely';
 
 import type { Database } from '@app/types';
 
+export async function down(db: Kysely<Database>): Promise<void> {
+  // Migration code that reverts the database to the previous state.
+  await db.schema.dropTable('user').ifExists().execute();
+  await db.schema.dropTable('trip').ifExists().execute();
+  await db.schema.dropTable('car').ifExists().execute();
+  await db.schema.dropTable('car_type').ifExists().execute();
+  await db.schema.dropTable('reservation').ifExists().execute();
+  await db.schema.dropTable('reservation_seat').ifExists().execute();
+  await db.schema.dropTable('checkpoint_trip').ifExists().execute();
+  await db.schema.dropTable('notice').ifExists().execute();
+  await db.schema.dropTable('messaging').ifExists().execute();
+}
+
 export async function up(db: Kysely<Database>): Promise<void> {
   // Migration code that update the database to the desired state.
   await db.schema
@@ -15,7 +28,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     .addColumn('lastname', 'varchar(100)', (col) => col.notNull())
     .addColumn('email', 'varchar(100)', (col) => col.notNull().unique())
     .addColumn('password', 'varchar(255)', (col) => col.notNull())
-    .addColumn('birthday', 'varchar(10)', (col) => col.notNull())
+    .addColumn('birthdate', 'datetime', (col) => col.notNull())
     .addColumn('biography', 'text')
     .addColumn('avatar', 'varchar(255)')
     .addColumn('passenger_kilometer_traveled', 'decimal(8, 1)', (col) =>
@@ -37,18 +50,18 @@ export async function up(db: Kysely<Database>): Promise<void> {
       col.references('driver.id').notNull().unsigned(),
     )
     .addColumn('created_at', 'datetime', (col) => col.notNull())
-    .addColumn('date', 'varchar(10)', (col) => col.notNull())
+    .addColumn('date', 'datetime', (col) => col.notNull())
     .addColumn('kilometer', 'decimal(6, 1)', (col) => col.notNull().unsigned())
-    .addColumn('travel_time', 'varchar(5)', (col) => col.notNull())
+    .addColumn('travel_time', 'datetime', (col) => col.notNull())
     .addColumn('seat_available', 'int2', (col) => col.notNull().unsigned())
-    .addColumn('price', 'decimal(6, 2)', (col) => col.notNull().unsigned())
-    .addColumn('auto_validation', 'boolean', (col) => col.notNull())
+    .addColumn('price', 'int2', (col) => col.notNull().unsigned())
+    .addColumn('is_auto_validation', 'boolean', (col) => col.notNull())
     .addColumn('comment', 'text')
-    .addColumn('baby_allowed', 'boolean', (col) => col.notNull())
-    .addColumn('non_vaccinated_allowed', 'boolean', (col) => col.notNull())
-    .addColumn('animal_allowed', 'boolean', (col) => col.notNull())
-    .addColumn('smoker_allowed', 'boolean', (col) => col.notNull())
-    .addColumn('with_toll', 'boolean', (col) => col.notNull())
+    .addColumn('is_baby_allowed', 'boolean', (col) => col.notNull())
+    .addColumn('is_non_vaccinated_allowed', 'boolean', (col) => col.notNull())
+    .addColumn('is_animal_allowed', 'boolean', (col) => col.notNull())
+    .addColumn('is_smoker_allowed', 'boolean', (col) => col.notNull())
+    .addColumn('is_with_toll', 'boolean', (col) => col.notNull())
     .addColumn('car_id', 'int8', (col) =>
       col.references('car.id').notNull().unsigned(),
     )
@@ -94,7 +107,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     .execute();
 
   await db.schema
-    .createTable('seat_comparison')
+    .createTable('reservation_seat')
     .addColumn('id', 'int8', (col) =>
       col.autoIncrement().primaryKey().unsigned(),
     )
@@ -155,17 +168,4 @@ export async function up(db: Kysely<Database>): Promise<void> {
     )
     .addColumn('message_read_at', 'datetime', (col) => col.notNull())
     .execute();
-}
-
-export async function down(db: Kysely<Database>): Promise<void> {
-  // Migration code that reverts the database to the previous state.
-  await db.schema.dropTable('user').ifExists().execute();
-  await db.schema.dropTable('trip').ifExists().execute();
-  await db.schema.dropTable('car').ifExists().execute();
-  await db.schema.dropTable('car_type').ifExists().execute();
-  await db.schema.dropTable('reservation').ifExists().execute();
-  await db.schema.dropTable('seat_comparison').ifExists().execute();
-  await db.schema.dropTable('checkpoint_trip').ifExists().execute();
-  await db.schema.dropTable('notice').ifExists().execute();
-  await db.schema.dropTable('messaging').ifExists().execute();
 }

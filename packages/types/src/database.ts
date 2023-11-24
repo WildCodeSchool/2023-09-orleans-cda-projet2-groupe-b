@@ -6,7 +6,7 @@ export interface UserTable {
   lastname: string;
   email: string;
   password: string;
-  birthday: string;
+  birthdate: Date;
   biography?: string;
   avatar?: string;
   passenger_kilometer_traveled: number;
@@ -22,18 +22,18 @@ export interface TripTable {
   id: Generated<number>;
   driver_id: number;
   created_at: Date;
-  date: string;
+  date: Date;
   kilometer: number;
-  travel_time: string;
+  travel_time: Date;
   seat_available: number;
   price: number;
-  auto_validation: boolean;
+  is_auto_validation: boolean;
   comment?: string;
-  baby_allowed: boolean;
-  non_vaccinated_allowed: boolean;
-  animal_allowed: boolean;
-  smoker_allowed: boolean;
-  with_toll: boolean;
+  is_baby_allowed: boolean;
+  is_non_vaccinated_allowed: boolean;
+  is_animal_allowed: boolean;
+  is_smoker_allowed: boolean;
+  is_with_toll: boolean;
   car_id: number;
 }
 export type Trip = Selectable<TripTable>;
@@ -73,15 +73,15 @@ export type Reservation = Selectable<ReservationTable>;
 export type NewReservation = Insertable<ReservationTable>;
 export type ReservationUpdate = Updateable<ReservationTable>;
 
-export interface SeatComparisonTable {
+export interface ReservationSeatTable {
   id: Generated<number>;
   reservation_id: number;
   reserved_seat: number;
   checkpoint_trip_id: number;
 }
-export type SeatComparison = Selectable<SeatComparisonTable>;
-export type NewSeatComparison = Insertable<SeatComparisonTable>;
-export type SeatComparisonUpdate = Updateable<SeatComparisonTable>;
+export type ReservationSeat = Selectable<ReservationSeatTable>;
+export type NewReservationSeat = Insertable<ReservationSeatTable>;
+export type ReservationSeatUpdate = Updateable<ReservationSeatTable>;
 
 type Point = {
   x: number;
@@ -130,7 +130,7 @@ export interface Database {
   car: CarTable;
   car_type: CarTypeTable;
   reservation: ReservationTable;
-  seat_comparison: SeatComparisonTable;
+  seat_comparison: ReservationSeatTable;
   checkpoint_trip: CheckpointTripTable;
   notice: NoticeTable;
   messaging: MessagingTable;
