@@ -24,16 +24,16 @@ export interface TripTable {
   created_at: Date;
   date: Date;
   kilometer: number;
-  travel_time: Date;
+  travel_time: number;
   seat_available: number;
   price: number;
-  is_auto_validation: boolean;
+  should_auto_validate: boolean;
   comment?: string;
   is_baby_allowed: boolean;
   is_non_vaccinated_allowed: boolean;
   is_animal_allowed: boolean;
   is_smoker_allowed: boolean;
-  is_with_toll: boolean;
+  has_tolls: boolean;
   car_id: number;
 }
 export type Trip = Selectable<TripTable>;
