@@ -23,6 +23,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await trx.schema
       .createTable('user')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -45,6 +46,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('car_type')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -54,6 +56,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('car')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -71,6 +74,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('trip')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -99,6 +103,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('checkpoint_trip')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -112,6 +117,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('reservation')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -126,6 +132,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('reservation_seat')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -150,6 +157,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('notice')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
@@ -173,6 +181,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
     await trx.schema
       .createTable('messaging')
+      .ifNotExists()
       .addColumn('id', 'int8', (col) =>
         col.autoIncrement().primaryKey().unsigned(),
       )
