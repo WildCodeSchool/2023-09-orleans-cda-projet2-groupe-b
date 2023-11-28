@@ -5,7 +5,6 @@ import { sql } from 'kysely';
 import type { Database } from '@app/types';
 
 export async function down(db: Kysely<Database>): Promise<void> {
-  // Migration code that reverts the database to the previous state.
   await db.transaction().execute(async (trx) => {
     await trx.schema.dropTable('messaging').ifExists().execute();
     await trx.schema.dropTable('notice').ifExists().execute();

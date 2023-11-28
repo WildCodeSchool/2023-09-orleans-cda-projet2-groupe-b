@@ -130,7 +130,7 @@ export interface Database {
   car: CarTable;
   car_type: CarTypeTable;
   reservation: ReservationTable;
-  seat_comparison: ReservationSeatTable;
+  reservation_seat: ReservationSeatTable;
   checkpoint_trip: CheckpointTripTable;
   notice: NoticeTable;
   messaging: MessagingTable;
