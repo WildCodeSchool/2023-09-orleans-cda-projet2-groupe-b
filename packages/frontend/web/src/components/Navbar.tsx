@@ -67,15 +67,15 @@ export default function Navbar() {
                   <img src={rightArrow} alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My opinions'}</p>
+                  <p>{'My opinion'}</p>
                   <img src={rightArrow} alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My preferences'}</p>
+                  <p>{'My preference'}</p>
                   <img src={rightArrow} alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My cars'}</p>
+                  <p>{'My car'}</p>
                   <img src={rightArrow} alt='right-arrow' />
                 </li>
               </ul>
