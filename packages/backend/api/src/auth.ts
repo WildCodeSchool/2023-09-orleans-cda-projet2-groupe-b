@@ -18,12 +18,6 @@ const SECRET = new TextEncoder().encode(JWT_SECRET);
 
 const authRouter = express.Router();
 
-authRouter.get('/users', async (req, res) => {
-  const users = await db.selectFrom('user').selectAll().execute();
-
-  return res.json(users);
-});
-
 authRouter.get('/check', async (req, res) => {
   const jwt: string | undefined = req.signedCookies.token;
 
@@ -91,6 +85,25 @@ authRouter.post(
         })
         .execute();
 
+      const jwt = await new jose.SignJWT({
+        sub: email,
+      })
+        .setProtectedHeader({
+          alg: 'HS256',
+        })
+        .setIssuedAt()
+        .setIssuer('http://localhost')
+        .setAudience('http://localhost')
+        .setExpirationTime('2h')
+        .sign(SECRET);
+
+      res.cookie('token', jwt, {
+        httpOnly: true,
+        sameSite: true,
+        secure: IS_PRODUCTION,
+        signed: true,
+      });
+
       return res.json({
         ok: true,
       });
@@ -153,7 +166,6 @@ authRouter.post(
         secure: IS_PRODUCTION,
         signed: true,
       });
-      console.log(jwt);
 
       return res.json({
         ok: true,
