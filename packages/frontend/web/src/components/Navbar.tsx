@@ -18,8 +18,8 @@ export default function Navbar() {
   };
 
   return (
-    <div className='fixed bottom-0 mb-2 ml-8 mr-8 flex w-80 flex-row justify-start rounded-full border-solid bg-[#008689] duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
-      <div className='ml-12 mr-3 mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
+    <div className='sm:bg-custom-gradient sm:shadow-custom fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid bg-[#008689] text-white duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
+      <div className='ml-[8%] mr-[8%] mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
         <Link to={'/'}>
           <img src={home} alt='home' className='w-7 sm:hidden md:hidden' />
           <img
@@ -29,7 +29,7 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      <div className='flex flex-row justify-center gap-6 sm:gap-14'>
+      <div className='flex flex-row justify-center gap-[3rem] sm:gap-14'>
         <div className='mt-6 hidden h-0 w-0 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
           <img src={publish} alt='publish' className='h-7 w-full' />
           <p className='text-center'>{'Publish'}</p>
