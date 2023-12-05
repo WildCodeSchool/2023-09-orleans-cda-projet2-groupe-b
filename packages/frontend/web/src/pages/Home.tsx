@@ -1,72 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
-import { useDisclosure } from '@app/frontend-shared';
-import type { SomeInterface, User } from '@app/types';
+import { useAuth } from '@/contexts/AuthContex';
 
 export default function Home() {
-  const [someData, setSomeData] = useState<SomeInterface>({
-    someProperty: 'someValue',
-  });
-  const { isOpen: isDetailsOpen, onToggle: onDetailsToggle } =
-    useDisclosure(false);
+  const { isLoggedIn } = useAuth();
 
-  const user: Partial<User> = {};
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    (async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/some-route`,
-        {
-          signal: abortController.signal,
-        },
-      );
-      const data = await response.json();
-      setSomeData(data);
-    })();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
-
+  if (!isLoggedIn) {
+    return <Navigate to='/Login' />;
+  }
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100vw',
-        gap: '1rem',
-      }}
-    >
-      <span>{'Coucou'}</span>
-
-      <span>{`${someData.someProperty}`}</span>
-
-      <button
-        type='button'
-        onClick={() => {
-          onDetailsToggle();
-        }}
-      >
-        {'Click me'}
-      </button>
-
-      {isDetailsOpen ? (
-        <pre className='text-lg text-red-500'>
-          {JSON.stringify(
-            {
-              user,
-            },
-            undefined,
-            2,
-          )}
-        </pre>
-      ) : undefined}
-    </div>
+    <>
+      <span>{'je suis co'}</span>
+      <span>{'je suis pas co'}</span>
+    </>
   );
 }
