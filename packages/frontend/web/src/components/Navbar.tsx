@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import arrowDown from '../assets/icons/arrow-down.svg';
-import home from '../assets/icons/home.svg';
-import logo from '../assets/icons/logo.svg';
-import message from '../assets/icons/message.svg';
-import profil from '../assets/icons/profil.svg';
-import publish from '../assets/icons/publish.svg';
-import rightArrow from '../assets/icons/right-arrow.svg';
-import trip from '../assets/icons/trip.svg';
+import arrowDown from '/public/icons/arrow-down.svg';
+import home from '/public/icons/home.svg';
+import logo from '/public/icons/logo.svg';
+import message from '/public/icons/message.svg';
+import profil from '/public/icons/profil.svg';
+import publish from '/public/icons/publish.svg';
+import rightArrow from '/public/icons/right-arrow.svg';
+import trip from '/public/icons/trip.svg';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
