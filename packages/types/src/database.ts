@@ -1,7 +1,7 @@
 import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
 export interface UserTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   firstname: string;
   lastname: string;
   email: string;
@@ -12,14 +12,14 @@ export interface UserTable {
   passenger_kilometer_traveled: number;
   driver_kilometer_traveled: number;
   economy_achieved: number;
-  created_at: Date;
+  created_at?: Date;
 }
 export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;
 export type UserUpdate = Updateable<UserTable>;
 
 export interface TripTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   driver_id: number;
   created_at: Date;
   date: Date;
@@ -41,7 +41,7 @@ export type NewTrip = Insertable<TripTable>;
 export type TripUpdate = Updateable<TripTable>;
 
 export interface CarTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   photo: string;
   number_seat: number;
   color: string;
@@ -54,7 +54,7 @@ export type NewCar = Insertable<CarTable>;
 export type CarUpdate = Updateable<CarTable>;
 
 export interface CarTypeTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   brand: string;
   model: string;
 }
@@ -63,7 +63,7 @@ export type NewCarType = Insertable<CarTypeTable>;
 export type CarTypeUpdate = Updateable<CarTypeTable>;
 
 export interface ReservationTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   user_id: number;
   number_seat: number;
   validated_at: Date;
@@ -74,7 +74,7 @@ export type NewReservation = Insertable<ReservationTable>;
 export type ReservationUpdate = Updateable<ReservationTable>;
 
 export interface ReservationSeatTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   reservation_id: number;
   reserved_seat: number;
   checkpoint_trip_id: number;
@@ -88,7 +88,7 @@ type Point = {
   y: number;
 };
 export interface CheckpointTripTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   start_point: Point;
   end_point: Point;
   start_address: string;
@@ -100,7 +100,7 @@ export type NewCheckpointTrip = Insertable<CheckpointTripTable>;
 export type CheckpointTripUpdate = Updateable<CheckpointTripTable>;
 
 export interface NoticeTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   note: number;
   sender_id: number;
   receiver_id: number;
@@ -113,7 +113,7 @@ export type NewNotice = Insertable<NoticeTable>;
 export type NoticeUpdate = Updateable<NoticeTable>;
 
 export interface MessagingTable {
-  id: Generated<number>;
+  id: Generated<bigint>;
   comment: string;
   date: Date;
   sender_id: number;
