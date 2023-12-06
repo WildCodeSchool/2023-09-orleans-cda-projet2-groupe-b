@@ -5,10 +5,6 @@ export default {
     extend: {
       colors: {
         primary: 'var(--primary)',
-        secondary: 'var(--secondary)',
-        dark: 'var(--dark)',
-        light: 'var(--light)',
-        danger: 'var(--danger)',
       },
     },
     plugins: [],
