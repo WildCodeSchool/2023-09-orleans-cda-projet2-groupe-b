@@ -6,7 +6,6 @@
 @layer base {
   :root {
     --primary: #0c8587;
-    font-family: 'Inter', sans-serif;
   }
 
   body {
