@@ -9,7 +9,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className='sm:bg-custom-gradient sm:shadow-custom fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid bg-[#008689] text-white duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
+    <div className='sm:bg-custom-gradient sm:shadow-custom bg-secondary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
       <div className='ml-[8%] mr-[8%] mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
         <Link to={'/'}>
           <img
@@ -59,22 +59,22 @@ export default function Navbar() {
             className='ml-1 mr-12 mt-4'
           />
           {isOpen ? (
-            <div className='aria-hidden absolute right-2 top-14 mt-2 w-60 rounded-md border bg-[#008689]'>
+            <div className='aria-hidden bg-secondary absolute right-2 top-14 mt-2 w-60 rounded-md border'>
               <ul className='mb-2 ml-3 mr-6 mt-3'>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My information'}</p>
+                  <p>{'My informations'}</p>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My opinion'}</p>
+                  <p>{'My opinions'}</p>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My preference'}</p>
+                  <p>{'My preferences'}</p>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My car'}</p>
+                  <p>{'My cars'}</p>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
               </ul>

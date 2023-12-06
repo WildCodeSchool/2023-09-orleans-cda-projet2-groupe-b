@@ -1,13 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  height: 100dvh;
-  width: 100dvw;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(180deg, #a3b7c8 0%, #5a9891 100%);
+@layer base {
+  :root {
+    --secondary: #0c8587;
+    --light: #f9f9f9;
+    --dark: #080808;
+    --grey: #494d55;
+    --danger: #e4676f;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    height: 100dvh;
+    width: 100dvw;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #a3b7c8 0%, #5a9891 100%);
+  }
 }
 
 @layer utilities {
