@@ -5,7 +5,7 @@ import validateLogin from 'middleware/validate-login';
 import validateRegister from 'middleware/validate-register';
 
 import { db } from '@app/backend-shared';
-import type { AuthBody } from '@app/types';
+import type { LoginBody, RegisterBody } from '@app/types';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
@@ -55,16 +55,8 @@ authRouter.post(
   '/register',
   validateRegister,
   async (req: Request, res: Response) => {
-    const {
-      email,
-      password,
-      firstname,
-      lastname,
-      birthdate,
-      passenger_kilometer_traveled = 0,
-      driver_kilometer_traveled = 0,
-      economy_achieved = 0,
-    } = req.body as AuthBody;
+    const { email, password, firstname, lastname, birthdate } =
+      req.body as RegisterBody;
 
     try {
       const hashedPassword = await Bun.password.hash(password, {
@@ -79,9 +71,9 @@ authRouter.post(
           firstname,
           lastname,
           birthdate,
-          passenger_kilometer_traveled,
-          driver_kilometer_traveled,
-          economy_achieved,
+          passenger_kilometer_traveled: 0,
+          driver_kilometer_traveled: 0,
+          economy_achieved: 0,
         })
         .execute();
 
@@ -120,7 +112,7 @@ authRouter.post(
   '/login',
   validateLogin,
   async (req: Request, res: Response) => {
-    const { email, password } = req.body as AuthBody;
+    const { email, password } = req.body as LoginBody;
 
     try {
       const user = await db
