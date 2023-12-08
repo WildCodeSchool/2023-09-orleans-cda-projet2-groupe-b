@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
+      backgroundImage: {
+        'custom-background':
+          "url('/icons/background.svg'), linear-gradient(180deg, #a3b7c8 0%, #5a9891 100%)",
+      },
     },
   },
   plugins: [],
