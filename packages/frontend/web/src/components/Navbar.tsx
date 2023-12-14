@@ -4,10 +4,6 @@ import { Link } from 'react-router-dom';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <div className='sm:bg-custom-gradient sm:shadow-custom bg-primary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
       <div className='ml-[8%] mr-[8%] mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
@@ -44,7 +40,12 @@ export default function Navbar() {
         </div>
 
         <div
-          onClick={toggleDropdown}
+          onMouseEnter={() => {
+            setIsOpen(true);
+          }}
+          onMouseLeave={() => {
+            setIsOpen(false);
+          }}
           className='hidden cursor-pointer duration-75 sm:mr-5 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-row'
         >
           <div className='flex flex-col'>
@@ -59,7 +60,7 @@ export default function Navbar() {
             className='ml-1 mr-12 mt-4'
           />
           {isOpen ? (
-            <div className='aria-hidden bg-primary absolute right-2 top-14 mt-2 w-60 rounded-md border'>
+            <div className='aria-hidden bg-custom-gradient shadow-custom absolute right-2 top-14 mt-2 w-60 rounded-md border'>
               <ul className='mb-2 ml-3 mr-6 mt-3'>
                 <li className='flex w-full flex-row justify-between'>
                   <p>{'My informations'}</p>
