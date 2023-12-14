@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 
@@ -10,6 +11,8 @@ const PORT = process.env.BACKEND_PORT ?? 3000;
 const FRONTEND_HOST = process.env.FRONTEND_HOST;
 const FRONTEND_PORT = process.env.FRONTEND_PORT;
 
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
+
 app.use(express.json());
 app.use(
   cors({
@@ -17,10 +20,10 @@ app.use(
     credentials: true,
   }),
 );
+app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api', router);
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server is listening on http://${HOST}:${PORT}`);
 });

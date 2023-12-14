@@ -6,12 +6,7 @@ export default function Home() {
   const { isLoggedIn } = useAuth();
 
   if (!isLoggedIn) {
-    return <Navigate to='/Login' />;
+    return <Navigate to='/login' />;
   }
-  return (
-    <>
-      <span>{'je suis co'}</span>
-      <span>{'je suis pas co'}</span>
-    </>
-  );
+  return <></>;
 }
