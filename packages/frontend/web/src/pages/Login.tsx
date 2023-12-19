@@ -3,30 +3,18 @@ import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  type ValidationLoginSchema,
+  validationLoginSchema,
+} from '@/middleware/ValidationLoginSchema';
 
 export default function Login() {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const validationLoginSchema = z.object({
-    email: z
-      .string()
-      .min(1, { message: 'This field is required' })
-      .max(254, { message: 'Should contain less than 254 characters' })
-      .email({ message: 'Must be a valid email' })
-      .trim(),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .trim(),
-  });
-
-  type ValidationLoginSchema = z.infer<typeof validationLoginSchema>;
 
   const {
     register,
@@ -38,7 +26,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<ValidationLoginSchema> = async (data) => {
     try {
-      const res = await fetch('http://10.0.28.96:3333/api/auth/login', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -130,7 +118,10 @@ export default function Login() {
             <p>{'forgot password ?'}</p>
           </div>
           <div className='m-auto my-7 h-10 rounded-lg bg-white text-center shadow-lg md:w-[80%]'>
-            <button type='submit' className='my-1 text-xl font-semibold'>
+            <button
+              type='submit'
+              className='my-1 text-xl font-semibold text-black'
+            >
               {'Login'}
             </button>
           </div>

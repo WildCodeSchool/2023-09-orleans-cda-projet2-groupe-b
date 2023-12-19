@@ -20,7 +20,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     const abortController = new AbortController();
 
     (async () => {
-      const res = await fetch('http://10.0.28.96:3333/api/auth/check', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
         credentials: 'include',
       });
       const data = (await res.json()) as {

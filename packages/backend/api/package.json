@@ -23,7 +23,6 @@
     "bun-types": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0",
-    "cors": "^2.8.5"
+    "typescript": "^5.0.0"
   }
 }

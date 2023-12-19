@@ -3,9 +3,12 @@ import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  type ValidationRegisterSchema,
+  validationRegisterSchema,
+} from '@/middleware/ValidationRegisterSchema';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,47 +18,6 @@ export default function Login() {
   const [firstname, setFirstname] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
   const [birthdate, setBirthdate] = useState<Date | string>('');
-
-  const isDateValid = (value: string | Date) => {
-    const date = new Date(value);
-    return !Number.isNaN(date.getTime());
-  };
-
-  const validationRegisterSchema = z
-    .object({
-      firstname: z
-        .string()
-        .trim()
-        .min(1, { message: 'Firstname is required' })
-        .max(100, { message: 'Should contain less than 100 characters' }),
-      lastname: z
-        .string()
-        .trim()
-        .min(1, { message: 'Lastname is required' })
-        .max(100, { message: 'Should contain less than 100 characters' }),
-      birthdate: z
-        .string()
-        .refine(isDateValid, { message: 'Invalid birthdate' }),
-      email: z
-        .string()
-        .min(1, { message: 'Email is required' })
-        .max(254, { message: 'Email must have less than 254 character' })
-        .email({ message: 'Must be a valid email' })
-        .trim(),
-      password: z
-        .string()
-        .min(6, { message: 'Password must be at least 6 characters' })
-        .trim(),
-      confirmPassword: z
-        .string()
-        .min(1, { message: 'Confirm Password is required' }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      path: ['confirmPassword'],
-      message: "Password don't match",
-    });
-
-  type ValidationRegisterSchema = z.infer<typeof validationRegisterSchema>;
 
   const {
     register,
@@ -67,7 +29,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<ValidationRegisterSchema> = async (data) => {
     try {
-      const res = await fetch('http://10.0.28.96:3333/api/auth/register', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {
