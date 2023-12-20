@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function MyOpinions() {
   return (
     <>
-      <Link to='/profil'>
+      <Link to='/profil' className='sm:hidden'>
         <img
           src='/icons/right-arrow.svg'
           alt='left-arrow'

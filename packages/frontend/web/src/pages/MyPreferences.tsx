@@ -1,20 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-type MusiqueButtonStates = {
-  rock: boolean;
-  jazz: boolean;
-  rap: boolean;
-  rnb: boolean;
-  pop: boolean;
-};
-
-type LanguagesButtonStates = {
-  english: boolean;
-  spanish: boolean;
-  deutsch: boolean;
-  french: boolean;
-};
+import type {
+  LanguagesButtonStates,
+  MusiqueButtonStates,
+} from '@app/types/src/profile';
 
 export default function MyPreferences() {
   const [musiqueButtonStates, setMusiqueButtonStates] = useState({
@@ -48,7 +38,7 @@ export default function MyPreferences() {
 
   return (
     <>
-      <Link to='/profil'>
+      <Link to='/profil' className='sm:hidden'>
         <img
           src='/icons/right-arrow.svg'
           alt='left-arrow'
@@ -56,10 +46,10 @@ export default function MyPreferences() {
         />
       </Link>
       <h1 className='text-bold ms-[5%] text-2xl'>{'My profil preferences'}</h1>
-      <div className=' ms-8 mt-5'>
+      <div className=' ms-[5%] mt-5'>
         <textarea
           placeholder='Presentation'
-          className=' h-28 w-[90%] rounded-lg p-2 text-black'
+          className=' h-28 w-[95%] rounded-lg p-2 text-black'
         />
       </div>
       <p className='ms-[5%] mt-5'>{'Music'}</p>
@@ -208,7 +198,7 @@ export default function MyPreferences() {
         />
         <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white  duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300  peer-checked:bg-white peer-checked:after:translate-x-5' />
       </div>
-      <button className='mx-5 mt-5 w-[90%] rounded bg-white p-2 text-xl text-black'>
+      <button className='ms-[5%] mt-5 w-[90%] rounded bg-white p-2 text-xl text-black'>
         {'Save'}
       </button>
     </>
