@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import {
   type ValidationLoginSchema,
   validationLoginSchema,
-} from '@/middleware/ValidationLoginSchema';
+} from '@/schemas/validation-login-schema';
 
 export default function Login() {
   const navigate = useNavigate();
