@@ -63,13 +63,13 @@ export default function Login() {
         />
       </Link>
       <img
-        className='m-auto my-10 w-[80%] sm:mt-28 md:w-96 lg:w-[35rem]'
+        className='m-auto my-10 w-[80%] sm:mt-28 lg:w-[35rem]'
         src='icons/logo.svg'
       />
       <p className='my-10 ms-8 text-4xl font-extrabold text-white sm:hidden'>
         {'Welcome Back'}
       </p>
-      <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-lg md:bg-gradient-to-br md:shadow-lg lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
+      <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
         <form
           className='md:mt-10 md:h-96 md:py-10 lg:my-[15%] lg:p-8'
           onSubmit={handleSubmit(onSubmit)}
