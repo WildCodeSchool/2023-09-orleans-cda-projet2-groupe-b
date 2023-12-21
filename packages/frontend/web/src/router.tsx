@@ -2,10 +2,12 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import MyInfo from './pages/MyInfo';
 import MyOpinions from './pages/MyOpinions';
 import MyPreferences from './pages/MyPreferences';
 import Profil from './pages/Profil';
+import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: '/my-preferences',
         element: <MyPreferences />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
       },
     ],
   },

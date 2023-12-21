@@ -98,6 +98,7 @@ authRouter.post(
 
       return res.json({
         ok: true,
+        isLoggedIn: true,
       });
     } catch (error) {
       return res.json({
@@ -158,7 +159,6 @@ authRouter.post(
         secure: IS_PRODUCTION,
         signed: true,
       });
-
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
