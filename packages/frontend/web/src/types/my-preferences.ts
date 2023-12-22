@@ -1,4 +1,4 @@
-export type MusiqueButtonStates = {
+export type MusicsButtonStates = {
   rock: boolean;
   jazz: boolean;
   rap: boolean;

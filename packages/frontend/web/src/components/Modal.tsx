@@ -16,8 +16,8 @@ export const Modal = ({ openModal, onClose, children }: ModalProps) => {
     `}
     >
       <div
-        onClick={(event) => {
-          event.stopPropagation();
+        onClick={() => {
+          openModal;
         }}
         className={`
         rounded-xl bg-[#A0B6C5] p-6 shadow transition-all sm:w-[50%] lg:w-[35%]

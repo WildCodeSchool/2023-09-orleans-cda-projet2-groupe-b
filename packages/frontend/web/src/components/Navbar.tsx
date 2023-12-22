@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import type { ModalState } from '@app/types/src/modal';
-
 import MyInfo from '@/pages/MyInfo';
 import MyOpinions from '@/pages/MyOpinions';
 import MyPreferences from '@/pages/MyPreferences';
+import type { ModalState } from '@/types/modal';
 
 import { Modal } from './Modal';
 

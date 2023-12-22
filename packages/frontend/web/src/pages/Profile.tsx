@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-export default function Profil() {
+export default function Profile() {
   return (
-    <>
+    <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
       <img
-        src='/images/placeholder.jpg'
+        src='/images/user-placeholder.jpg'
         alt='image-profil'
-        className='mx-auto mt-7 h-40 rounded-full'
+        className='mx-auto mt-7 h-40 rounded-full sm:mt-20'
       />
       <div className='my-7 flex flex-col text-center'>
         <p className='mt-2'>{'Firstname Lastname'}</p>
@@ -51,6 +51,6 @@ export default function Profil() {
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
-    </>
+    </div>
   );
 }

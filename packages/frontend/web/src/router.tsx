@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import MyInfo from './pages/MyInfo';
 import MyOpinions from './pages/MyOpinions';
 import MyPreferences from './pages/MyPreferences';
-import Profil from './pages/Profil';
+import Profile from './pages/Profile';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/profil',
-        element: <Profil />,
+        path: '/profile',
+        element: <Profile />,
       },
       {
         path: '/my-informations',
