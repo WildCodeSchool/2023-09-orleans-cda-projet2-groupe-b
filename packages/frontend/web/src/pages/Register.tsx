@@ -63,10 +63,10 @@ export default function Login() {
   return (
     <div className='flex flex-col md:mt-20 lg:mt-28 lg:flex-row-reverse lg:justify-around'>
       <img
-        className='m-auto my-10 w-[80%] sm:mt-28 md:w-96 lg:w-[35rem]'
+        className='m-auto my-10 w-[80%] sm:mt-28 lg:w-[35rem]'
         src='icons/logo.svg'
       />
-      <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-lg md:bg-gradient-to-br md:shadow-lg lg:ms-auto lg:h-[40rem] lg:w-[35rem] '>
+      <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] '>
         <form
           className='md:mt-10  lg:my-[8%] lg:p-8'
           onSubmit={handleSubmit(onSubmit)}
@@ -193,7 +193,7 @@ export default function Login() {
             <div className='border border-b-white' />
           </div>
 
-          <div className='m-auto my-10 h-10 rounded bg-white text-center shadow-lg md:mb-10 md:w-[80%]'>
+          <div className='m-auto my-10 h-10 rounded bg-white text-center text-black shadow-lg md:mb-10 md:w-[80%]'>
             <button type='submit' className='my-1 text-xl font-semibold'>
               {'Register'}
             </button>
