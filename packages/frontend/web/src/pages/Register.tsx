@@ -184,7 +184,7 @@ export default function Login() {
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
               className={`placeholder-light w-full bg-transparent text-xl ${
-                errors.confirmPassword && 'border-red-500'
+                errors.confirmPassword && 'border-danger'
               }`}
               type='password'
               placeholder='Confirm password'
