@@ -39,56 +39,64 @@ export default function Navbar() {
         </div>
 
         {isLoggedIn ? (
-          <div className='mt-6 duration-75 sm:hidden'>
-            <img src='/icons/profil.svg' alt='profil' className='h-7 w-full' />
-          </div>
-        ) : (
-          <div className='mt-6 duration-75 sm:hidden'>
-            <Link to='/login'>
-              <img
-                src='/icons/connect.svg'
-                alt='connect'
-                className='h-7 w-full'
-              />
-            </Link>
-          </div>
-        )}
-        {isLoggedIn ? (
-          <div
-            onMouseEnter={() => {
-              setIsOpen(true);
-            }}
-            onMouseLeave={() => {
-              setIsOpen(false);
-            }}
-            className='hidden cursor-pointer duration-75 sm:mr-5 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-row'
-          >
-            <div className='flex flex-col'>
+          <>
+            <div className='mt-6 duration-75 sm:hidden'>
               <img
                 src='/icons/profil.svg'
                 alt='profil'
                 className='h-7 w-full'
               />
-              <p className='invisible text-center sm:visible md:visible'>
-                {'Profil'}
-              </p>
             </div>
-            <img
-              src='/icons/arrow-down.svg'
-              alt='arrow-down'
-              className='ml-1 mr-12 mt-4'
-            />
-          </div>
+
+            <div
+              onMouseEnter={() => {
+                setIsOpen(true);
+              }}
+              onMouseLeave={() => {
+                setIsOpen(false);
+              }}
+              className='hidden cursor-pointer duration-75 sm:mr-5 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-row'
+            >
+              <div className='flex flex-col'>
+                <img
+                  src='/icons/profil.svg'
+                  alt='profil'
+                  className='h-7 w-full'
+                />
+                <p className='invisible text-center sm:visible md:visible'>
+                  {'Profil'}
+                </p>
+              </div>
+              <img
+                src='/icons/arrow-down.svg'
+                alt='arrow-down'
+                className='ml-1 mr-12 mt-4'
+              />
+            </div>
+          </>
         ) : (
-          <div className='hidden sm:mr-5 sm:flex sm:flex-col sm:items-center sm:justify-end'>
-            <img
-              src='/icons/connect.svg'
-              alt='connect'
-              className='h-7 w-full'
-            />
-            <Link to='/login'>{'Login'}</Link>
-          </div>
+          <>
+            <div className='mt-6 duration-75 sm:hidden'>
+              <Link to='/login'>
+                <img
+                  src='/icons/connect.svg'
+                  alt='connect'
+                  className='h-7 w-full'
+                />
+              </Link>
+            </div>
+
+            <div className='hidden sm:mr-5 sm:flex sm:flex-col sm:items-center sm:justify-end'>
+              <img
+                src='/icons/connect.svg'
+                alt='connect'
+                className='h-7 w-full'
+              />
+              <Link to='/login'>{'Login'}</Link>
+            </div>
+          </>
         )}
+
         {isOpen ? (
           <div className='aria-hidden bg-custom-gradient shadow-custom absolute right-2 top-14 mt-2 w-60 rounded-md border'>
             <ul className='mb-2 ml-3 mr-6 mt-3'>
