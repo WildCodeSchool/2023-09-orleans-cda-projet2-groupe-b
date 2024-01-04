@@ -1,8 +1,34 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import MyInfo from '@/pages/MyInfo';
+import MyOpinions from '@/pages/MyOpinions';
+import MyPreferences from '@/pages/MyPreferences';
+import type { ModalState } from '@/types/modal';
+
+import { Modal } from './Modal';
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [openModals, setOpenModals] = useState<ModalState>({
+    myInfo: false,
+    myOpinions: false,
+    myPreferences: false,
+  });
+
+  const openModal = (modalKey: keyof ModalState) => {
+    setOpenModals((prevModals) => ({
+      ...prevModals,
+      [modalKey]: true,
+    }));
+  };
+
+  const closeModal = (modalKey: keyof ModalState) => {
+    setOpenModals((prevModals) => ({
+      ...prevModals,
+      [modalKey]: false,
+    }));
+  };
 
   return (
     <div className='sm:bg-custom-gradient sm:shadow-custom bg-primary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
@@ -63,15 +89,57 @@ export default function Navbar() {
             <div className='aria-hidden bg-custom-gradient shadow-custom absolute right-2 top-14 mt-2 w-60 rounded-md border'>
               <ul className='mb-2 ml-3 mr-6 mt-3'>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My informations'}</p>
+                  <button
+                    onClick={() => {
+                      openModal('myInfo');
+                    }}
+                  >
+                    {'My informations'}
+                  </button>
+                  <Modal
+                    openModal={openModals.myInfo}
+                    onClose={() => {
+                      closeModal('myInfo');
+                    }}
+                  >
+                    <MyInfo />
+                  </Modal>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My opinions'}</p>
+                  <button
+                    onClick={() => {
+                      openModal('myOpinions');
+                    }}
+                  >
+                    {'My opinions'}
+                  </button>
+                  <Modal
+                    openModal={openModals.myOpinions}
+                    onClose={() => {
+                      closeModal('myOpinions');
+                    }}
+                  >
+                    <MyOpinions />
+                  </Modal>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
-                  <p>{'My preferences'}</p>
+                  <button
+                    onClick={() => {
+                      openModal('myPreferences');
+                    }}
+                  >
+                    {'My preferences'}
+                  </button>
+                  <Modal
+                    openModal={openModals.myPreferences}
+                    onClose={() => {
+                      closeModal('myPreferences');
+                    }}
+                  >
+                    <MyPreferences />
+                  </Modal>
                   <img src='/icons/right-arrow.svg' alt='right-arrow' />
                 </li>
                 <li className='flex w-full flex-row justify-between'>
