@@ -6,50 +6,6 @@ import type {
   MusicsButtonStates,
 } from '@/types/my-preferences';
 
-const renderLanguagesButtons = (
-  buttonStates: Record<string, boolean>,
-  handleClickFunction: (buttonId: keyof LanguagesButtonStates) => void,
-  buttonText: (keyof LanguagesButtonStates)[],
-) => {
-  return buttonText.map((buttonId, index) => (
-    <button
-      key={index}
-      onClick={() => {
-        handleClickFunction(buttonId);
-      }}
-      className={`h-8 w-20 rounded-full ${
-        buttonStates[buttonId]
-          ? 'text-primary bg-white'
-          : 'bg-gray-400 text-black'
-      }`}
-    >
-      {buttonId}
-    </button>
-  ));
-};
-
-const renderMusicsButtons = (
-  buttonStates: Record<string, boolean>,
-  handleClickFunction: (buttonId: keyof MusicsButtonStates) => void,
-  buttonText: (keyof MusicsButtonStates)[],
-) => {
-  return buttonText.map((buttonId, index) => (
-    <button
-      key={index}
-      onClick={() => {
-        handleClickFunction(buttonId);
-      }}
-      className={`h-8 w-20 rounded-full ${
-        buttonStates[buttonId]
-          ? 'text-primary bg-white'
-          : 'bg-gray-400 text-black'
-      }`}
-    >
-      {buttonId}
-    </button>
-  ));
-};
-
 export default function MyPreferences() {
   const [musicsButtonStates, setMusicsButtonStates] =
     useState<MusicsButtonStates>({
@@ -98,26 +54,44 @@ export default function MyPreferences() {
         <div className=' ms-[5%] mt-10'>
           <textarea
             placeholder='Presentation'
-            className=' h-28 w-[95%] rounded-lg p-2 text-black'
+            className=' text-dark h-28 w-[95%] rounded-lg p-2'
           />
         </div>
         <p className='ms-[5%] mt-5'>{'Music'}</p>
         <div className='mt-2 flex justify-around'>
-          {renderMusicsButtons(
-            musicsButtonStates,
-            handleMusicClick,
-            Object.keys(musicsButtonStates) as (keyof MusicsButtonStates)[],
-          )}
+          {Object.keys(musicsButtonStates).map((buttonId, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                handleMusicClick(buttonId as keyof MusicsButtonStates);
+              }}
+              className={`h-8 w-20 rounded-full ${
+                musicsButtonStates[buttonId as keyof MusicsButtonStates]
+                  ? 'text-primary bg-white'
+                  : 'text-dark bg-gray-400'
+              }`}
+            >
+              {buttonId}
+            </button>
+          ))}
         </div>
         <p className='ms-[5%] mt-5'>{'Languages'}</p>
         <div className='mt-2 flex justify-around'>
-          {renderLanguagesButtons(
-            languagesButtonStates,
-            handleLanguageClick,
-            Object.keys(
-              languagesButtonStates,
-            ) as (keyof LanguagesButtonStates)[],
-          )}
+          {Object.keys(languagesButtonStates).map((buttonId, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                handleLanguageClick(buttonId as keyof LanguagesButtonStates);
+              }}
+              className={`h-8 w-20 rounded-full ${
+                languagesButtonStates[buttonId as keyof LanguagesButtonStates]
+                  ? 'text-primary bg-white'
+                  : 'text-dark bg-gray-400'
+              }`}
+            >
+              {buttonId}
+            </button>
+          ))}
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept smoking'}</p>
@@ -125,7 +99,7 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white  duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300  peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept pets'}</p>
@@ -133,7 +107,7 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white  duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300  peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept baby'}</p>
