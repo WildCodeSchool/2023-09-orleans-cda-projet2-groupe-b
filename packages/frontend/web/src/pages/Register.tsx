@@ -72,40 +72,40 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
         >
           {errors.firstname ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.firstname.message}
             </p>
           ) : undefined}
           {errors.lastname ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.lastname.message}
             </p>
           ) : undefined}
           {errors.birthdate ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.birthdate.message}
             </p>
           ) : undefined}
           {errors.email ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.email.message}
             </p>
           ) : undefined}
           {errors.password ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.password.message}
             </p>
           ) : undefined}
           {errors.confirmPassword ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.confirmPassword.message}
             </p>
           ) : undefined}
 
-          <div className='mx-auto my-5 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto my-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.firstname && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.firstname && 'border-danger'
               }`}
               type='text'
               placeholder='firstname'
@@ -115,12 +115,12 @@ export default function Login() {
                 setFirstname(event.target.value);
               }}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
-          <div className='mx-auto mt-5 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.lastname && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.lastname && 'border-danger'
               }`}
               type='text'
               placeholder='lastname'
@@ -130,12 +130,12 @@ export default function Login() {
                 setLastname(event.target.value);
               }}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
-          <div className='mx-auto mt-5 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.birthdate && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.birthdate && 'border-danger'
               }`}
               type='date'
               placeholder='birthdate'
@@ -149,12 +149,12 @@ export default function Login() {
                 setBirthdate(event.target.value);
               }}
             />
-            <div className='mb border border-b-white' />
+            <div className='mb border-b-light border' />
           </div>
-          <div className='mx-auto mt-10 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto mt-10 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.email && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.email && 'border-danger'
               }`}
               type='email'
               placeholder='Email'
@@ -164,12 +164,12 @@ export default function Login() {
                 setEmail(event.target.value);
               }}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
-          <div className='mx-auto mt-5 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.password && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.password && 'border-danger'
               }`}
               type='password'
               placeholder='Password'
@@ -179,21 +179,21 @@ export default function Login() {
                 setPassword(event.target.value);
               }}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
-          <div className='mx-auto mt-5 h-10 text-white md:w-[80%]'>
+          <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
+              className={`placeholder-light w-full bg-transparent text-xl ${
                 errors.confirmPassword && 'border-red-500'
               }`}
               type='password'
               placeholder='Confirm password'
               {...register('confirmPassword')}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
 
-          <div className='m-auto my-10 h-10 rounded bg-white text-center text-black shadow-lg md:mb-10 md:w-[80%]'>
+          <div className='bg-light text-dark m-auto my-10 h-10 rounded text-center shadow-lg md:mb-10 md:w-[80%]'>
             <button type='submit' className='my-1 text-xl font-semibold'>
               {'Register'}
             </button>
