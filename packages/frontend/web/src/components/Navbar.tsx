@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import MyInfo from '@/pages/MyInfo';
 import MyOpinions from '@/pages/MyOpinions';
@@ -11,7 +11,7 @@ import { Modal } from './Modal';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [openModals, setOpenModals] = useState<ModalState>({
     myInfo: false,
     myOpinions: false,
@@ -160,6 +160,33 @@ export default function Navbar() {
                       <p>{'My cars'}</p>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
+                    <li className='flex w-full flex-row justify-between'>
+                      <button
+                        onClick={async () => {
+                          try {
+                            const response = await fetch(
+                              `${import.meta.env.VITE_API_URL}/auth/logout`,
+                              { method: 'POST', credentials: 'include' },
+                            );
+
+                            if (response.ok) {
+                              setIsLoggedIn(false);
+                              <Navigate to='/login' />;
+                            } else {
+                              console.error('Échec de la déconnexion');
+                            }
+                          } catch (error) {
+                            console.error(
+                              'Erreur lors de la déconnexion',
+                              error,
+                            );
+                          }
+                        }}
+                      >
+                        {'Logout'}
+                      </button>
+                      <img src='/icons/right-arrow.svg' alt='right-arrow' />
+                    </li>
                   </ul>
                 </div>
               ) : undefined}
@@ -170,7 +197,7 @@ export default function Navbar() {
             <div className='mt-6 duration-75 sm:hidden'>
               <Link to='/login'>
                 <img
-                  src='/icons/connect.svg'
+                  src='/icons/login.svg'
                   alt='connect'
                   className='h-7 w-full'
                 />
@@ -179,7 +206,7 @@ export default function Navbar() {
 
             <div className='hidden sm:mr-5 sm:flex sm:flex-col sm:items-center sm:justify-end'>
               <img
-                src='/icons/connect.svg'
+                src='/icons/login.svg'
                 alt='connect'
                 className='h-7 w-full'
               />
