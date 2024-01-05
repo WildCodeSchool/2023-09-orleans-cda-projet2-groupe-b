@@ -22,19 +22,19 @@ export default function MyInfo() {
         <div className='mt-3'>
           <p className='ms-[10%]'>{'Firstname'}</p>
         </div>
-        <div className='mx-auto w-[80%] border-b border-white' />
+        <div className='border-light mx-auto w-[80%] border-b' />
         <div className='mt-3'>
           <p className='ms-[10%]'>{'Lastname'}</p>
         </div>
-        <div className='mx-auto w-[80%] border-b border-white' />
+        <div className='border-light mx-auto w-[80%] border-b' />
         <div className='mt-3'>
           <p className='ms-[10%]'>{'birthdate'}</p>
         </div>
-        <div className='mx-auto w-[80%] border-b border-white' />
+        <div className='border-light mx-auto w-[80%] border-b' />
         <div className='mt-3'>
           <p className='ms-[10%]'>{'email'}</p>
         </div>
-        <div className='mx-auto w-[80%] border-b border-white' />
+        <div className='border-light mx-auto w-[80%] border-b' />
         <div className='mt-3'>
           <p className='ms-[10%]'>{'driving licence'}</p>
           <img
@@ -43,7 +43,7 @@ export default function MyInfo() {
             className='mx-auto my-5 w-[80%] rounded'
           />
         </div>
-        <button className='mx-5 mt-3 w-[90%] rounded bg-white p-2 text-xl text-black'>
+        <button className='bg-light text-dark mx-5 mt-3 w-[90%] rounded p-2 text-xl'>
           {'Save'}
         </button>
       </div>
