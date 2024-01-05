@@ -9,7 +9,7 @@ export default function Home() {
 
       <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:py-5 md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
         <div className='mt-5 flex justify-end text-end md:mx-auto lg:mt-[25%]'>
-          <h1 className='mx-auto my-10 text-4xl font-extrabold text-white'>
+          <h1 className='text-light mx-auto my-10 text-4xl font-extrabold'>
             {'Today you are ?'}
           </h1>
         </div>

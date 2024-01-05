@@ -66,7 +66,7 @@ export default function Login() {
         className='m-auto my-10 w-[80%] sm:mt-28 lg:w-[35rem]'
         src='icons/logo.svg'
       />
-      <p className='my-10 ms-8 text-4xl font-extrabold text-white sm:hidden'>
+      <p className='text-light my-10 ms-8 text-4xl font-extrabold sm:hidden'>
         {'Welcome Back'}
       </p>
       <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
@@ -75,19 +75,19 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
         >
           {errors.email ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.email.message}
             </p>
           ) : undefined}
           {errors.password ? (
-            <p className='ms-[10%] mt-2 italic text-red-500'>
+            <p className='text-danger ms-[10%] mt-2 italic'>
               {errors.password.message}
             </p>
           ) : undefined}
           <div className='mx-auto my-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.email && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.email && 'border-danger'
               }`}
               type='email'
               placeholder='Email'
@@ -97,12 +97,12 @@ export default function Login() {
                 setEmail(event.target.value);
               }}
             />{' '}
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
-              className={`w-full bg-transparent text-xl placeholder-white/100 ${
-                errors.password && 'border-red-500'
+              className={`placeholder-light w-full bg-transparent text-xl ${
+                errors.password && 'border-danger'
               }`}
               type='password'
               placeholder='Password'
@@ -112,22 +112,22 @@ export default function Login() {
                 setPassword(event.target.value);
               }}
             />
-            <div className='border border-b-white' />
+            <div className='border-b-light border' />
           </div>
           <div className='text-end md:me-[10%]'>
             <p>{'forgot password ?'}</p>
           </div>
-          <div className='m-auto my-7 h-10 rounded-lg bg-white text-center shadow-lg md:w-[80%]'>
+          <div className='bg-light m-auto my-7 h-10 rounded-lg text-center shadow-lg md:w-[80%]'>
             <button
               type='submit'
-              className='my-1 text-xl font-semibold text-black'
+              className='text-dark my-1 text-xl font-semibold'
             >
               {'Login'}
             </button>
           </div>
           <div className='mt-5 flex justify-end text-end md:me-[10%]'>
             <p className='px-5'>{'Not account ?'}</p>
-            <Link to='/register' className='border-b border-white text-white'>
+            <Link to='/register' className='border-light text-light border-b'>
               {'Sign up'}
             </Link>
           </div>

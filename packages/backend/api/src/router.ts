@@ -27,5 +27,4 @@ router.get('/some-route', (_request, response) => {
 });
 
 router.use('/auth', authRouter);
-
 export default router;
