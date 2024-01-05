@@ -6,10 +6,12 @@ import MyOpinions from '@/pages/MyOpinions';
 import MyPreferences from '@/pages/MyPreferences';
 import type { ModalState } from '@/types/modal';
 
+import { useAuth } from '../contexts/AuthContext';
 import { Modal } from './Modal';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
   const [openModals, setOpenModals] = useState<ModalState>({
     myInfo: false,
     myOpinions: false,
@@ -61,95 +63,130 @@ export default function Navbar() {
           <img src='/icons/trip.svg' alt='trip' className='h-7 w-full' />
           <p className='invisible text-center sm:visible'>{'Trip'}</p>
         </div>
-        <div className='mt-6 duration-75 sm:hidden'>
-          <img src='/icons/profil.svg' alt='profil' className='h-7 w-full' />
-        </div>
 
-        <div
-          onMouseEnter={() => {
-            setIsOpen(true);
-          }}
-          onMouseLeave={() => {
-            setIsOpen(false);
-          }}
-          className='hidden cursor-pointer duration-75 sm:mr-5 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-row'
-        >
-          <div className='flex flex-col'>
-            <img src='/icons/profil.svg' alt='profil' className='h-7 w-full' />
-            <p className='invisible text-center sm:visible md:visible'>
-              {'Profil'}
-            </p>
-          </div>
-          <img
-            src='/icons/arrow-down.svg'
-            alt='arrow-down'
-            className='ml-1 mr-12 mt-4'
-          />
-          {isOpen ? (
-            <div className='aria-hidden bg-custom-gradient shadow-custom absolute right-2 top-14 mt-2 w-60 rounded-md border'>
-              <ul className='mb-2 ml-3 mr-6 mt-3'>
-                <li className='flex w-full flex-row justify-between'>
-                  <button
-                    onClick={() => {
-                      openModal('myInfo');
-                    }}
-                  >
-                    {'My informations'}
-                  </button>
-                  <Modal
-                    openModal={openModals.myInfo}
-                    onClose={() => {
-                      closeModal('myInfo');
-                    }}
-                  >
-                    <MyInfo />
-                  </Modal>
-                  <img src='/icons/right-arrow.svg' alt='right-arrow' />
-                </li>
-                <li className='flex w-full flex-row justify-between'>
-                  <button
-                    onClick={() => {
-                      openModal('myOpinions');
-                    }}
-                  >
-                    {'My opinions'}
-                  </button>
-                  <Modal
-                    openModal={openModals.myOpinions}
-                    onClose={() => {
-                      closeModal('myOpinions');
-                    }}
-                  >
-                    <MyOpinions />
-                  </Modal>
-                  <img src='/icons/right-arrow.svg' alt='right-arrow' />
-                </li>
-                <li className='flex w-full flex-row justify-between'>
-                  <button
-                    onClick={() => {
-                      openModal('myPreferences');
-                    }}
-                  >
-                    {'My preferences'}
-                  </button>
-                  <Modal
-                    openModal={openModals.myPreferences}
-                    onClose={() => {
-                      closeModal('myPreferences');
-                    }}
-                  >
-                    <MyPreferences />
-                  </Modal>
-                  <img src='/icons/right-arrow.svg' alt='right-arrow' />
-                </li>
-                <li className='flex w-full flex-row justify-between'>
-                  <p>{'My cars'}</p>
-                  <img src='/icons/right-arrow.svg' alt='right-arrow' />
-                </li>
-              </ul>
+        {isLoggedIn ? (
+          <>
+            <div className='mt-6 duration-75 sm:hidden'>
+              <Link to='/profile'>
+                <img
+                  src='/icons/profil.svg'
+                  alt='profil'
+                  className='h-7 w-full'
+                />
+              </Link>
             </div>
-          ) : undefined}
-        </div>
+            <div
+              onMouseEnter={() => {
+                setIsOpen(true);
+              }}
+              onMouseLeave={() => {
+                setIsOpen(false);
+              }}
+              className='hidden cursor-pointer duration-75 sm:mr-5 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-row'
+            >
+              <div className='flex flex-col'>
+                <img
+                  src='/icons/profil.svg'
+                  alt='profil'
+                  className='h-7 w-full'
+                />
+                <p className='invisible text-center sm:visible md:visible'>
+                  {'Profil'}
+                </p>
+              </div>
+              <img
+                src='/icons/arrow-down.svg'
+                alt='arrow-down'
+                className='ml-1 mr-12 mt-4'
+              />
+              {isOpen ? (
+                <div className='aria-hidden bg-custom-gradient shadow-custom fixed right-2 top-14 mt-2 w-60 rounded-md border'>
+                  <ul className='mb-2 ml-3 mr-6 mt-3'>
+                    <li className='flex w-full flex-row justify-between'>
+                      <button
+                        onClick={() => {
+                          openModal('myInfo');
+                        }}
+                      >
+                        {'My informations'}
+                      </button>
+                      <Modal
+                        openModal={openModals.myInfo}
+                        onClose={() => {
+                          closeModal('myInfo');
+                        }}
+                      >
+                        <MyInfo />
+                      </Modal>
+                      <img src='/icons/right-arrow.svg' alt='right-arrow' />
+                    </li>
+                    <li className='flex w-full flex-row justify-between'>
+                      <button
+                        onClick={() => {
+                          openModal('myOpinions');
+                        }}
+                      >
+                        {'My opinions'}
+                      </button>
+                      <Modal
+                        openModal={openModals.myOpinions}
+                        onClose={() => {
+                          closeModal('myOpinions');
+                        }}
+                      >
+                        <MyOpinions />
+                      </Modal>
+                      <img src='/icons/right-arrow.svg' alt='right-arrow' />
+                    </li>
+                    <li className='flex w-full flex-row justify-between'>
+                      <button
+                        onClick={() => {
+                          openModal('myPreferences');
+                        }}
+                      >
+                        {'My preferences'}
+                      </button>
+                      <Modal
+                        openModal={openModals.myPreferences}
+                        onClose={() => {
+                          closeModal('myPreferences');
+                        }}
+                      >
+                        <MyPreferences />
+                      </Modal>
+                      <img src='/icons/right-arrow.svg' alt='right-arrow' />
+                    </li>
+                    <li className='flex w-full flex-row justify-between'>
+                      <p>{'My cars'}</p>
+                      <img src='/icons/right-arrow.svg' alt='right-arrow' />
+                    </li>
+                  </ul>
+                </div>
+              ) : undefined}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className='mt-6 duration-75 sm:hidden'>
+              <Link to='/login'>
+                <img
+                  src='/icons/connect.svg'
+                  alt='connect'
+                  className='h-7 w-full'
+                />
+              </Link>
+            </div>
+
+            <div className='hidden sm:mr-5 sm:flex sm:flex-col sm:items-center sm:justify-end'>
+              <img
+                src='/icons/connect.svg'
+                alt='connect'
+                className='h-7 w-full'
+              />
+              <Link to='/login'>{'Login'}</Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
