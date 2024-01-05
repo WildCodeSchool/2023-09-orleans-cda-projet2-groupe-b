@@ -67,7 +67,7 @@ export default function MyPreferences() {
               }}
               className={`h-8 w-20 rounded-full ${
                 musicsButtonStates[buttonId as keyof MusicsButtonStates]
-                  ? 'text-primary bg-white'
+                  ? 'text-primary bg-light'
                   : 'text-dark bg-gray-400'
               }`}
             >
@@ -85,7 +85,7 @@ export default function MyPreferences() {
               }}
               className={`h-8 w-20 rounded-full ${
                 languagesButtonStates[buttonId as keyof LanguagesButtonStates]
-                  ? 'text-primary bg-white'
+                  ? 'text-primary bg-light'
                   : 'text-dark bg-gray-400'
               }`}
             >
@@ -99,7 +99,7 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary bg-light after:bg-dark peer-checked:bg-light me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-5' />
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept pets'}</p>
@@ -107,7 +107,7 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary bg-light after:bg-dark peer-checked:bg-light me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-5' />
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept baby'}</p>
@@ -115,7 +115,7 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white  duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300  peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary bg-light after:bg-dark peer-checked:bg-light me-[5%] ml-4 flex h-5 w-10 flex-shrink-0  items-center rounded-full duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:shadow-md  after:duration-300 peer-checked:after:translate-x-5' />
         </div>
         <div className='mt-5 flex justify-between'>
           <p className='ms-[5%] text-xl'>{'accept unvaccinated'}</p>
@@ -123,9 +123,9 @@ export default function MyPreferences() {
             type='checkbox'
             className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
           />
-          <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white  duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300  peer-checked:bg-white peer-checked:after:translate-x-5' />
+          <span className='peer-checked:after:bg-primary bg-light after:bg-dark peer-checked:bg-light me-[5%] ml-4 flex h-5 w-10 flex-shrink-0  items-center rounded-full duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:shadow-md  after:duration-300 peer-checked:after:translate-x-5' />
         </div>
-        <button className='ms-[5%] mt-5 w-[90%] rounded bg-white p-2 text-xl text-black'>
+        <button className='bg-light text-dark ms-[5%] mt-5 w-[90%] rounded p-2 text-xl'>
           {'Save'}
         </button>
       </div>

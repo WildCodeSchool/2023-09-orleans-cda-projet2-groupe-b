@@ -25,22 +25,22 @@ export default function MyOpinions() {
           </div>
           <p className='p-5 text-center'>{'Number opinions'}</p>
         </div>
-        <div className='mx-auto w-[90%] rounded-lg bg-white p-2'>
+        <div className='bg-light mx-auto w-[90%] rounded-lg p-2'>
           <div className='flex '>
             <img
               src='/images/user-placeholder.jpg'
               alt='image-profil'
               className='m-2 h-10 rounded-full'
             />
-            <p className='m-3 text-black'>{'Good travel!'}</p>
+            <p className='text-dark m-3'>{'Good travel!'}</p>
           </div>
-          <div className='flex justify-between text-black'>
+          <div className='text-dark flex justify-between'>
             <div className='flex flex-row'>
               <p className='m-3 text-xs'>{'By jack'}</p>
               <img src='/icons/green-star.svg' className='w-5' />
               <p className='m-3 text-xs'>{'4/5'}</p>
             </div>
-            <div className='text-black'>
+            <div className='text-dark'>
               <p className='m-3 text-xs'>{'14/03/2023'}</p>
             </div>
           </div>
