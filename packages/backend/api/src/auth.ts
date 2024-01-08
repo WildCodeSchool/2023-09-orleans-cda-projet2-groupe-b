@@ -178,7 +178,7 @@ authRouter.post('/logout', (req, res) => {
     sameSite: 'lax',
     expires: new Date(0),
   });
-  res.status(200).send('Déconnecté avec succès');
+  res.status(200).send('Logout Sucessful');
 });
 
 export { authRouter };
