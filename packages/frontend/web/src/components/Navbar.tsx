@@ -173,13 +173,10 @@ export default function Navbar() {
                               setIsLoggedIn(false);
                               <Navigate to='/login' />;
                             } else {
-                              console.error('Échec de la déconnexion');
+                              console.error('Logout failure');
                             }
                           } catch (error) {
-                            console.error(
-                              'Erreur lors de la déconnexion',
-                              error,
-                            );
+                            console.error('disconnection error', error);
                           }
                         }}
                       >
