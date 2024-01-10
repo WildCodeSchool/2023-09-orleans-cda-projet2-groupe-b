@@ -18,7 +18,7 @@ const SECRET = new TextEncoder().encode(JWT_SECRET);
 
 const authRouter = express.Router();
 
-authRouter.get('/check', async (req, res) => {
+authRouter.get('/check', async (req: Request, res: Response) => {
   const jwt: string | undefined = req.signedCookies.token;
 
   if (jwt === undefined) {

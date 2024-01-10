@@ -3,22 +3,14 @@ import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
-const userRouter = express.Router();
+const infoRouter = express.Router();
 
-userRouter.get('/:userId', async (req, res) => {
+infoRouter.get('/:userId', async (req, res) => {
   const userId = Number.parseInt(req.params.userId);
   try {
     const user = await db
       .selectFrom('user')
-      .select([
-        'id',
-        'firstname',
-        'lastname',
-        'birthdate',
-        'created_at',
-        'driver_kilometer_traveled',
-        'passenger_kilometer_traveled',
-      ])
+      .select(['id', 'firstname', 'lastname', 'email'])
       .where(sql`id = ${userId}`)
       .execute();
 
@@ -33,4 +25,4 @@ userRouter.get('/:userId', async (req, res) => {
   }
 });
 
-export { userRouter };
+export { infoRouter };

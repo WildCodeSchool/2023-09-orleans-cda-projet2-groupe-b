@@ -5,6 +5,7 @@ import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
+import { infoRouter } from './my-informations';
 import { userRouter } from './profile';
 
 const router = express.Router();
@@ -29,4 +30,6 @@ router.get('/some-route', (_request, response) => {
 
 router.use('/auth', authRouter);
 router.use('/profile', userRouter);
+router.use('/my-informations', infoRouter);
+
 export default router;
