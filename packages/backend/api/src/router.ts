@@ -3,6 +3,7 @@ import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
+import { publishTripRouter } from './publishTrip';
 
 const router = express.Router();
 
@@ -24,4 +25,5 @@ router.get('/some-route', (_request, response) => {
   return response.json(value);
 });
 
+router.use('/', publishTripRouter)
 export default router;
