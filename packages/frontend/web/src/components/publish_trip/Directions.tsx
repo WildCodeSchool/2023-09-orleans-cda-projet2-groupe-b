@@ -27,9 +27,9 @@ interface itinerary {
 [];
 
 export default function Directions() {
-  const { getValues, control, setValue } = useFormContext();
+  const { getValues, control, setValue, watch } = useFormContext();
   const [currentItinerary, setCurrentItinerary] = useState<itinerary[]>();
-  // let routeIndex = getValues('routeIndex');
+
   console.log('current itinerary', currentItinerary);
 
   const checkpoints: checkpoints[] = getValues('checkpoint');
@@ -44,21 +44,22 @@ export default function Directions() {
   const [directionsRenderer, setDirectionsRenderer] =
     useState<google.maps.DirectionsRenderer>();
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(getValues('routeIndex'));
-  setValue('routeIndex', routeIndex);
+  // const [routeIndex, setRouteIndex] = useState(getValues('routeIndex'));
+  const routeIndex = watch('routeIndex');
+  console.log('get routeIndex', getValues('routeIndex'));
   const selected = routes[routeIndex];
   const listLegs = selected?.legs;
   const leg = selected?.legs[0];
   let totalDistanceWithWaypoints = 0;
   let totalDurationWithWaypoints = 0;
-  console.log('routeIndex', routeIndex);
-  console.log('tolls', getValues('tolls'));
   console.log('has_tolls', getValues('has_tolls'));
-  useEffect(() => {
-    if (getValues('has_tolls') !== getValues('tolls')) return;
-    setValue('optionItinerary', 1);
-    setRouteIndex(0);
-  }, [getValues('has_tolls')]);
+  // useEffect(() => {
+  //   setValue('optionItinerary', 1);
+  //   setValue('routeIndex', 1);
+  //   // setRouteIndex(0);
+  //   console.log('coucouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
+    
+  // }, [getValues('has_tolls')]);
 
   if (listLegs?.length > 1) {
     const arrayDistance = listLegs.map((leg) =>
@@ -129,7 +130,6 @@ export default function Directions() {
     console.log('const itinerary', itinerary);
     setCurrentItinerary(itinerary);
     setValue('itinerary', itinerary);
-    // setValue('routeIndex', routeIndex);
   }, [routeIndex, routes, getValues('has_tolls')]);
 
   if (!leg) return null;
@@ -151,7 +151,7 @@ export default function Directions() {
 
       {routes.map((route, index) => (
         <label
-          onClick={() => setRouteIndex(index)}
+          onClick={() => setValue('routeIndex', index)}
           key={route.summary}
           className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
         >
@@ -168,17 +168,17 @@ export default function Directions() {
           <Controller
             name='optionItinerary'
             control={control}
-            defaultValue={1}
+            defaultValue={0}
             render={({ field }) => (
               <input
                 type='radio'
-                value={index + 1}
-                checked={field.value === index + 1}
+                value={index}
+                checked={field.value === index}
                 onChange={() => {
-                  field.onChange(index + 1, currentItinerary);
+                  field.onChange(index, currentItinerary);
                   console.log(getValues('optionItinerary'));
 
-                  console.log('AAAAAAHHHHHHHHHHHHHHHHHH', index + 1);
+                  console.log('AAAAAAHHHHHHHHHHHHHHHHHH', index);
                 }}
                 className='box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding outline-none ring-1 ring-gray-950/10 checked:border-indigo-500 checked:ring-indigo-500'
               />

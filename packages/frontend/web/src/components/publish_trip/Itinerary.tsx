@@ -8,10 +8,9 @@ export default function Itinerary() {
   const { register, setValue } = useFormContext();
 
   const [tolls, setTolls] = useState(false);
-  setValue('tolls', tolls);
   return (
     <>
-      <h1>{"maps"}</h1>
+      <h1>{'maps'}</h1>
       <div className='h-[500px] w-[800px]'>
         <APIProvider apiKey='AIzaSyCqmue-jTjbdPOQiH_CRwF_PXEaDjsnBMU'>
           <Map
@@ -30,6 +29,8 @@ export default function Itinerary() {
                 onChange={(e) => {
                   setValue('has_tolls', e.target.checked ? true : false);
                   setTolls(!tolls);
+                  setValue('optionItinerary', 0);
+                  setValue('routeIndex', 0);
                 }}
                 className='peer sr-only'
               />
