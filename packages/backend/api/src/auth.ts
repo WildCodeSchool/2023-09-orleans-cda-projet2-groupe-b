@@ -178,6 +178,10 @@ authRouter.post('/logout', (req, res) => {
     sameSite: 'lax',
     expires: new Date(0),
   });
+  res.json({
+    ok: true,
+    isLoggedIn: false,
+  });
 });
 
 export { authRouter };
