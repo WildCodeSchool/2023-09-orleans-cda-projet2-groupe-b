@@ -171,5 +171,17 @@ authRouter.post(
     }
   },
 );
+authRouter.post('/logout', (req, res) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    secure: IS_PRODUCTION,
+    sameSite: 'lax',
+    expires: new Date(0),
+  });
+  res.json({
+    ok: true,
+    isLoggedIn: false,
+  });
+});
 
 export { authRouter };
