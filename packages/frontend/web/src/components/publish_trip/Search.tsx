@@ -1,14 +1,11 @@
-import { APIProvider } from '@vis.gl/react-google-maps';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import {
-  SearchPublishTripSchema,
   type SearchPublishTripType,
-} from '../../../../../shared/src/publishTripValidation';
-
-// import Places from './Places';
+  searchPublishTripSchema,
+} from '@app/shared';
 
 export default function Search() {
   const {
@@ -31,7 +28,7 @@ export default function Search() {
             {...register('from', {
               validate: (value) => {
                 const result =
-                  SearchPublishTripSchema.shape.from.safeParse(value);
+                  searchPublishTripSchema.shape.from.safeParse(value);
                 return result.success ? true : result.error.errors[0]?.message;
               },
             })}
@@ -52,7 +49,9 @@ export default function Search() {
                 {...register(`checkpoint.${index}.address`, {
                   validate: (value) => {
                     const result =
-                      SearchPublishTripSchema.shape.checkpoint.safeParse(value);
+                      searchPublishTripSchema.shape.checkpoint.safeParse([
+                        { address: value, name: '' },
+                      ]);
                     return result.success
                       ? true
                       : result.error.errors[0]?.message;
@@ -81,7 +80,9 @@ export default function Search() {
                 </svg>
               </span>
             </div>
-            <span className='text-red-700'>{}</span>
+            <span className='text-red-700'>
+              {errors.checkpoint?.[index]?.address?.message}
+            </span>
           </div>
         ))}
         <span
@@ -111,7 +112,7 @@ export default function Search() {
             {...register('to', {
               validate: (value) => {
                 const result =
-                  SearchPublishTripSchema.shape.to.safeParse(value);
+                  searchPublishTripSchema.shape.to.safeParse(value);
                 return result.success ? true : result.error.errors[0]?.message;
               },
             })}

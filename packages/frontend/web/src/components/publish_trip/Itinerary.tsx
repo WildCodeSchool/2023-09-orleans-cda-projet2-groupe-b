@@ -2,17 +2,31 @@ import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import type { ItineraryPublishTripType } from '@app/shared';
+
 import Directions from './Directions';
 
+type ElementForStepItinerary = {
+  routeIndex: number;
+  optionItinerary: number;
+};
 export default function Itinerary() {
-  const { register, setValue } = useFormContext();
+  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
 
-  const [tolls, setTolls] = useState(false);
+  if (KEY === undefined) {
+    throw new Error('Key google maps is undefined');
+  }
+  const { register, setValue } = useFormContext<
+    ItineraryPublishTripType & ElementForStepItinerary
+  >();
+
+  const [hasTolls, setHasTolls] = useState(false);
+
   return (
     <>
       <h1>{'maps'}</h1>
       <div className='h-[500px] w-[800px]'>
-        <APIProvider apiKey='AIzaSyCqmue-jTjbdPOQiH_CRwF_PXEaDjsnBMU'>
+        <APIProvider apiKey={KEY}>
           <Map
             className='h-full w-full'
             zoom={5}
@@ -20,15 +34,15 @@ export default function Itinerary() {
             disableDefaultUI
           />
           <label className='flex justify-between'>
-            {"Without tolls"}{' '}
+            {'Without tolls'}{' '}
             <div className='relative h-5 w-14 cursor-pointer rounded-full bg-gray-200 shadow-inner'>
               <input
                 type='checkbox'
-                {...register('has_tolls')}
-                checked={tolls}
-                onChange={(e) => {
-                  setValue('has_tolls', e.target.checked ? true : false);
-                  setTolls(!tolls);
+                {...register('hasTolls')}
+                checked={hasTolls}
+                onChange={(error) => {
+                  setValue('hasTolls', error.target.checked ? true : false);
+                  setHasTolls(!hasTolls);
                   setValue('optionItinerary', 0);
                   setValue('routeIndex', 0);
                 }}

@@ -1,44 +1,61 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import type { ChangeEvent } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import { type InfoPublishTripType, infoPublishTripSchema } from '@app/shared';
 
 export default function SeatPrice() {
-  const {control, setValue, watch } = useFormContext();
+  const {
+    register,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useFormContext<InfoPublishTripType>();
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const replace = value.replace(/\D/g, '');
+    setValue('price', Number(replace));
+  };
 
   const handleIncrement = () => {
-    const current = watch('price');
-    setValue('price', current + 1);
+    setValue('price', Number(getValues('price')) + 1);
   };
 
   const handleDecrement = () => {
-    const current = watch('price');
-    setValue('price', current - 1);
+    setValue('price', Number(getValues('price')) - 1);
   };
 
   return (
-    <div className='bg-slate-100 p-4 flex flex-col items-center space-y-4'>
-      <label>{"Price of the place"}</label>
+    <div className='flex flex-col items-center space-y-4 bg-slate-100 p-4'>
+      <label>{'Price of the place'}</label>
       <div className='flex space-x-4'>
         <button
           type='button'
           onClick={handleDecrement}
           className='bg-slate-100 p-4'
         >
-          {"-"}
+          {'-'}
         </button>
-        <Controller
-          name='price'
-          control={control}
-          defaultValue={0}
-          render={({ field }) => <input type='number' {...field} className='text-center' />}
-          
+        <input
+          type='number'
+          defaultValue={Number(1)}
+          {...register('price', {
+            validate: (value) => {
+              const result = infoPublishTripSchema.shape.price.safeParse(value);
+              return result.success ? true : result.error.errors[0].message;
+            },
+            onChange: handleChange,
+          })}
         />
         <button
           type='button'
           onClick={handleIncrement}
           className='bg-slate-100 p-4'
         >
-          {"+"}
+          {'+'}
         </button>
       </div>
+      <span className='text-red-700'>{errors.price?.message}</span>
     </div>
   );
 }

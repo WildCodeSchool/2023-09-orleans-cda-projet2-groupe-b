@@ -1,6 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import Info from '@/components/publish_trip/Info';
 import Itinerary from '@/components/publish_trip/Itinerary';
@@ -12,15 +11,15 @@ interface FormPublishTrip {
     address: string;
   }[];
   itinerary: {
-    start_address: string;
-    end_address: string;
-    distance: number;
-    duration: number;
-    start_point: {
+    startAddress: string;
+    endAddress: string;
+    kilometer: number;
+    travelTime: number;
+    startPoint: {
       x: number;
       y: number;
     };
-    end_point: {
+    endPoint: {
       x: number;
       y: number;
     };
@@ -28,29 +27,24 @@ interface FormPublishTrip {
   to: string;
   date: Date;
   price: number;
-  car: string;
-  seat_available: number;
-  reservation_seat: number[]
-  should_auto_validate: boolean;
-  is_smoker_allowed: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
+  carId: bigint;
+  seatAvailable: number;
+  reservationSeat: number[];
+  shouldAutoValidate: boolean;
+  isSmokerAllowed: boolean;
+  isAnimalAllowed: boolean;
+  isBabyAllowed: boolean;
+  isNonVaccinatedAllowed: boolean;
   comment?: string;
-  routeIndex: number
+  routeIndex: number;
 }
 
 export default function PublishTrip() {
-  const [stepForm, setStepFrom] = useState(0);
+  const [stepForm, setStepForm] = useState(0);
 
   const methods = useForm<FormPublishTrip>({
     defaultValues: { checkpoint: [], routeIndex: 0 },
-    
   });
-
-  // const {
-  //   formState: { isDirty, isValid },
-  // } = methods;
 
   const displayStepForm = () => {
     switch (stepForm) {
@@ -67,17 +61,15 @@ export default function PublishTrip() {
   };
 
   const formSubmit = async (data: FormPublishTrip) => {
-    console.log('Valeur stocké:', data);
     if (stepForm < 2) {
-      setStepFrom((current) => current + 1);
+      setStepForm((current) => current + 1);
     } else {
       try {
         const transformedData = {
           ...data,
-          driver_id: 1,
-          car_id: 1,
+          driverId: 1,
           checkpoints: data.itinerary,
-          reservation_seat: data,
+          seatAvailable: data.reservationSeat.length,
         };
 
         await fetch(`${import.meta.env.VITE_API_URL}/publish-trip`, {
@@ -104,10 +96,10 @@ export default function PublishTrip() {
               <button
                 type='button'
                 onClick={() => {
-                  setStepFrom(stepForm - 1);
+                  setStepForm(stepForm - 1);
                 }}
               >
-                {stepForm <= 0 ? null : (
+                {stepForm <= 0 ? undefined : (
                   <img src='/return.svg' className='m-4 mx-6' />
                 )}
               </button>
@@ -116,7 +108,6 @@ export default function PublishTrip() {
             <button
               type='submit'
               className='bg-primary m-2 mb-8 w-64 rounded-lg p-2 font-semibold text-white'
-              // disabled={!isDirty || !isValid}
             >
               {stepForm >= 2 ? 'Publish' : 'Next'}
             </button>

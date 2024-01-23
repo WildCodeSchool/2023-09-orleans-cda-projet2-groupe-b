@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@app/backend-shared": "workspace:*",
+    "@app/shared": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "kysely": "^0.26.3"
