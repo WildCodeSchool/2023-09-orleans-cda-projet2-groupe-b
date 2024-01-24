@@ -77,8 +77,14 @@ authRouter.post(
         })
         .execute();
 
+      const userId = await db
+        .selectFrom('user')
+        .select(['user.id'])
+        .where('user.email', '=', email)
+        .executeTakeFirst();
+
       const jwt = await new jose.SignJWT({
-        sub: email,
+        sub: userId?.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',
@@ -118,7 +124,7 @@ authRouter.post(
     try {
       const user = await db
         .selectFrom('user')
-        .select(['user.password'])
+        .select(['user.password', 'user.id'])
         .where('user.email', '=', email)
         .executeTakeFirst();
       if (user === undefined) {
@@ -142,7 +148,7 @@ authRouter.post(
       }
 
       const jwt = await new jose.SignJWT({
-        sub: email,
+        sub: user.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',

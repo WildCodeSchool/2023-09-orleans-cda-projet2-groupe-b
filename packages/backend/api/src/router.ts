@@ -5,6 +5,7 @@ import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
+import { carRouter } from './car';
 
 const router = express.Router();
 
@@ -27,5 +28,6 @@ router.get('/some-route', (_request, response) => {
 });
 
 router.use('/auth', authRouter);
+router.use('/car', carRouter);
 
 export default router;
