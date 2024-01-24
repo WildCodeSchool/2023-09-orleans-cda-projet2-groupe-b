@@ -12,7 +12,7 @@ export interface UserTable {
   passenger_kilometer_traveled: number;
   driver_kilometer_traveled: number;
   economy_achieved: number;
-  created_at: Date;
+  created_at?: Date;
 }
 export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;

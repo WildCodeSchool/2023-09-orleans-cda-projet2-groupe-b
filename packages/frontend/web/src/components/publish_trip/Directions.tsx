@@ -54,13 +54,13 @@ export default function Directions() {
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
   const routeIndex = watch('routeIndex');
   const selected = routes[routeIndex];
-  const listLegs = selected.legs;
-  const leg = selected.legs[0];
+  const listLegs = selected ? selected.legs : undefined;
+  const leg = selected ? selected.legs[0] : undefined;
   let totalDistanceWithWaypoints = 0;
   let totalDurationWithWaypoints = 0;
   const hasTolls = getValues('hasTolls');
 
-  if (listLegs.length > 1) {
+  if (listLegs !== undefined && listLegs.length > 1) {
     const arrayDistance = listLegs.map((leg) => leg.distance?.value);
     const totalDistance = (arrayDistance as number[]).reduce((a, b) => a + b);
     totalDistanceWithWaypoints = totalDistance;
@@ -69,18 +69,20 @@ export default function Directions() {
     totalDurationWithWaypoints = totalDuration;
   }
 
-  if (listLegs.length > 1) {
+  if (listLegs !== undefined && listLegs.length > 1) {
     setValue(
       'kilometer',
       Number.parseFloat((totalDistanceWithWaypoints / 1000).toFixed(1)),
     );
     setValue('travelTime', Math.round(totalDurationWithWaypoints / 60));
   } else {
-    setValue(
-      'kilometer',
-      Number.parseFloat(((leg.distance?.value ?? 0) / 1000).toFixed(1)),
-    );
-    setValue('travelTime', Math.round((leg.duration?.value ?? 0) / 60));
+    if (leg !== undefined) {
+      setValue(
+        'kilometer',
+        Number.parseFloat(((leg.distance?.value ?? 0) / 1000).toFixed(1)),
+      );
+      setValue('travelTime', Math.round((leg.duration?.value ?? 0) / 60));
+    }
   }
 
   useEffect(() => {
@@ -108,10 +110,13 @@ export default function Directions() {
       .catch((error) => {
         throw new Error(error);
       });
-  }, [directionsService, directionsRenderer, hasTolls, getValues, waypoints]);
+    // console.log('DirectionsService');
+  }, [directionsService, directionsRenderer, hasTolls]);
 
   useEffect(() => {
     if (!directionsRenderer) return;
+    // console.log('directionsRenderer');
+
     directionsRenderer.setRouteIndex(routeIndex);
   }, [routeIndex, directionsRenderer, routes]);
 
@@ -134,7 +139,8 @@ export default function Directions() {
     }));
     setCurrentItinerary(itinerary);
     setValue('itinerary', itinerary);
-  }, [routeIndex, routes, hasTolls, setValue]);
+    console.log(itinerary);
+  }, [routeIndex, routes, hasTolls]);
 
   return (
     <div className='mt-4 w-full space-y-2 bg-white'>
@@ -146,9 +152,9 @@ export default function Directions() {
           key={route.summary}
           className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
         >
-          {listLegs.length > 1 ? (
+          {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
-              <p>{leg.start_address}</p>
+              <p>{leg === undefined ? undefined : leg.start_address}</p>
               <div className='flex space-x-3'>
                 <p>{route.summary}</p>
                 <p>

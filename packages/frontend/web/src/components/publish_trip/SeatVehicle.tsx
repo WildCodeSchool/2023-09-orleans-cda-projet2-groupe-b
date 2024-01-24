@@ -173,7 +173,7 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
   return (
     <div className='flex flex-col items-center bg-slate-100 p-4'>
       <h1 className=''>{'deselect empty seats'}</h1>
-      <img src='/line-car.svg' className=' mt-6' />
+      <img src='/icons/line-car.svg' className=' mt-6' />
       <div className='mt-6 grid grid-cols-6'>
         {seatCar.map((seat) => (
           <div
@@ -189,12 +189,16 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
               disabled={seat === seatCar[0]}
             />
             <img
-              src={seatAvailable.includes(seat) ? '/seat.svg' : '/no-seat.svg'}
+              src={
+                seatAvailable.includes(seat)
+                  ? '/icons/seat.svg'
+                  : '/icons/no-seat.svg'
+              }
               className='h-full w-full'
             />
             {seat === 0 ? (
               <img
-                src={'/steering-wheel.svg'}
+                src={'/icons/steering-wheel.svg'}
                 className='absolute top-[-29px] h-full w-full p-1'
               />
             ) : undefined}

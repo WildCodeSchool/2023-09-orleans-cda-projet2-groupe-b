@@ -41,7 +41,7 @@ export default function Info() {
               <option value={String(1n)}>{'Renault clio IV'}</option>
             </select>
             <button type='button' className='rounded-lg border p-2 drop-shadow'>
-              <img src='/add-car.svg' />
+              <img src='/icons/add-car.svg' />
             </button>
           </div>
           <span className='text-red-700'>{errors.carId?.message}</span>

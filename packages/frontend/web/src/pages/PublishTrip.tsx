@@ -100,7 +100,7 @@ export default function PublishTrip() {
                 }}
               >
                 {stepForm <= 0 ? undefined : (
-                  <img src='/return.svg' className='m-4 mx-6' />
+                  <img src='/icons/return.svg' className='m-4 mx-6' />
                 )}
               </button>
             </div>
