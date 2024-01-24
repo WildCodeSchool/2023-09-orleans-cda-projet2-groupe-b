@@ -5,6 +5,10 @@ export default {
     extend: {
       colors: {
         primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        light: 'var(--light)',
+        dark: 'var(--dark)',
+        danger: 'var(--danger)',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

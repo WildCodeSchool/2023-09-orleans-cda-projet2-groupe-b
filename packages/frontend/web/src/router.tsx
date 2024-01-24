@@ -5,6 +5,10 @@ import AddACar from './pages/AddACar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyCar from './pages/MyCar';
+import MyInfo from './pages/MyInfo';
+import MyOpinions from './pages/MyOpinions';
+import MyPreferences from './pages/MyPreferences';
+import Profile from './pages/Profile';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -14,6 +18,22 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
+        path: '/my-informations',
+        element: <MyInfo />,
+      },
+      {
+        path: '/my-opinions',
+        element: <MyOpinions />,
+      },
+      {
+        path: '/my-preferences',
+        element: <MyPreferences />,
       },
       {
         path: '/login',

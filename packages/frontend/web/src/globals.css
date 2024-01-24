@@ -6,11 +6,16 @@
 @layer base {
   :root {
     --primary: #0c8587;
+    --secondary: #494d55;
+    --light: #f9f9f9;
+    --dark: #080808;
+    --danger: #ef4444;
   }
+
   body {
     width: 100dvw;
     height: 100dvh;
-    color: white;
+    color: var(--light);
     box-sizing: border-box;
   }
 
