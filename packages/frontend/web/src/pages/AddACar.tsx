@@ -63,7 +63,7 @@ export default function AddACar() {
         className='m-auto my-10 hidden w-[80%] sm:mt-28 sm:block lg:w-[35rem]'
         src='icons/logo.svg'
       />
-      <h1 className='my-10 ms-8 text-3xl font-extrabold text-white sm:hidden'>
+      <h1 className='my-4 ms-8 text-3xl font-extrabold text-white sm:hidden'>
         {'Add a car'}
       </h1>
       <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
