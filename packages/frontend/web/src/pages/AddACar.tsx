@@ -56,7 +56,7 @@ export default function AddACar() {
   };
   return (
     <div className='md:mt-18 flex flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
-      <Link to='/' className='w-7'>
+      <Link to='/profile' className='w-7'>
         <img className='my-5 ms-5 w-4 sm:hidden' src='icons/arrow-left.svg' />
       </Link>
       <img

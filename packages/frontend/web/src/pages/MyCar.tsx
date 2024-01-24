@@ -43,7 +43,7 @@ export default function MyCar() {
   }, []);
   return (
     <div className='md:mt-18 flex flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
-      <Link to='/' className='w-7'>
+      <Link to='/profile' className='w-7'>
         <img className='my-5 ms-5 w-4 sm:hidden' src='icons/arrow-left.svg' />
       </Link>
       <img
@@ -64,7 +64,7 @@ export default function MyCar() {
       </div>
       <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
         <div className='hidden justify-between sm:flex'>
-          <Link to='/'>
+          <Link to='/profile'>
             <img
               src='/icons/arrow-left.svg'
               alt='arrow-left'

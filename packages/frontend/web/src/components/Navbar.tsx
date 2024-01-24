@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import MyInfo from '@/pages/MyInfo';
 import MyOpinions from '@/pages/MyOpinions';
@@ -12,6 +12,7 @@ import { Modal } from './Modal';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
   const [openModals, setOpenModals] = useState<ModalState>({
     myInfo: false,
     myOpinions: false,
@@ -173,7 +174,7 @@ export default function Navbar() {
 
                             if (response.ok) {
                               setIsLoggedIn(false);
-                              <Navigate to='/login' />;
+                              navigate('/login');
                             } else {
                               console.error('Logout failure');
                             }
