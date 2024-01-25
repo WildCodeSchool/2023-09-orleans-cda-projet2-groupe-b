@@ -8,6 +8,7 @@ import MyOpinions from './pages/MyOpinions';
 import MyPreferences from './pages/MyPreferences';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
+import SearchTrip from './pages/SearchTrip';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
         element: <Register />,
       },
     ],
+  },
+  {
+    path: '/search-trip',
+    element: <SearchTrip />,
   },
 ]);
 
