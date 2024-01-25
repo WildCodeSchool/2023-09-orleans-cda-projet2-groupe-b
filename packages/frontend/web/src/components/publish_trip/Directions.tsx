@@ -110,13 +110,10 @@ export default function Directions() {
       .catch((error) => {
         throw new Error(error);
       });
-    // console.log('DirectionsService');
   }, [directionsService, directionsRenderer, hasTolls]);
 
   useEffect(() => {
     if (!directionsRenderer) return;
-    // console.log('directionsRenderer');
-
     directionsRenderer.setRouteIndex(routeIndex);
   }, [routeIndex, directionsRenderer, routes]);
 
@@ -139,7 +136,6 @@ export default function Directions() {
     }));
     setCurrentItinerary(itinerary);
     setValue('itinerary', itinerary);
-    console.log(itinerary);
   }, [routeIndex, routes, hasTolls]);
 
   return (
@@ -150,7 +146,7 @@ export default function Directions() {
             setValue('routeIndex', index);
           }}
           key={route.summary}
-          className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
+          className='has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200 flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100'
         >
           {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
