@@ -32,13 +32,13 @@ export default function MyCar() {
 
         const data = await response.json();
         setCars(data);
-      } catch (error) {
-        console.error('Erreur lors de la requête:', error);
+      } catch {
+        throw new Error('Failed to fetch car');
       }
     };
 
-    fetchCar().catch((error) => {
-      console.error('Erreur lors de la requête:', error);
+    fetchCar().catch(() => {
+      throw new Error('Failed to fetch car');
     });
   }, []);
   return (
