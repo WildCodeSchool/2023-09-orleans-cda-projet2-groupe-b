@@ -78,7 +78,7 @@ export default function AddACar() {
               onChange={(event) => {
                 setBrand(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border border-b-white' />
             {errors.brand ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
@@ -98,7 +98,7 @@ export default function AddACar() {
               onChange={(event) => {
                 setModel(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border border-b-white' />
             {errors.model ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
@@ -118,7 +118,7 @@ export default function AddACar() {
               onChange={(event) => {
                 setPlateNumber(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border border-b-white' />
             {errors.plate_number ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
@@ -139,7 +139,7 @@ export default function AddACar() {
               onChange={(event) => {
                 setColor(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border border-b-white' />
             {errors.color ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
@@ -150,7 +150,7 @@ export default function AddACar() {
           <div className='mx-auto my-5 h-10 md:w-[80%]'>
             <label htmlFor='places' className='mb-6'>
               {'Numbers of places'}
-            </label>{' '}
+            </label>
             <select
               className={`w-full bg-transparent text-xl placeholder-white/100 ${
                 errors.number_seat && 'border-red-500'
@@ -168,7 +168,7 @@ export default function AddACar() {
               <option value='6'>{'6'}</option>
               <option value='7'>{'8'}</option>
               <option value='9'>{'9'}</option>
-            </select>{' '}
+            </select>
             <div className='border border-b-white' />
             {errors.number_seat ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
@@ -188,7 +188,7 @@ export default function AddACar() {
               onChange={(event) => {
                 setPhoto(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border border-b-white' />
             {errors.photo ? (
               <p className='ms-[10%] mt-2 italic text-red-500'>
