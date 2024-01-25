@@ -35,12 +35,7 @@ export default function AddACar() {
           'content-type': 'application/json',
         },
         body: JSON.stringify({
-          brand: data.brand,
-          model: data.model,
-          plate_number: data.plate_number,
-          color: data.color,
-          number_seat: data.number_seat,
-          photo: data.photo,
+          ...data,
         }),
       });
       const resData = (await res.json()) as {
