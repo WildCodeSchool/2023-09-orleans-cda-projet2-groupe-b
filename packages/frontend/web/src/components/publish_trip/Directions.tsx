@@ -146,7 +146,7 @@ export default function Directions() {
             setValue('routeIndex', index);
           }}
           key={route.summary}
-          className='has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200 flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100'
+          className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
         >
           {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
