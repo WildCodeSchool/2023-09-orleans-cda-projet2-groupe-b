@@ -108,7 +108,6 @@ export default function SearchTrip() {
       <div className='flex justify-center'>
         <div className=' text-primary flex w-[600px] items-center justify-center bg-black'>
           <form
-            action=''
             method='get'
             className='m-4 flex w-96 flex-col bg-slate-100 p-2'
             onSubmit={handleSubmit(onSubmit)}
