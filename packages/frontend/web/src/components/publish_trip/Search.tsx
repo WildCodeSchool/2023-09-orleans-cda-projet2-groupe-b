@@ -1,3 +1,5 @@
+import { useAutocomplete } from '@vis.gl/react-google-maps';
+import { ChangeEvent, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
@@ -8,15 +10,49 @@ import {
 } from '@app/shared';
 
 export default function Search() {
+  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+
+  if (KEY === undefined) {
+    throw new Error('Key google maps is undefined');
+  }
+
   const {
     register,
     control,
+    watch,
     formState: { errors },
   } = useFormContext<SearchPublishTripType>();
   const { fields, append, remove } = useFieldArray({
     name: 'checkpoint',
     control,
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const onPlaceChanged = (place: google.maps.places.PlaceResult) => {
+    if (place) {
+      console.log(place);
+      console.log(place.formatted_address || place.name);
+      // setInputValue(place.formatted_address || place.name);
+    }
+    inputRef.current && inputRef.current.focus();
+  };
+
+  useAutocomplete({
+    inputField: inputRef && inputRef.current,
+    onPlaceChanged,
+  });
+
+  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   if (inputRef.current?.value !== undefined) {
+  //     event.target.value = inputRef.current?.value;
+  //     setInputValue(event.target.value);
+  //   }
+  // };
+  console.log('from : ', watch('from'));
+  console.log('to : ', watch('to'));
+  console.log('inputRef : ', inputRef.current?.value);
 
   return (
     <div className='flex justify-center'>
@@ -31,9 +67,13 @@ export default function Search() {
                   searchPublishTripSchema.shape.from.safeParse(value);
                 return result.success ? true : result.error.errors[0]?.message;
               },
+              // onChange: handleInputChange,
             })}
+            
+            ref={inputRef}
+            value={inputRef.current?.value}
             placeholder='Address start'
-            className='rounded-lg border p-2 drop-shadow'
+            className='w-full rounded-lg border p-2 drop-shadow'
           />
           <span className='text-red-700'>{errors.from?.message}</span>
         </div>
@@ -43,7 +83,7 @@ export default function Search() {
               {'Checkpoint '}
               {index + 1}
             </label>
-            <div className='flex flex-row space-x-2'>
+            <div className='flex flex-row justify-between space-x-2'>
               <input
                 type='text'
                 {...register(`checkpoint.${index}.address`, {
@@ -60,11 +100,12 @@ export default function Search() {
                 placeholder={`Address checkpoint ${index + 1}`}
                 className='w-full rounded-lg border p-2 drop-shadow'
               />
+
               <span
                 onClick={() => {
                   remove(index);
                 }}
-                className='flex cursor-pointer items-center justify-center rounded-lg border p-2'
+                className='flex cursor-pointer items-end justify-center rounded-lg border p-2'
               >
                 <img
                   src='/icons/checkpoint-delete.svg'
@@ -97,7 +138,7 @@ export default function Search() {
               },
             })}
             placeholder='Address destination'
-            className='rounded-lg border p-2 drop-shadow'
+            className='w-full rounded-lg border p-2 drop-shadow'
           />
           <span className='text-red-700'>{errors.to?.message}</span>
         </div>

@@ -1,3 +1,4 @@
+import { APIProvider } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -40,6 +41,11 @@ interface FormPublishTrip {
 }
 
 export default function PublishTrip() {
+  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+
+  if (KEY === undefined) {
+    throw new Error('Key google maps is undefined');
+  }
   const [stepForm, setStepForm] = useState(0);
 
   const methods = useForm<FormPublishTrip>({
@@ -92,19 +98,21 @@ export default function PublishTrip() {
             onSubmit={methods.handleSubmit(formSubmit)}
             className='flex flex-col items-center'
           >
-            <div className='flex w-full justify-start'>
-              <button
-                type='button'
-                onClick={() => {
-                  setStepForm(stepForm - 1);
-                }}
-              >
-                {stepForm <= 0 ? undefined : (
-                  <img src='/icons/return.svg' className='m-4 mx-6' />
-                )}
-              </button>
-            </div>
-            {displayStepForm()}
+            <APIProvider apiKey={KEY} libraries={['places']}>
+              <div className='flex w-full justify-start'>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setStepForm(stepForm - 1);
+                  }}
+                >
+                  {stepForm <= 0 ? undefined : (
+                    <img src='/icons/return.svg' className='m-4 mx-6' />
+                  )}
+                </button>
+              </div>
+              {displayStepForm()}
+            </APIProvider>
             <button
               type='submit'
               className='bg-primary m-2 mb-8 w-64 rounded-lg p-2 font-semibold text-white'

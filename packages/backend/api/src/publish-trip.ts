@@ -9,11 +9,7 @@ import type {
 
 const publishTripRouter = express.Router();
 
-publishTripRouter.get('/trips', async (req, res) => {
-  const trips = await db.selectFrom('trip').selectAll().execute();
-  return res.json(trips);
-});
-publishTripRouter.post('/publish-trip', async (req, res) => {
+publishTripRouter.post('/', async (req, res) => {
   const {
     driverId,
     kilometer,

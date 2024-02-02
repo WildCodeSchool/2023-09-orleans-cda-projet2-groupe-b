@@ -40,6 +40,17 @@ export async function up(db: Kysely<Database>): Promise<void> {
 export async function down(db: Kysely<Database>): Promise<void> {
   // Migration code that reverts the database to the previous state.
   await db.transaction().execute(async (trx) => {
-    await trx.schema.dropTable('reservation_seat').ifExists().execute();
+    await trx.schema
+      .alterTable('checkpoint_trip')
+      .dropColumn('kilometer')
+      .execute();
+    await trx.schema
+      .alterTable('checkpoint_trip')
+      .dropColumn('travel_time')
+      .execute();
+    await trx.schema
+      .alterTable('reservation_seat')
+      .modifyColumn('reservation_id', 'int8', (col) => col.notNull().unsigned())
+      .execute();
   });
 }

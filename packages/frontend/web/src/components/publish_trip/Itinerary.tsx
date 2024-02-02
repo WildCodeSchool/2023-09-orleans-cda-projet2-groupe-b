@@ -1,4 +1,4 @@
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import { Map } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -11,11 +11,7 @@ type ElementForStepItinerary = {
   optionItinerary: number;
 };
 export default function Itinerary() {
-  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
 
-  if (KEY === undefined) {
-    throw new Error('Key google maps is undefined');
-  }
   const { register, setValue } = useFormContext<
     ItineraryPublishTripType & ElementForStepItinerary
   >();
@@ -26,7 +22,7 @@ export default function Itinerary() {
     <>
       <h1>{'maps'}</h1>
       <div className='h-[500px] w-[800px]'>
-        <APIProvider apiKey={KEY}>
+        {/* <APIProvider apiKey={KEY}> */}
           <Map
             className='h-full w-full'
             zoom={5}
@@ -52,7 +48,7 @@ export default function Itinerary() {
             </div>
           </label>
           <Directions />
-        </APIProvider>
+        {/* </APIProvider> */}
       </div>
     </>
   );
