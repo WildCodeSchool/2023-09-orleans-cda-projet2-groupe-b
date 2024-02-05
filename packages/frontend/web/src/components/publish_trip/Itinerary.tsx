@@ -21,7 +21,6 @@ export default function Itinerary() {
     <>
       <h1>{'maps'}</h1>
       <div className='h-[500px] w-[800px]'>
-        {/* <APIProvider apiKey={KEY}> */}
         <Map
           className='h-full w-full'
           zoom={5}
@@ -47,7 +46,6 @@ export default function Itinerary() {
           </div>
         </label>
         <Directions />
-        {/* </APIProvider> */}
       </div>
     </>
   );

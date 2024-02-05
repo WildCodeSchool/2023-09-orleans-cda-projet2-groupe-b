@@ -66,7 +66,7 @@ export default function SeatCar({
 
   setValue('reservationSeat', seatAvailable);
 
-  const classseatInTheCar = (seat: number) => {
+  const classSeatInTheCar = (seat: number) => {
     switch (seatInTheCar.length) {
       case 2: {
         break;
@@ -188,7 +188,7 @@ export default function SeatCar({
         {seatInTheCar.map((seat) => (
           <div
             key={seat}
-            className={`relative h-[54px] w-[50px] ${classseatInTheCar(seat)}`}
+            className={`relative h-[54px] w-[50px] ${classSeatInTheCar(seat)}`}
           >
             <input
               type='checkbox'
