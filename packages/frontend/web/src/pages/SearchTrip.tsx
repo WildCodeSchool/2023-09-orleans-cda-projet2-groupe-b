@@ -1,5 +1,6 @@
-import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
-import { useRef, useState } from 'react';
+import { APIProvider } from '@vis.gl/react-google-maps';
+import { useAutocomplete } from '@vis.gl/react-google-maps';
+import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
@@ -13,20 +14,20 @@ interface FromSearchTrip {
   passenger: number;
 }
 
-interface Places {
-  placesStart:
-    | {
-        lat: number | undefined;
-        lng: number | undefined;
-      }
-    | undefined;
-  placesEnd:
-    | {
-        lat: number | undefined;
-        lng: number | undefined;
-      }
-    | undefined;
-}
+// interface Places {
+//   placesStart:
+//     | {
+//         lat: number | undefined;
+//         lng: number | undefined;
+//       }
+//     | undefined;
+//   placesEnd:
+//     | {
+//         lat: number | undefined;
+//         lng: number | undefined;
+//       }
+//     | undefined;
+// }
 
 type SearchTripFilter = {
   start_address: string;
@@ -57,54 +58,63 @@ export default function SearchTrip() {
     throw new Error('Key google maps is undefined');
   }
 
-  const searchStartReference = useRef<google.maps.places.SearchBox | null>(
-    null,
-  );
-  const searchEndReference = useRef<google.maps.places.SearchBox | null>(null);
-  const [places, setPlaces] = useState<Places>();
+  // const [searchTripFilter, setSearchTripFilter] = useState<
+  //   SearchTripFilter | undefined
+  // >();
 
-  const handlePlaceChanged = () => {
-    const placesStart = searchStartReference.current?.getPlaces();
-    const placesEnd = searchEndReference.current?.getPlaces();
-
-    const newPlaces = {
-      placesStart: placesStart
-        ? {
-            lat: placesStart[0].geometry?.location?.lat(),
-            lng: placesStart[0].geometry?.location?.lng(),
-          }
-        : undefined,
-      placesEnd: placesEnd
-        ? {
-            lat: placesEnd[0].geometry?.location?.lat(),
-            lng: placesEnd[0].geometry?.location?.lng(),
-          }
-        : undefined,
-    };
-    setPlaces(newPlaces);
-  };
-
-  const [searchTripFilter, setSearchTripFilter] = useState<
-    SearchTripFilter | undefined
-  >();
-  const { handleSubmit, register, control } = useForm<FromSearchTrip>();
+  const { handleSubmit, register, control, watch, setValue } =
+    useForm<FromSearchTrip>({
+      defaultValues: { from: '' },
+    });
 
   const onSubmit = async (data: FromSearchTrip) => {
-    const date = `${new Date(data.date).getFullYear()}-${(new Date(data.date).getMonth() + 1).toString().padStart(2, '0')}-${new Date(data.date).getDate().toString().padStart(2, '0')}`;
+    const date = `${new Date(data.date).getFullYear()}-${(
+      new Date(data.date).getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${new Date(data.date)
+      .getDate()
+      .toString()
+      .padStart(2, '0')}`;
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/search-trip?startX=${places?.placesStart?.lat}&startY=${places?.placesStart?.lng}&endX=${places?.placesEnd?.lat}&endY=${places?.placesEnd?.lng}&passenger=${data.passenger}&date=${date}`,
-      ).then((res) => res.json());
-      setSearchTripFilter(response);
-    } catch (error) {
-      throw new Error(String(error));
-    }
+    // try {
+    //   const response = await fetch(
+    //     `${import.meta.env.VITE_API_URL}/search-trip?startX=${places
+    //       ?.placesStart?.lat}&startY=${places?.placesStart?.lng}&endX=${places
+    //       ?.placesEnd?.lat}&endY=${places?.placesEnd?.lng}&passenger=${
+    //       data.passenger
+    //     }&date=${date}`,
+    //   ).then((res) => res.json());
+    //   setSearchTripFilter(response);
+    // } catch (error) {
+    //   throw new Error(String(error));
+    // }
   };
+  const inputReferenceFrom = useRef<HTMLInputElement>(null);
+
+  const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
+    console.log('place ici');
+
+    if (place) {
+      if (place.formatted_address !== undefined && place.name !== undefined) {
+        setValue('from', place.formatted_address || place.name);
+      }
+    }
+    inputReferenceFrom.current && inputReferenceFrom.current.focus();
+  };
+  useAutocomplete({
+    inputField: inputReferenceFrom.current,
+    onPlaceChanged: onPlaceChangedFrom,
+  });
+  console.log('watch from', watch('from'));
+  console.log('inputReferenceFrom', inputReferenceFrom.current?.value);
 
   const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
-    <LoadScript googleMapsApiKey={KEY} libraries={['places']}>
+    <APIProvider
+      apiKey={'AIzaSyCqmue-jTjbdPOQiH_CRwF_PXEaDjsnBMU'}
+      libraries={['places']}
+    >
       <div className='flex justify-center'>
         <div className=' text-primary flex w-[600px] items-center justify-center bg-black'>
           <form
@@ -113,33 +123,20 @@ export default function SearchTrip() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <label className='mt-8'>{'From'}</label>
-            <StandaloneSearchBox
-              onLoad={(ref) => {
-                searchStartReference.current = ref;
-              }}
-              onPlacesChanged={handlePlaceChanged}
-            >
-              <input
-                type='text'
-                placeholder='Address start'
-                {...register('from')}
-                className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
-              />
-            </StandaloneSearchBox>
+            <input
+              type='text'
+              placeholder='Address start'
+              {...register('from')}
+              ref={inputReferenceFrom}
+              className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
+            />
             <label className=''>{'To'}</label>
-            <StandaloneSearchBox
-              onLoad={(ref) => {
-                searchEndReference.current = ref;
-              }}
-              onPlacesChanged={handlePlaceChanged}
-            >
-              <input
-                type='text'
-                placeholder='Address end'
-                {...register('to')}
-                className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
-              />
-            </StandaloneSearchBox>
+            <input
+              type='text'
+              placeholder='Address end'
+              {...register('to')}
+              className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
+            />
             <div className='flex justify-center'>
               <Controller
                 control={control}
@@ -182,12 +179,12 @@ export default function SearchTrip() {
             </div>
           </form>
         </div>
-        <div className='space-y-4'>
+        {/* <div className='space-y-4'>
           {searchTripFilter === undefined ? undefined : (
             <CardTrip searchTripFilter={searchTripFilter} />
           )}
-        </div>
+        </div> */}
       </div>
-    </LoadScript>
+    </APIProvider>
   );
 }
