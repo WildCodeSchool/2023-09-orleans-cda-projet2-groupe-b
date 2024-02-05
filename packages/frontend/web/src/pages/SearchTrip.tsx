@@ -1,5 +1,4 @@
-import { APIProvider } from '@vis.gl/react-google-maps';
-import { useAutocomplete } from '@vis.gl/react-google-maps';
+import { APIProvider, useAutocomplete } from '@vis.gl/react-google-maps';
 import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -51,18 +50,14 @@ type SearchTripFilter = {
   }[];
 }[];
 
+const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+
+if (KEY === undefined) {
+  throw new Error('Key google maps is undefined');
+}
+
 export default function SearchTrip() {
-  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-
-  if (KEY === undefined) {
-    throw new Error('Key google maps is undefined');
-  }
-
-  // const [searchTripFilter, setSearchTripFilter] = useState<
-  //   SearchTripFilter | undefined
-  // >();
-
-  const { handleSubmit, register, control, watch, setValue } =
+  const { handleSubmit, register, control, watch, setValue, getValues } =
     useForm<FromSearchTrip>({
       defaultValues: { from: '' },
     });
@@ -92,12 +87,16 @@ export default function SearchTrip() {
   };
   const inputReferenceFrom = useRef<HTMLInputElement>(null);
 
+  watch('from');
+
   const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
-    console.log('place ici');
+    console.log('IIICCCCCCIIIIIII');
 
     if (place) {
       if (place.formatted_address !== undefined && place.name !== undefined) {
         setValue('from', place.formatted_address || place.name);
+      } else {
+        return;
       }
     }
     inputReferenceFrom.current && inputReferenceFrom.current.focus();
@@ -106,13 +105,15 @@ export default function SearchTrip() {
     inputField: inputReferenceFrom.current,
     onPlaceChanged: onPlaceChangedFrom,
   });
+
   console.log('watch from', watch('from'));
   console.log('inputReferenceFrom', inputReferenceFrom.current?.value);
 
   const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
+
   return (
     <APIProvider
-      apiKey={'AIzaSyCqmue-jTjbdPOQiH_CRwF_PXEaDjsnBMU'}
+      apiKey={KEY}
       libraries={['places']}
     >
       <div className='flex justify-center'>
@@ -125,9 +126,13 @@ export default function SearchTrip() {
             <label className='mt-8'>{'From'}</label>
             <input
               type='text'
-              placeholder='Address start'
               {...register('from')}
+              onChange={(event) => {
+                setValue('from', event.target.value);
+              }}
+              value={getValues('from')}
               ref={inputReferenceFrom}
+              placeholder='Address start'
               className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
             />
             <label className=''>{'To'}</label>
