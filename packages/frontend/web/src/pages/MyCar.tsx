@@ -27,31 +27,27 @@ export default function MyCar() {
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch car');
+          console.error('Failed to fetch car');
         }
 
         const data = await response.json();
         setCars(data);
-      } catch {
-        throw new Error('Failed to fetch car');
+      } catch (error) {
+        console.error('Failed to fetch car:', error);
       }
     };
 
-    fetchCar().catch(() => {
-      throw new Error('Failed to fetch car');
+    fetchCar().catch((error) => {
+      console.error('Failed to fetch car:', error);
     });
   }, []);
   return (
-    <div className='md:mt-18 flex flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
+    <div className='flex flex-col md:mt-20 lg:mt-28 lg:flex-row-reverse lg:justify-around'>
       <Link to='/profile' className='w-7'>
         <img className='my-5 ms-5 w-4 sm:hidden' src='icons/arrow-left.svg' />
       </Link>
-      <img
-        className='m-auto my-10 hidden w-[80%] sm:mt-28 sm:block lg:w-[35rem]'
-        src='icons/logo.svg'
-      />
       <div className='flex justify-between sm:hidden'>
-        <h1 className='my-10 ms-8 text-3xl font-extrabold text-white sm:hidden'>
+        <h1 className='my-2 ms-8 text-3xl font-extrabold text-white sm:hidden'>
           {'My cars'}
         </h1>
         <Link to='/add-car'>
@@ -85,15 +81,17 @@ export default function MyCar() {
         {Array.isArray(cars)
           ? cars.map((car) => (
               <React.Fragment key={car.id}>
-                <div className='flex flex-row justify-between rounded-md bg-white text-black shadow-md sm:mx-auto sm:w-3/4'>
-                  <p className='p-3 font-bold'>{car.model}</p>
-                  <p className='p-3'>{car.plate_number}</p>
-                  <img
-                    src='/icons/green-arrow.svg'
-                    alt='green-arrow'
-                    className='pr-3'
-                  />
-                </div>
+                <Link to={`/edit-car/${car.id}`}>
+                  <div className='flex flex-row justify-between rounded-md bg-white text-black shadow-md sm:mx-auto sm:w-3/4'>
+                    <p className='p-3 font-bold'>{car.model}</p>
+                    <p className='p-3'>{car.plate_number}</p>
+                    <img
+                      src='/icons/green-arrow.svg'
+                      alt='green-arrow'
+                      className='pr-3'
+                    />
+                  </div>
+                </Link>
                 <div className='mb-6 mt-4 w-full border border-white border-opacity-50 sm:mx-auto sm:w-3/4' />
               </React.Fragment>
             ))

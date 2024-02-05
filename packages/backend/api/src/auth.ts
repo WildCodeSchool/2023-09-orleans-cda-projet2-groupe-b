@@ -77,14 +77,14 @@ authRouter.post(
         })
         .execute();
 
-      const userId = await db
+      const user = await db
         .selectFrom('user')
         .select(['user.id'])
         .where('user.email', '=', email)
         .executeTakeFirst();
 
       const jwt = await new jose.SignJWT({
-        sub: userId?.id.toString(),
+        sub: user?.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',

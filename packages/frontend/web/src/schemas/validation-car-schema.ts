@@ -41,5 +41,3 @@ export const validationCarSchema = z.object({
     .max(12, { message: 'Should contain less than 12 characters' })
     .trim(),
 });
-
-export type ValidationCarSchema = z.infer<typeof validationCarSchema>;

@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import AddACar from './pages/AddACar';
+import EditCar from './pages/EditCar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyCar from './pages/MyCar';
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
         path: '/add-car',
         element: <AddACar />,
       },
+      { path: '/edit-car/:id', element: <EditCar /> },
     ],
   },
 ]);

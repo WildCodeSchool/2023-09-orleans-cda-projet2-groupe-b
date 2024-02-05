@@ -1,33 +1,66 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
+import { useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import type { Car } from '@app/types';
 
 import { validationCarSchema } from '@/schemas/validation-car-schema';
 
-export default function AddACar() {
+export default function EditCar() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const array = [2, 3, 4, 5, 6, 7, 8, 9];
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Car>({
     resolver: zodResolver(validationCarSchema),
   });
+
+  useEffect(() => {
+    // Récupérer les informations de la voiture
+    fetch(`${import.meta.env.VITE_API_URL}/car/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setValue('brand', data.brand);
+        setValue('model', data.model);
+        setValue('photo', data.photo);
+        setValue('number_seat', data.number_seat);
+        setValue('color', data.color);
+        setValue('plate_number', data.plate_number);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch car:', error);
+      });
+  }, [id]);
+
   const onSubmit: SubmitHandler<Car> = async (data) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/car/add`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/car/edit/${id}`,
+        {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...data,
+          }),
         },
-        body: JSON.stringify(data),
-      });
+      );
       const resData = (await res.json()) as {
         ok: boolean;
       };
@@ -39,26 +72,62 @@ export default function AddACar() {
       console.error('Erreur lors de la requête:', error);
     }
   };
+
+  const onDelete = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/car/delete/${id}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json',
+          },
+        },
+      );
+      const resData = (await res.json()) as {
+        ok: boolean;
+      };
+
+      if (resData.ok) {
+        navigate('/my-car');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error);
+    }
+  };
+
   return (
-    <div className='md:mt-18 flex flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
-      <Link to='/profile' className='w-7'>
-        <img className='my-5 ms-5 w-4 md:mt-20' src='icons/arrow-left.svg' />
+    <div className='md:mt-18 mt-5 flex min-h-screen flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
+      <Link to='/my-car' className='w-7'>
+        <img
+          className='my-[4%] ms-5 w-4 sm:hidden'
+          src='/icons/arrow-left.svg'
+        />
       </Link>
-      <h1 className='my-4 ms-8 text-3xl font-extrabold text-white sm:hidden'>
-        {'Add a car'}
-      </h1>
+      <div className='flex justify-between sm:hidden'>
+        <h1 className='ms-8 mt-[7%] text-2xl font-extrabold text-white sm:hidden'>
+          {'Modify informations'}
+        </h1>
+        <button onClick={onDelete} className='mr-7 mt-7 h-7'>
+          {' '}
+          <img src='/icons/green-trash.svg' alt='green trash' />
+        </button>
+      </div>
       <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-10 md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:h-[40rem] lg:w-[35rem] lg:py-5'>
-        <Link to='/my-car'>
+        <Link to='/my-car' className='w-7'>
           <img
+            className='my-[4%] ms-12 hidden w-4 sm:block'
             src='/icons/arrow-left.svg'
-            alt='arrow-left'
-            className='my-5 ms-12 hidden w-4 sm:block'
           />
         </Link>
         <div className='hidden sm:flex sm:flex-row sm:justify-between'>
           <h1 className='text-bold ms-[10%] text-2xl sm:mt-20 md:mt-3'>
-            {'Add a car'}
+            {'Modify a car'}
           </h1>
+          <button onClick={onDelete} className='mr-7 mt-7 h-7'>
+            <img src='/icons/green-trash.svg' alt='green trash' />
+          </button>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}

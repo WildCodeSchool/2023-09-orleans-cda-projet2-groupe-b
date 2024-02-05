@@ -23,8 +23,8 @@ const loginIdUser = async function (
     if (!result.payload || typeof result.payload.sub !== 'string') {
       return res.json({ result: 'Invalid JWT payload' });
     }
-    const userid = Number.parseInt(result.payload.sub);
-    req.userId = userid;
+    const userId = Number.parseInt(result.payload.sub);
+    req.userId = userId;
   } catch (error) {
     if (error instanceof jose.errors.JWTExpired) {
       return res.json({ result: 'not connected' });
