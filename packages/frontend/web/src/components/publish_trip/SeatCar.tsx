@@ -8,11 +8,16 @@ import {
   reservationSeatPublishTripSchema,
 } from '@app/shared';
 
-interface SeatVehicleProps {
-  readonly seatCar: number[];
-}
+export default function SeatCar({
+  numberSeat,
+}: {
+  readonly numberSeat: number;
+}) {
+  const seatInTheCar = Array.from(
+    { length: numberSeat },
+    (_, index) => index + 1,
+  );
 
-export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
   const {
     setValue,
     getValues,
@@ -20,9 +25,14 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
     clearErrors,
     formState: { errors },
   } = useFormContext<ReservationSeatPublishTripType>();
+
   const [seatAvailable, setSeatAvailable] = useState<number[]>(
-    seatCar.slice(1),
+    seatInTheCar.slice(1),
   );
+
+  useEffect(() => {
+    setSeatAvailable(seatInTheCar.slice(1));
+  }, [numberSeat]);
 
   useEffect(() => {
     const reservationSeat = getValues('reservationSeat');
@@ -56,23 +66,23 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
 
   setValue('reservationSeat', seatAvailable);
 
-  const classSeatCar = (seat: number) => {
-    switch (seatCar.length) {
+  const classseatInTheCar = (seat: number) => {
+    switch (seatInTheCar.length) {
       case 2: {
         break;
       }
       case 4: {
         switch (seat) {
-          case 0: {
+          case 1: {
             return 'col-start-1 col-end-4 ml-[12px]';
           }
-          case 1: {
+          case 2: {
             return 'col-start-4 col-end-7 ml-[13px]';
           }
-          case 2: {
+          case 3: {
             return 'col-start-1 col-end-4 ml-[18px] mt-6';
           }
-          case 3: {
+          case 4: {
             return 'col-start-4 col-end-7 ml-[7px] mt-6';
           }
         }
@@ -81,19 +91,19 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
       }
       case 5: {
         switch (seat) {
-          case 0: {
+          case 1: {
             return 'col-start-1 col-end-4 ml-[7px]';
           }
-          case 1: {
+          case 2: {
             return 'col-start-4 col-end-7 ml-[18px]';
           }
-          case 2: {
+          case 3: {
             return 'col-start-1 col-end-3 mt-6';
           }
-          case 3: {
+          case 4: {
             return 'col-start-3 col-end-5 mt-6';
           }
-          case 4: {
+          case 5: {
             return 'col-start-5 col-end-7 mt-6';
           }
         }
@@ -102,44 +112,11 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
       }
       case 8: {
         switch (seat) {
-          case 0: {
+          case 1: {
             return 'col-start-1 col-end-4 ml-[7px]';
           }
-          case 1: {
+          case 2: {
             return 'col-start-4 col-end-7 ml-[18px]';
-          }
-          case 2: {
-            return 'col-start-1 col-end-3 mt-6';
-          }
-          case 3: {
-            return 'col-start-3 col-end-5 mt-6';
-          }
-          case 4: {
-            return 'col-start-5 col-end-7 mt-6';
-          }
-          case 5: {
-            return 'col-start-1 col-end-3 mt-6';
-          }
-          case 6: {
-            return 'col-start-3 col-end-5 mt-6';
-          }
-          case 7: {
-            return 'col-start-5 col-end-7 mt-6';
-          }
-        }
-
-        break;
-      }
-      case 9: {
-        switch (seat) {
-          case 0: {
-            return 'col-start-1 col-end-3';
-          }
-          case 1: {
-            return 'col-start-3 col-end-5';
-          }
-          case 2: {
-            return 'col-start-5 col-end-7';
           }
           case 3: {
             return 'col-start-1 col-end-3 mt-6';
@@ -159,6 +136,39 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
           case 8: {
             return 'col-start-5 col-end-7 mt-6';
           }
+        }
+
+        break;
+      }
+      case 9: {
+        switch (seat) {
+          case 1: {
+            return 'col-start-1 col-end-3';
+          }
+          case 2: {
+            return 'col-start-3 col-end-5';
+          }
+          case 3: {
+            return 'col-start-5 col-end-7';
+          }
+          case 4: {
+            return 'col-start-1 col-end-3 mt-6';
+          }
+          case 5: {
+            return 'col-start-3 col-end-5 mt-6';
+          }
+          case 6: {
+            return 'col-start-5 col-end-7 mt-6';
+          }
+          case 7: {
+            return 'col-start-1 col-end-3 mt-6';
+          }
+          case 8: {
+            return 'col-start-3 col-end-5 mt-6';
+          }
+          case 9: {
+            return 'col-start-5 col-end-7 mt-6';
+          }
           default: {
             return '';
           }
@@ -175,10 +185,10 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
       <h1 className=''>{'deselect empty seats'}</h1>
       <img src='/icons/line-car.svg' className=' mt-6' />
       <div className='mt-6 grid grid-cols-6'>
-        {seatCar.map((seat) => (
+        {seatInTheCar.map((seat) => (
           <div
             key={seat}
-            className={`relative h-[54px] w-[50px] ${classSeatCar(seat)}`}
+            className={`relative h-[54px] w-[50px] ${classseatInTheCar(seat)}`}
           >
             <input
               type='checkbox'
@@ -186,7 +196,7 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
               value={seat}
               checked={seatAvailable.includes(seat)}
               className='absolute h-full w-full opacity-0'
-              disabled={seat === seatCar[0]}
+              disabled={seat === seatInTheCar[0]}
             />
             <img
               src={
@@ -196,7 +206,7 @@ export default function SeatVehicle({ seatCar }: SeatVehicleProps) {
               }
               className='h-full w-full'
             />
-            {seat === 0 ? (
+            {seat === 1 ? (
               <img
                 src={'/icons/steering-wheel.svg'}
                 className='absolute top-[-29px] h-full w-full p-1'

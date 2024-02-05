@@ -1,17 +1,64 @@
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type InfoPublishTripType, infoPublishTripSchema } from '@app/shared';
 
+import SeatCar from './SeatCar';
 import SeatPrice from './SeatPrice';
-import SeatVehicle from './SeatVehicle';
 
+interface Cars {
+  id: bigint;
+  brand?: string;
+  model?: string;
+  number_seat: number;
+}
+[];
 export default function Info() {
   const {
     register,
+    watch,
+    getValues,
+    setValue,
     formState: { errors },
   } = useFormContext<InfoPublishTripType>();
 
-  const seatCar = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  const [cars, setCars] = useState<Cars[]>([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    (async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/publish-trip/car`,
+          {
+            signal: controller.signal,
+            credentials: 'include',
+          },
+        );
+
+        const data = await response.json();
+        setCars(data);
+      } catch (error) {
+        throw new Error(`${String(error)}`);
+      }
+    })();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (getValues('carId') === '' && cars.length > 0) {
+      setValue('carId', String(cars[0].id));
+    }
+  }, [cars]);
+
+  const carSelect = cars.find((car) => String(car.id) === watch('carId'));
+
+  const numberSeat = carSelect?.number_seat;
+
   const preferences = {
     shouldAutoValidate: 'Instant reservation',
     isSmokerAllowed: 'Accept smoking',
@@ -37,8 +84,11 @@ export default function Info() {
               })}
               className='w-full rounded-lg border p-2 drop-shadow'
             >
-              <option value='' />
-              <option value={String(1n)}>{'Renault clio IV'}</option>
+              {cars.map((car) => (
+                <option key={car.id} value={String(car.id)}>
+                  {'Brand - Model'} {car.number_seat}
+                </option>
+              ))}
             </select>
             <button type='button' className='rounded-lg border p-2 drop-shadow'>
               <img src='/icons/add-car.svg' />
@@ -46,8 +96,10 @@ export default function Info() {
           </div>
           <span className='text-red-700'>{errors.carId?.message}</span>
         </div>
+        {numberSeat === undefined ? undefined : (
+          <SeatCar numberSeat={numberSeat} />
+        )}
 
-        <SeatVehicle seatCar={seatCar} />
         <div className='space-y-5 bg-slate-100 p-4'>
           <h1 className='text-center'>{'Preferences'}</h1>
           {Object.entries(preferences).map((preference) => (

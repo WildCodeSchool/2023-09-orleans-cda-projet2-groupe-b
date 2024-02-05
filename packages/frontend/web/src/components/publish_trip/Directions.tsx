@@ -1,4 +1,4 @@
-import { useMap, useMapsLibrary  } from '@vis.gl/react-google-maps';
+import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -99,7 +99,7 @@ export default function Directions() {
         origin: getValues('from'),
         destination: getValues('to'),
         waypoints: waypoints,
-        travelMode: "DRIVING" as google.maps.TravelMode.DRIVING,
+        travelMode: 'DRIVING' as google.maps.TravelMode.DRIVING,
         avoidTolls: hasTolls,
         provideRouteAlternatives: true,
       })

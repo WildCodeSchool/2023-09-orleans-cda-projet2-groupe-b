@@ -1,5 +1,6 @@
 import express from 'express';
 import { sql } from 'kysely';
+import { getUser } from 'middleware/get-user';
 
 import { db } from '@app/backend-shared';
 import type {
@@ -9,9 +10,27 @@ import type {
 
 const publishTripRouter = express.Router();
 
-publishTripRouter.post('/', async (req, res) => {
+publishTripRouter.get('/car', getUser, async (req, res) => {
+  const user = res.locals.user;
+  try {
+    const cars = await db
+      .selectFrom('car')
+      .selectAll()
+      .where('car.user_id', '=', user.id)
+      .execute();
+    return res.json(cars);
+  } catch (error) {
+    return res.json({
+      ok: false,
+      error,
+    });
+  }
+});
+
+publishTripRouter.post('/', getUser, async (req, res) => {
+  const user = res.locals.user;
+
   const {
-    driverId,
     kilometer,
     travelTime,
     seatAvailable,
@@ -32,7 +51,7 @@ publishTripRouter.post('/', async (req, res) => {
     const insertedTrip = await db
       .insertInto('trip')
       .values({
-        driver_id: driverId,
+        driver_id: user.id,
         created_at: createdAt,
         date,
         kilometer,

@@ -1,10 +1,12 @@
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import Info from '@/components/publish_trip/Info';
 import Itinerary from '@/components/publish_trip/Itinerary';
 import Search from '@/components/publish_trip/Search';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface FormPublishTrip {
   from: string;
@@ -40,17 +42,21 @@ interface FormPublishTrip {
   routeIndex: number;
 }
 
-export default function PublishTrip() {
-  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
 
-  if (KEY === undefined) {
-    throw new Error('Key google maps is undefined');
-  }
+if (KEY === undefined) {
+  throw new Error('Key google maps is undefined');
+}
+
+export default function PublishTrip() {
+  const methods = useForm<FormPublishTrip>({
+    defaultValues: { checkpoint: [], routeIndex: 0, from: '', to: '' },
+  });
+
   const [stepForm, setStepForm] = useState(0);
 
-  const methods = useForm<FormPublishTrip>({
-    defaultValues: { checkpoint: [], routeIndex: 0 },
-  });
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const displayStepForm = () => {
     switch (stepForm) {
@@ -73,25 +79,37 @@ export default function PublishTrip() {
       try {
         const transformedData = {
           ...data,
-          driverId: 1,
           checkpoints: data.itinerary,
           seatAvailable: data.reservationSeat.length,
         };
 
-        await fetch(`${import.meta.env.VITE_API_URL}/publish-trip`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/publish-trip`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(transformedData),
           },
-          body: JSON.stringify(transformedData),
-        });
+        );
+        const responseData = await response.json();
+        if (responseData.ok === true) {
+          navigate('/');
+        }
       } catch (error) {
         throw new Error(`${String(error)}`);
       }
     }
   };
+
+  if (!isLoggedIn) {
+    return <Navigate to={'/login'} />;
+  }
+
   return (
-    <div className=' text-primary flex justify-center'>
+    <div className=' text-primary mt-20 flex justify-center'>
       <FormProvider {...methods}>
         <div className='flex w-[600px] justify-center rounded-xl sm:mt-12 sm:bg-slate-50'>
           <form

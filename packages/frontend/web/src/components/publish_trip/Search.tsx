@@ -1,5 +1,5 @@
 import { useAutocomplete } from '@vis.gl/react-google-maps';
-import { ChangeEvent, useRef, useState } from 'react';
+import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
@@ -20,6 +20,8 @@ export default function Search() {
     register,
     control,
     watch,
+    setValue,
+    getValues,
     formState: { errors },
   } = useFormContext<SearchPublishTripType>();
   const { fields, append, remove } = useFieldArray({
@@ -27,32 +29,41 @@ export default function Search() {
     control,
   });
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [inputValue, setInputValue] = useState<string>('');
+  const inputReferenceFrom = useRef<HTMLInputElement>(null);
+  const inputReferenceTo = useRef<HTMLInputElement>(null);
 
-  const onPlaceChanged = (place: google.maps.places.PlaceResult) => {
+  watch('from');
+  watch('to');
+
+  const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
     if (place) {
-      console.log(place);
-      console.log(place.formatted_address || place.name);
-      // setInputValue(place.formatted_address || place.name);
+      if (place.formatted_address !== undefined && place.name !== undefined) {
+        setValue('from', place.formatted_address || place.name);
+      } else {
+        return;
+      }
     }
-    inputRef.current && inputRef.current.focus();
+    inputReferenceFrom.current && inputReferenceFrom.current.focus();
   };
-
   useAutocomplete({
-    inputField: inputRef && inputRef.current,
-    onPlaceChanged,
+    inputField: inputReferenceFrom.current,
+    onPlaceChanged: onPlaceChangedFrom,
   });
 
-  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (inputRef.current?.value !== undefined) {
-  //     event.target.value = inputRef.current?.value;
-  //     setInputValue(event.target.value);
-  //   }
-  // };
-  console.log('from : ', watch('from'));
-  console.log('to : ', watch('to'));
-  console.log('inputRef : ', inputRef.current?.value);
+  const onPlaceChangedTo = (place: google.maps.places.PlaceResult) => {
+    if (place) {
+      if (place.formatted_address !== undefined && place.name !== undefined) {
+        setValue('to', place.formatted_address || place.name);
+      } else {
+        return;
+      }
+    }
+    inputReferenceTo.current && inputReferenceTo.current.focus();
+  };
+  useAutocomplete({
+    inputField: inputReferenceTo.current,
+    onPlaceChanged: onPlaceChangedTo,
+  });
 
   return (
     <div className='flex justify-center'>
@@ -67,11 +78,12 @@ export default function Search() {
                   searchPublishTripSchema.shape.from.safeParse(value);
                 return result.success ? true : result.error.errors[0]?.message;
               },
-              // onChange: handleInputChange,
             })}
-            
-            ref={inputRef}
-            value={inputRef.current?.value}
+            onChange={(event) => {
+              setValue('from', event.target.value);
+            }}
+            value={getValues('from')}
+            ref={inputReferenceFrom}
             placeholder='Address start'
             className='w-full rounded-lg border p-2 drop-shadow'
           />
@@ -137,6 +149,11 @@ export default function Search() {
                 return result.success ? true : result.error.errors[0]?.message;
               },
             })}
+            onChange={(event) => {
+              setValue('to', event.target.value);
+            }}
+            value={getValues('to')}
+            ref={inputReferenceTo}
             placeholder='Address destination'
             className='w-full rounded-lg border p-2 drop-shadow'
           />
