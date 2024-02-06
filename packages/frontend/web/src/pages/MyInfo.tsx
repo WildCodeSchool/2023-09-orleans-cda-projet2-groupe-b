@@ -45,7 +45,7 @@ export default function MyInfo() {
     return <p>{'User data not found'}</p>;
   }
 
-  const memberSinceDate = new Date(userData?.birthdate ?? new Date());
+  const memberSinceDate = new Date(userData.birthdate ?? new Date());
   const options = {
     year: 'numeric',
     month: 'long',

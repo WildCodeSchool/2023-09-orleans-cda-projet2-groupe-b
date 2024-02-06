@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { LanguagesButtonStates } from '@/types/my-preferences';
+import type { LanguagesButtonStates } from '@/types/my-preferences';
 
 interface LanguagePreferencesProps {
-  selectedLanguages: Record<string, boolean>;
-  availableLanguages: string[];
-  onChange: (selectedLanguages: Record<string, boolean>) => void;
-  languageSpoken: LanguagesButtonStates;
+  readonly selectedLanguages: Record<string, boolean>;
+  readonly availableLanguages: string[];
+  readonly onChange: (selectedLanguages: Record<string, boolean>) => void;
+  readonly languageSpoken: LanguagesButtonStates;
 }
 
 export default function LanguagePreferences({
@@ -32,13 +32,13 @@ export default function LanguagePreferences({
   
     return (
       <div>
-        <h1>Select your spoken languages</h1>
+        <h1>{"Select your spoken languages"}</h1>
         {availableLanguages.map((key) => (
           <label key={key}>
             <input
               type='checkbox'
               checked={languagesSelections[key]}
-              onChange={() => handleLanguageChange(key)}
+              onChange={() => { handleLanguageChange(key); }}
             />
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </label>

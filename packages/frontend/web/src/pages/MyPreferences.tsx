@@ -1,10 +1,11 @@
-import { FormEvent, useEffect, useState } from 'react';
+import type { FormEvent} from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import LanguagePreferences from '@/components/LanguagePreferences';
 import MusicPreferences from '@/components/MusicPreferences';
 import { useAuth } from '@/contexts/AuthContext';
-import {
+import type {
   LanguagesButtonStates,
   MusicsButtonStates,
 } from '@/types/my-preferences';
@@ -71,20 +72,25 @@ export default function MyPreferences() {
 
   const handleCheckboxPreferences = (preferenceName: string) => {
     switch (preferenceName) {
-      case 'accept smoking':
+      case 'accept smoking': {
         setAcceptSmoking((prevValue) => !prevValue);
         break;
-      case 'accept pets':
+      }
+      case 'accept pets': {
         setAcceptPets((prevValue) => !prevValue);
         break;
-      case 'accept baby':
+      }
+      case 'accept baby': {
         setAcceptBaby((prevValue) => !prevValue);
         break;
-      case 'accept unvaccinated':
+      }
+      case 'accept unvaccinated': {
         setAcceptUnvaccinated((prevValue) => !prevValue);
         break;
-      default:
+      }
+      default: {
         break;
+      }
     }
   };
 
@@ -163,7 +169,7 @@ export default function MyPreferences() {
           setLoading(false);
           setIsLoggedIn(true);
         }
-      } catch (error) {
+      } catch {
         if (!signal.aborted) {
           console.error(
             'Erreur lors de la récupération des données utilisateur ',
@@ -213,14 +219,14 @@ export default function MyPreferences() {
               placeholder='Presentation'
               className='text-dark h-28 w-[95%] rounded-lg p-2'
               value={
-                biography !== undefined
-                  ? biography
-                  : userData?.biography?.toString()
+                biography === undefined
+                  ? userData.biography.toString()
+                  : biography
               }
-              onChange={(e) => setBiography(e.target.value)}
+              onChange={(e) => { setBiography(e.target.value); }}
             />
           </div>
-          <div className='mt-2 flex justify-around'></div>
+          <div className='mt-2 flex justify-around' />
           <div>
             <LanguagePreferences
               selectedLanguages={languagesButtonStates}
@@ -228,7 +234,7 @@ export default function MyPreferences() {
               onChange={handleLanguagePreferencesChange}
               languageSpoken={languagesButtonStates} 
             />
-            <div className='mt-2 flex justify-around'></div>
+            <div className='mt-2 flex justify-around' />
           </div>
           <MusicPreferences
             selectedMusics={musicsButtonStates}
@@ -248,7 +254,7 @@ export default function MyPreferences() {
                 <input
                   type='checkbox'
                   checked={value}
-                  onChange={() => handleCheckboxPreferences(preferenceName)}
+                  onChange={() => { handleCheckboxPreferences(preferenceName); }}
                   className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
                 />
                 <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />

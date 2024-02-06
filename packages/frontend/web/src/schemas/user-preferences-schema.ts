@@ -23,7 +23,7 @@ export const musicPreferencesSchema = z.object({
       rap: z.boolean(),
       rnb: z.boolean(),
       pop: z.boolean(),
-    }).refine(data => Object.values(data).some(value => value), {
+    }).refine(data => Object.values(data).some(Boolean), {
       message: 'ⓘ Please select at least one music style',
     }),
   });
@@ -36,7 +36,7 @@ export const musicPreferencesSchema = z.object({
         spanish: z.boolean(),
         deutsch: z.boolean(),
         french: z.boolean(),
-      }).refine(data => Object.values(data).some(value => value), {
+      }).refine(data => Object.values(data).some(Boolean), {
         message: 'ⓘ Please select at least one music style',
       }),
     });
