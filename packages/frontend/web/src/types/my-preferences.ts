@@ -11,4 +11,4 @@ export type LanguagesButtonStates = {
   spanish: boolean;
   deutsch: boolean;
   french: boolean;
-};
+}

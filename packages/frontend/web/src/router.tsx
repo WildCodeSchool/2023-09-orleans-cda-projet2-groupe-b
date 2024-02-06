@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: '/my-informations',
+        path: '/my-informations/:userId',
         element: <MyInfo />,
       },
       {
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <MyOpinions />,
       },
       {
-        path: '/my-preferences',
+        path: '/my-preferences/:userId',
         element: <MyPreferences />,
       },
       {

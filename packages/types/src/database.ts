@@ -12,7 +12,13 @@ export interface UserTable {
   passenger_kilometer_traveled: number;
   driver_kilometer_traveled: number;
   economy_achieved: number;
-  created_at?: Date;
+  created_at: Date;
+  is_baby_allowed: boolean;
+  is_non_vaccinated_allowed: boolean;
+  is_animal_allowed: boolean;
+  is_smoker_allowed: boolean;
+  selected_musics: string;
+  selected_languages: string;
 }
 export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;

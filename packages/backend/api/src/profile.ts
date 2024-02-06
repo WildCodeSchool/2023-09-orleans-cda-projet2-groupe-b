@@ -1,6 +1,5 @@
 import express from 'express';
 import { sql } from 'kysely';
-
 import { db } from '@app/backend-shared';
 
 const userRouter = express.Router();
@@ -18,6 +17,7 @@ userRouter.get('/:userId', async (req, res) => {
         'created_at',
         'driver_kilometer_traveled',
         'passenger_kilometer_traveled',
+        'avatar'
       ])
       .where(sql`id = ${userId}`)
       .execute();

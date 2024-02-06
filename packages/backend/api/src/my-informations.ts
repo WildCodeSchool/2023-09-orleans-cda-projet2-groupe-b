@@ -1,6 +1,5 @@
 import express from 'express';
 import { sql } from 'kysely';
-
 import { db } from '@app/backend-shared';
 
 const infoRouter = express.Router();
@@ -10,7 +9,7 @@ infoRouter.get('/:userId', async (req, res) => {
   try {
     const user = await db
       .selectFrom('user')
-      .select(['id', 'firstname', 'lastname', 'email'])
+      .select(['id', 'firstname', 'lastname', 'email', 'birthdate', 'avatar'])
       .where(sql`id = ${userId}`)
       .execute();
 

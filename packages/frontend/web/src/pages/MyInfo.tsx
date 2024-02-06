@@ -8,12 +8,13 @@ interface UserData {
   created_at: Date;
   birthdate: Date;
   email: string;
+  avatar: string;
 }
+
 export default function MyInfo() {
   const { userId } = useParams<{ userId: string }>();
   const [userData, setUserData] = useState<UserData | undefined>();
   const [loading, setLoading] = useState(true);
-  console.log(userId);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/my-informations/${userId}`)
@@ -43,6 +44,15 @@ export default function MyInfo() {
   if (!userData) {
     return <p>{'User data not found'}</p>;
   }
+
+  const memberSinceDate = new Date(userData?.birthdate ?? new Date());
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  } as Intl.DateTimeFormatOptions;
+  const formattedDate = memberSinceDate.toLocaleDateString('en-US', options);
+
   return (
     <>
       <Link to='/profil' className='sm:hidden'>
@@ -56,25 +66,28 @@ export default function MyInfo() {
         <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
           {'My informations'}
         </h1>
-        <img
-          src='/images/user-placeholder.jpg'
-          alt='image-profil'
-          className='ms-[10%] mt-5 h-24 rounded-full'
-        />
+        <div className='flex justify-between'>
+          <img
+            src='../images/user-placeholder.jpg'
+            alt='User Avatar'
+            className='ms-[10%] mt-5 h-24 rounded-full'
+          />
+
+        </div>
         <div className='mt-3'>
           <p className='ms-[10%]'>{`${userData.firstname}`}</p>
         </div>
         <div className='mx-auto w-[80%] border-b border-white' />
         <div className='mt-3'>
-          <p className='ms-[10%]'>{'Lastname'}</p>
+          <p className='ms-[10%]'>{`${userData.lastname}`}</p>
         </div>
         <div className='mx-auto w-[80%] border-b border-white' />
         <div className='mt-3'>
-          <p className='ms-[10%]'>{'birthdate'}</p>
+          <p className='ms-[10%]'>{`${formattedDate}`}</p>
         </div>
         <div className='mx-auto w-[80%] border-b border-white' />
         <div className='mt-3'>
-          <p className='ms-[10%]'>{'email'}</p>
+          <p className='ms-[10%]'>{`${userData.email}`}</p>
         </div>
         <div className='mx-auto w-[80%] border-b border-white' />
         <div className='mt-3'>

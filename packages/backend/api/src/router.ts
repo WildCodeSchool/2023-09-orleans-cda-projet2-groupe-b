@@ -7,6 +7,7 @@ import type { SomeInterface } from '@app/types';
 import { authRouter } from './auth';
 import { infoRouter } from './my-informations';
 import { userRouter } from './profile';
+import { preferenceRouter } from './my-preferences';
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.get('/some-route', (_request, response) => {
 router.use('/auth', authRouter);
 router.use('/profile', userRouter);
 router.use('/my-informations', infoRouter);
+router.use('/my-preferences', preferenceRouter)
 
 export default router;
