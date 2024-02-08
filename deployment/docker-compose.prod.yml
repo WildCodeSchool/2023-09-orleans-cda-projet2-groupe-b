@@ -4,7 +4,7 @@ name: '2023-09-orleans-cda-projet2-dev'
 
 services:
   api:
-    build:
+    image:
       dockerfile: ./deployment/DockerfileBackendApi
       context: ../
     restart: always
@@ -19,7 +19,7 @@ services:
       - backend
 
   web:
-    build:
+    image:
       dockerfile: ./deployment/DockerfileFrontendWeb
       context: ../
     env_file:
@@ -65,7 +65,7 @@ services:
       - db
 
   migrations:
-    build:
+    image:
       dockerfile: ./deployment/DockerfileBackendMigrations
       context: ../
     env_file:
