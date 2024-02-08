@@ -1,5 +1,5 @@
 # .github/workflows/staging-server.yml
-name: Compile and push server image
+name: Compile and push api image
 
 # Controls when the workflow will run
 on:
@@ -39,7 +39,7 @@ jobs:
         name: Build and push
         with:
           context: ./api
-          file: ./api/Dockerfile
+          file: ../../deployment/DockerfileBackendApi
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_API_IMAGE_NAME }}:latest
 

@@ -1,5 +1,5 @@
 # .github/workflows/staging-client.yml
-name: Compile and push client image
+name: Compile and push web image
 
 # Controls when the workflow will run
 on:
@@ -39,7 +39,7 @@ jobs:
         name: Build and push
         with:
           context: ./web
-          file: ./web/Dockerfile
+          file: ../../deployment/DockerfileFrontendWeb
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_WEB_IMAGE_NAME }}:latest
 
