@@ -30,7 +30,7 @@ export default function Info() {
     (async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/publish-trip/car`,
+          `${import.meta.env.VITE_API_URL}/trip/car`,
           {
             signal: controller.signal,
             credentials: 'include',

@@ -9,13 +9,13 @@ import {
   searchPublishTripSchema,
 } from '@app/shared';
 
+const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+
+if (KEY === undefined) {
+  throw new Error('Key google maps is undefined');
+}
+
 export default function Search() {
-  const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-
-  if (KEY === undefined) {
-    throw new Error('Key google maps is undefined');
-  }
-
   const {
     register,
     control,

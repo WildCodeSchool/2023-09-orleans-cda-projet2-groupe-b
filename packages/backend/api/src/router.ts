@@ -27,6 +27,6 @@ router.get('/some-route', (_request, response) => {
   return response.json(value);
 });
 
-router.use('/publish-trip', publishTripRouter);
+router.use('/trip', publishTripRouter);
 router.use('/auth', authRouter);
 export default router;

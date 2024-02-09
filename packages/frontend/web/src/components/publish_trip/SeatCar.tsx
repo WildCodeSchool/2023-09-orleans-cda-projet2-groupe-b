@@ -182,8 +182,8 @@ export default function SeatCar({
 
   return (
     <div className='flex flex-col items-center bg-slate-100 p-4'>
-      <h1 className=''>{'deselect empty seats'}</h1>
-      <img src='/icons/line-car.svg' className=' mt-6' />
+      <h1>{'deselect empty seats'}</h1>
+      <img src='/icons/line-car.svg' className='mt-6' />
       <div className='mt-6 grid grid-cols-6'>
         {seatInTheCar.map((seat) => (
           <div

@@ -12,7 +12,6 @@
   "dependencies": {
     "@app/frontend-shared": "workspace:*",
     "@app/shared": "workspace:*",
-    "@react-google-maps/api": "^2.19.2",
     "@vis.gl/react-google-maps": "^0.4.1",
     "react": "^18.2.0",
     "react-datepicker": "^4.24.0",
