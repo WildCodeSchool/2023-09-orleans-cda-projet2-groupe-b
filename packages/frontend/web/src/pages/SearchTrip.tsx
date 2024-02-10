@@ -1,45 +1,48 @@
-import { APIProvider, useAutocomplete } from '@vis.gl/react-google-maps';
-import { useRef } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAutocomplete } from '@vis.gl/react-google-maps';
+import { useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
+import {
+  type SearchTripType,
+  searchTripSchema,
+} from '@app/types/src/search-trip-validation';
+
 import CardTrip from '@/components/CardTrip';
 
-interface FromSearchTrip {
-  from: string;
-  to: string;
-  date: Date;
-  passenger: number;
+interface PlaceStart {
+  x: number | undefined;
+  y: number | undefined;
 }
 
-// interface Places {
-//   placesStart:
-//     | {
-//         lat: number | undefined;
-//         lng: number | undefined;
-//       }
-//     | undefined;
-//   placesEnd:
-//     | {
-//         lat: number | undefined;
-//         lng: number | undefined;
-//       }
-//     | undefined;
-// }
+interface PlaceEnd {
+  x: number | undefined;
+  y: number | undefined;
+}
 
 type SearchTripFilter = {
+  cp_t_id: bigint;
   start_address: string;
   end_address: string;
+  cp_t_kilometer: number;
+  cp_t_travel_time: number;
+  t_id: bigint;
+  driver_id: number;
+  car_id: number;
   date: Date;
   price: number;
+  comment?: string;
   seat_available: number;
-  kilometer: number;
-  travel_time: number;
-  t_id: bigint;
-  c_t_id: bigint;
-  t_kilometer: number;
-  t_travel_time: number;
+  should_auto_validate: boolean;
+  is_animal_allowed: boolean;
+  is_baby_allowed: boolean;
+  is_smoker_allowed: boolean;
+  is_non_vaccinated_allowed: boolean;
+  firstname: string;
+  lastname: string;
+  avatar?: string;
   start_distance: number;
   end_distance: number;
   passengerCheckpointTrip: {
@@ -50,19 +53,72 @@ type SearchTripFilter = {
   }[];
 }[];
 
-const KEY = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-
-if (KEY === undefined) {
-  throw new Error('Key google maps is undefined');
-}
-
 export default function SearchTrip() {
-  const { handleSubmit, register, control, watch, setValue, getValues } =
-    useForm<FromSearchTrip>({
-      defaultValues: { from: '' },
-    });
+  const [placeStart, setPlaceStart] = useState<PlaceStart>();
+  const [placeEnd, setPlaceEnd] = useState<PlaceEnd>();
 
-  const onSubmit = async (data: FromSearchTrip) => {
+  const [searchTripFilter, setSearchTripFilter] = useState<
+    SearchTripFilter | undefined
+  >();
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<SearchTripType>({
+    defaultValues: { from: '', to: '' },
+    resolver: zodResolver(searchTripSchema),
+  });
+
+  const inputReferenceFrom = useRef<HTMLInputElement>(null);
+  const inputReferenceTo = useRef<HTMLInputElement>(null);
+
+  const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
+    if (place) {
+      if (place.formatted_address !== undefined && place.name !== undefined) {
+        setValue('from', place.formatted_address || place.name);
+        const placeStart = {
+          x: place.geometry?.location?.lat(),
+          y: place.geometry?.location?.lng(),
+        };
+        setPlaceStart(placeStart);
+      } else {
+        return;
+      }
+    }
+    inputReferenceFrom.current && inputReferenceFrom.current.focus();
+  };
+
+  useAutocomplete({
+    inputField: inputReferenceFrom.current,
+    onPlaceChanged: onPlaceChangedFrom,
+  });
+
+  const onPlaceChangedTo = (place: google.maps.places.PlaceResult) => {
+    if (place) {
+      if (place.formatted_address !== undefined && place.name !== undefined) {
+        setValue('to', place.formatted_address || place.name);
+        const placeEnd = {
+          x: place.geometry?.location?.lat(),
+          y: place.geometry?.location?.lng(),
+        };
+        setPlaceEnd(placeEnd);
+      } else {
+        return;
+      }
+    }
+    inputReferenceTo.current && inputReferenceTo.current.focus();
+  };
+
+  useAutocomplete({
+    inputField: inputReferenceTo.current,
+    onPlaceChanged: onPlaceChangedTo,
+  });
+
+  const onSubmit = async (data: SearchTripType) => {
     const date = `${new Date(data.date).getFullYear()}-${(
       new Date(data.date).getMonth() + 1
     )
@@ -72,124 +128,107 @@ export default function SearchTrip() {
       .toString()
       .padStart(2, '0')}`;
 
-    // try {
-    //   const response = await fetch(
-    //     `${import.meta.env.VITE_API_URL}/search-trip?startX=${places
-    //       ?.placesStart?.lat}&startY=${places?.placesStart?.lng}&endX=${places
-    //       ?.placesEnd?.lat}&endY=${places?.placesEnd?.lng}&passenger=${
-    //       data.passenger
-    //     }&date=${date}`,
-    //   ).then((res) => res.json());
-    //   setSearchTripFilter(response);
-    // } catch (error) {
-    //   throw new Error(String(error));
-    // }
-  };
-  const inputReferenceFrom = useRef<HTMLInputElement>(null);
-
-  watch('from');
-
-  const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
-    console.log('IIICCCCCCIIIIIII');
-
-    if (place) {
-      if (place.formatted_address !== undefined && place.name !== undefined) {
-        setValue('from', place.formatted_address || place.name);
-      } else {
-        return;
-      }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/search-trip?startX=${
+          placeStart?.x
+        }&startY=${placeStart?.y}&endX=${
+          placeEnd?.x
+        }&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
+      ).then((res) => res.json());
+      setSearchTripFilter(response);
+    } catch (error) {
+      throw new Error(String(error));
     }
-    inputReferenceFrom.current && inputReferenceFrom.current.focus();
   };
-  useAutocomplete({
-    inputField: inputReferenceFrom.current,
-    onPlaceChanged: onPlaceChangedFrom,
-  });
-
-  console.log('watch from', watch('from'));
-  console.log('inputReferenceFrom', inputReferenceFrom.current?.value);
 
   const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <APIProvider
-      apiKey={KEY}
-      libraries={['places']}
-    >
-      <div className='flex justify-center'>
-        <div className=' text-primary flex w-[600px] items-center justify-center bg-black'>
-          <form
-            method='get'
-            className='m-4 flex w-96 flex-col bg-slate-100 p-2'
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <label className='mt-8'>{'From'}</label>
+    <div className='flex justify-center'>
+      <div className=' text-primary flex h-[750px] w-[600px] justify-center bg-black'>
+        <form
+          method='get'
+          className='m-4 flex w-96 flex-col bg-slate-100 p-2'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className='mt-8'>
+            <label>{'From'}</label>
             <input
               type='text'
               {...register('from')}
               onChange={(event) => {
                 setValue('from', event.target.value);
               }}
-              value={getValues('from')}
+              value={watch('from')}
               ref={inputReferenceFrom}
               placeholder='Address start'
-              className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
+              className='w-full rounded-lg border p-2 drop-shadow'
             />
-            <label className=''>{'To'}</label>
+            <span className='text-red-700'>{errors.from?.message}</span>
+          </div>
+          <div className='mt-4'>
+            <label>{'To'}</label>
             <input
               type='text'
-              placeholder='Address end'
               {...register('to')}
-              className='mb-5 mt-1 w-full rounded-lg border p-2 drop-shadow'
+              onChange={(event) => {
+                setValue('to', event.target.value);
+              }}
+              value={watch('to')}
+              ref={inputReferenceTo}
+              placeholder='Address end'
+              className='w-full rounded-lg border p-2 drop-shadow'
             />
-            <div className='flex justify-center'>
-              <Controller
-                control={control}
-                name='date'
-                render={({ field }) => (
-                  <DatePicker
-                    onChange={(date: Date) => {
-                      field.onChange(date);
-                    }}
-                    selected={field.value}
-                    inline
-                    minDate={new Date()}
-                    showTimeInput
-                    className='w-full rounded-2xl border bg-orange-400'
-                  />
-                )}
-              />
-            </div>
-            <div className='my-4 flex w-full items-center justify-center space-x-3'>
-              <p>{'Passanger number : '}</p>
-              <select
-                {...register('passenger')}
-                className='w-16 rounded-lg border-2 border-white bg-transparent p-2 text-center'
-              >
-                {passengers.map((passenger) => (
-                  <option key={passenger} value={passenger}>
-                    {passenger}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className='flex w-full justify-center'>
-              {' '}
-              <button
-                type='submit'
-                className='bg-primary my-5 w-64 rounded-lg p-2 font-semibold text-white'
-              >
-                {'Search'}
-              </button>
-            </div>
-          </form>
-        </div>
-        {/* <div className='space-y-4'>
-          {searchTripFilter === undefined ? undefined : (
-            <CardTrip searchTripFilter={searchTripFilter} />
-          )}
-        </div> */}
+            <span className='text-red-700'>{errors.to?.message}</span>
+          </div>
+          <div className='mt-8 flex justify-center'>
+            <Controller
+              control={control}
+              name='date'
+              render={({ field }) => (
+                <DatePicker
+                  onChange={(date: Date) => {
+                    field.onChange(date);
+                  }}
+                  selected={field.value}
+                  inline
+                  minDate={new Date()}
+                  showTimeInput
+                  className='w-full rounded-2xl border bg-orange-400'
+                />
+              )}
+            />
+          </div>
+          <div className='my-4 flex w-full items-center justify-center space-x-3'>
+            <p>{'Passanger number : '}</p>
+            <select
+              {...register('passenger')}
+              className='w-16 rounded-lg border-2 border-white bg-transparent p-2 text-center'
+            >
+              {passengers.map((passenger) => (
+                <option key={passenger} value={passenger}>
+                  {passenger}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='flex w-full justify-center'>
+            {' '}
+            <button
+              type='submit'
+              className='bg-primary my-5 w-64 rounded-lg p-2 font-semibold text-white'
+            >
+              {'Search'}
+            </button>
+          </div>
+        </form>
       </div>
-    </APIProvider>
+      <div className='space-y-4'>
+        {searchTripFilter === undefined ? undefined : (
+          <CardTrip searchTripFilter={searchTripFilter} />
+        )}
+      </div>
+    </div>
   );
 }

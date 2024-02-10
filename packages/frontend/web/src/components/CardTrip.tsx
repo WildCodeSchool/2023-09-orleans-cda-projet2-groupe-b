@@ -1,15 +1,24 @@
 type SearchTripFilter = {
+  cp_t_id: bigint;
   start_address: string;
   end_address: string;
+  cp_t_kilometer: number;
+  cp_t_travel_time: number;
+  t_id: bigint;
+  driver_id: number;
+  car_id: number;
   date: Date;
   price: number;
+  comment?: string;
   seat_available: number;
-  kilometer: number;
-  travel_time: number;
-  t_id: bigint;
-  c_t_id: bigint;
-  t_kilometer: number;
-  t_travel_time: number;
+  should_auto_validate: boolean;
+  is_animal_allowed: boolean;
+  is_baby_allowed: boolean;
+  is_smoker_allowed: boolean;
+  is_non_vaccinated_allowed: boolean;
+  firstname: string;
+  lastname: string;
+  avatar?: string;
   start_distance: number;
   end_distance: number;
   passengerCheckpointTrip: {
@@ -31,12 +40,12 @@ export default function CardTrip({
         const timeStart = new Date(search.date);
         const timeEnd = new Date(search.date).setHours(
           new Date(search.date).getHours(),
-          new Date(search.date).getMinutes() + search.travel_time,
+          new Date(search.date).getMinutes() + search.cp_t_travel_time,
         );
         const init = new Date().setHours(0, 0, 0, 0);
         const travelTime = new Date(init).setHours(
           new Date(init).getHours(),
-          new Date(init).getMinutes() + search.travel_time,
+          new Date(init).getMinutes() + search.cp_t_travel_time,
         );
         const timeEndFormat = `${new Date(timeEnd).getHours().toString().padStart(2, '0')}h${new Date(timeEnd).getMinutes().toString().padStart(2, '0')}`;
         const timeStartFormat = `${new Date(timeStart).getHours().toString().padStart(2, '0')}h${new Date(timeStart).getMinutes().toString().padStart(2, '0')}`;
@@ -44,7 +53,7 @@ export default function CardTrip({
 
         return (
           <div
-            key={search.c_t_id}
+            key={search.cp_t_id}
             className='text-primary flex h-[180px] w-[500px] justify-between rounded-xl bg-slate-100 p-4 font-semibold shadow-md'
           >
             <div className='flex flex-col items-start justify-between'>
@@ -72,7 +81,9 @@ export default function CardTrip({
                   </div>
                 </div>
               </div>
-              <div>{'USER INFO / STAR'}</div>
+              <div>
+                {search.firstname} {search.lastname}
+              </div>
             </div>
             <div className='flex flex-col items-end justify-between'>
               <p className='text-xl font-bold'>
@@ -85,8 +96,8 @@ export default function CardTrip({
                     key={seat.id}
                     src={
                       seat.reserved_seat === null
-                        ? '/icons/empty-seat.svg'
-                        : '/icons/reserved-seat.svg'
+                        ? '/icons/reserved-seat.svg'
+                        : '/icons/empty-seat.svg'
                     }
                   />
                 ))}

@@ -60,8 +60,10 @@ export default function Navbar() {
           </p>
         </div>
         <div className='mt-6 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
-          <img src='/icons/trip.svg' alt='trip' className='h-7 w-full' />
-          <p className='invisible text-center sm:visible'>{'Trip'}</p>
+          <Link to={'/search-trip'}>
+            <img src='/icons/trip.svg' alt='trip' className='h-7 w-full' />
+            <p className='invisible text-center sm:visible'>{'Trip'}</p>
+          </Link>
         </div>
 
         {isLoggedIn ? (

@@ -1,12 +1,15 @@
 {
-    "name": "@app/types",
-    "main": "src/index.ts",
-    "type": "module",
-    "devDependencies": {
-      "kysely": "^0.26.3",
-      "bun-types": "latest"
-    },
-    "peerDependencies": {
-      "typescript": "^5.0.0"
-    }
+  "name": "@app/types",
+  "main": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "kysely": "^0.26.3",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
   }
+}

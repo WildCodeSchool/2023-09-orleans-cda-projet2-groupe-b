@@ -94,6 +94,8 @@ export interface CheckpointTripTable {
   start_address: string;
   end_address: string;
   trip_id: number;
+  kilometer: number;
+  travel_time: number;
 }
 export type CheckpointTrip = Selectable<CheckpointTripTable>;
 export type NewCheckpointTrip = Insertable<CheckpointTripTable>;
