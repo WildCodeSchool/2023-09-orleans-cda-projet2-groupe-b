@@ -3,46 +3,61 @@ import { useState } from 'react';
 import type { LanguagesButtonStates } from '@/types/my-preferences';
 
 interface LanguagePreferencesProps {
-  readonly selectedLanguages: Record<string, boolean>;
-  readonly availableLanguages: string[];
-  readonly onChange: (selectedLanguages: Record<string, boolean>) => void;
+  readonly selectedLanguages: LanguagesButtonStates;
+  readonly availableLanguages: (keyof LanguagesButtonStates)[];
+  readonly onChange: (selectedLanguages: LanguagesButtonStates) => void;
   readonly languageSpoken: LanguagesButtonStates;
 }
 
 export default function LanguagePreferences({
-    selectedLanguages,
-    availableLanguages,
-    onChange,
-  }: LanguagePreferencesProps) {
-    const [languagesSelections, setLanguagesSelections] = useState<Record<string, boolean>>(
-      availableLanguages.reduce((acc: Record<string, boolean>, key) => {
-        acc[key] = !!selectedLanguages[key]; 
+  selectedLanguages,
+  availableLanguages,
+  onChange,
+}: LanguagePreferencesProps) {
+  const [languagesSelections, setLanguagesSelections] =
+    useState<LanguagesButtonStates>(
+      availableLanguages.reduce((acc: LanguagesButtonStates, key) => {
+        acc[key as keyof LanguagesButtonStates] =
+          !!selectedLanguages[key as keyof LanguagesButtonStates];
         return acc;
-      }, {}),
+      }, {} as LanguagesButtonStates),
     );
-  
-    const handleLanguageChange = (key: string) => {
-      const newLanguageSelections = {
+
+    const handleLanguageChange = (language: keyof LanguagesButtonStates) => {
+      const newLanguageSelections: LanguagesButtonStates = {
         ...languagesSelections,
-        [key]: !languagesSelections[key],
+        [language]: !languagesSelections[language],
       };
       setLanguagesSelections(newLanguageSelections);
       onChange(newLanguageSelections);
     };
-  
-    return (
-      <div>
-        <h1>{"Select your spoken languages"}</h1>
-        {availableLanguages.map((key) => (
-          <label key={key}>
+
+  return (
+    <div>
+      <h1 className='my-5 ms-[5%]'>{'Select your spoken languages'}</h1>
+      <div className='my-5 flex flex-row justify-between'>
+        {availableLanguages.map((language) => (
+          <label
+            key={language}
+            className={`${
+              languagesSelections[language] ? 'bg-primary' : 'bg-light'
+            } w-18 cursor-pointer items-center rounded-lg p-2 transition-colors duration-300 sm:w-24 sm:rounded-full`}
+          >
+            {' '}
+            <span className='text-dark text-sm sm:mx-1 sm:text-xl'>
+              {language.charAt(0).toUpperCase() + language.slice(1)}
+            </span>
             <input
+              hidden
               type='checkbox'
-              checked={languagesSelections[key]}
-              onChange={() => { handleLanguageChange(key); }}
+              checked={languagesSelections[language]}
+              onChange={() => {
+                handleLanguageChange(language);
+              }}
             />
-            {key.charAt(0).toUpperCase() + key.slice(1)}
           </label>
         ))}
       </div>
-    );
-  }
+    </div>
+  );
+}

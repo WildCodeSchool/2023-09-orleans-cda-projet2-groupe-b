@@ -19,7 +19,7 @@ preferenceRouter.get('/:userId', async (req, res) => {
         'selected_languages',
         'selected_musics',
       ])
-      .where(sql`id = ${userId}`) 
+      .where(sql`id = ${userId}`)
       .execute();
 
     if (user.length === 0) {
@@ -44,7 +44,7 @@ preferenceRouter.put('/:userId', async (req, res) => {
       selected_languages,
       selected_musics } = req.body as UserPreferencesBody;
 
-   const userPreferences = await db
+    await db
       .updateTable('user')
       .set({
         biography,
@@ -58,7 +58,7 @@ preferenceRouter.put('/:userId', async (req, res) => {
       .where(sql`user.id = ${userId}`)
       .execute();
 
-    res.status(200).send({success: true});
+    res.status(200).send({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).send('internalServerError');

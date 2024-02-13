@@ -31,11 +31,7 @@ export default function PreferencesForm() {
 
   const [userData, setUserData] = useState<UserPreferencesBody>();
   const { userId } = useParams<{ userId: string }>();
-  const [acceptSmoking, setAcceptSmoking] = useState(false);
-  const [acceptPets, setAcceptPets] = useState(false);
-  const [acceptBaby, setAcceptBaby] = useState(false);
-  const [acceptUnvaccinated, setAcceptUnvaccinated] = useState(false);
-  const [biography, setBiography] = useState('');
+
   const [selectionCompleted, setSelectionCompleted] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [musicsButtonStates, setMusicsButtonStates] =
@@ -80,76 +76,76 @@ export default function PreferencesForm() {
     setLanguagesButtonStates(selectedLanguages);
   };
 
-  const handleCheckboxPreferences = (preferenceName: string) => {
-    switch (preferenceName) {
-      case 'accept smoking': {
-        setAcceptSmoking((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept pets': {
-        setAcceptPets((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept baby': {
-        setAcceptBaby((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept unvaccinated': {
-        setAcceptUnvaccinated((prevValue) => !prevValue);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
+  // const handleCheckboxPreferences = (preferenceName: string) => {
+  //   switch (preferenceName) {
+  //     case 'accept smoking': {
+  //       setAcceptSmoking((prevValue) => !prevValue);
+  //       break;
+  //     }
+  //     case 'accept pets': {
+  //       setAcceptPets((prevValue) => !prevValue);
+  //       break;
+  //     }
+  //     case 'accept baby': {
+  //       setAcceptBaby((prevValue) => !prevValue);
+  //       break;
+  //     }
+  //     case 'accept unvaccinated': {
+  //       setAcceptUnvaccinated((prevValue) => !prevValue);
+  //       break;
+  //     }
+  //     default: {
+  //       break;
+  //     }
+  //   }
+  // };
 
-  const acceptOptions = {
-    is_smoker_allowed: acceptSmoking,
-    is_animal_allowed: acceptPets,
-    is_baby_allowed: acceptBaby,
-    is_non_vaccinated_allowed: acceptUnvaccinated,
-  };
+  // const acceptOptions = {
+  //   is_smoker_allowed: acceptSmoking,
+  //   is_animal_allowed: acceptPets,
+  //   is_baby_allowed: acceptBaby,
+  //   is_non_vaccinated_allowed: acceptUnvaccinated,
+  // };
 
-  const handlePreferencesSubmit = async () => {
-    if (selectionCompleted) {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
-          {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              is_smoker_allowed: acceptSmoking,
-              is_animal_allowed: acceptPets,
-              is_baby_allowed: acceptBaby,
-              is_non_vaccinated_allowed: acceptUnvaccinated,
-              selected_musics: musicsButtonStates,
-              selected_languages: languagesButtonStates,
-              biography,
-            }),
-          },
-        );
+  // const handlePreferencesSubmit = async () => {
+  //   if (selectionCompleted) {
+  //     try {
+  //       const response = await fetch(
+  //         `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
+  //         {
+  //           method: 'PUT',
+  //           credentials: 'include',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             is_smoker_allowed: acceptSmoking,
+  //             is_animal_allowed: acceptPets,
+  //             is_baby_allowed: acceptBaby,
+  //             is_non_vaccinated_allowed: acceptUnvaccinated,
+  //             selected_musics: musicsButtonStates,
+  //             selected_languages: languagesButtonStates,
+  //             biography,
+  //           }),
+  //         },
+  //       );
 
-        if (response.ok) {
-          console.log('Data saved successfully');
+  //       if (response.ok) {
+  //         console.log('Data saved successfully');
 
-          setSelectionCompleted(true);
-        } else {
-          const errorBody = await response.text(); // ou response.json() si le serveur renvoie du JSON
-          console.error('Error saving data:', errorBody);
-          throw new Error(errorBody);
-        }
-      } catch (error) {
-        console.error('Network error or while saving local data:', error);
-      }
-    } else {
-      console.log('The user has not completed his selections');
-    }
-  };
+  //         setSelectionCompleted(true);
+  //       } else {
+  //         const errorBody = await response.text(); // ou response.json() si le serveur renvoie du JSON
+  //         console.error('Error saving data:', errorBody);
+  //         throw new Error(errorBody);
+  //       }
+  //     } catch (error) {
+  //       console.error('Network error or while saving local data:', error);
+  //     }
+  //   } else {
+  //     console.log('The user has not completed his selections');
+  //   }
+  // };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -180,46 +176,43 @@ export default function PreferencesForm() {
           'is_non_vaccinated_allowed',
           userData.is_non_vaccinated_allowed,
         );
-console.log('userData',userData);
-console.log('userLanguages', userLanguages);
-console.log('userMusics', userMusics);
 
-setUserData(userData)
-
-        // const musicStyleKeys: (keyof UserPreferencesType['musicStyles'])[] = [
-        //   'rock',
-        //   'jazz',
-        //   'rap',
-        //   'rnb',
-        //   'pop',
-        // ];
-        // const languageSpokenKeys: (keyof UserPreferencesType['languageSpoken'])[] =
-        //   ['english', 'spanish', 'deutsch', 'french'];
+        const musicStyleKeys: (keyof UserPreferencesType['musicStyles'])[] = [
+          'rock',
+          'jazz',
+          'rap',
+          'rnb',
+          'pop',
+        ];
+        const languageSpokenKeys: (keyof UserPreferencesType['languageSpoken'])[] =
+          ['english', 'spanish', 'deutsch', 'french'];
 
         // Mettez à jour les valeurs pour musicStyles
-        // musicStyle.forEach((key) => {
-        //   const value = userMusics[key];
-        //   if (value !== undefined) {
-        //     setValue(`musicStyles.${key}` as UserPreferencesFormKeys, value);
-        //     setMusicsButtonStates((prev) => ({ ...prev, [key]: value }));
-        //   }
-        // });
+        for (const key of musicStyleKeys) {
+          const value = userMusics[key];
+          if (value !== undefined) {
+            setValue(`musicStyles.${key}` as UserPreferencesFormKeys, value);
+            setMusicsButtonStates((prev) => ({ ...prev, [key]: value }));
+          }
+        }
 
-        // // Mettez à jour les valeurs pour languageSpoken
-        // languageSpokenKeys.forEach((key) => {
-        //   const value = userLanguages[key];
-        //   if (value !== undefined) {
-        //     setValue(`languageSpoken.${key}` as UserPreferencesFormKeys, value);
-        //     setLanguagesButtonStates((prev) => ({ ...prev, [key]: value }));
-        //   }
-        // });
+        // Mettez à jour les valeurs pour languageSpoken
+        for (const key of languageSpokenKeys) {
+          const value = userLanguages[key];
+          if (value !== undefined) {
+            setValue(`languageSpoken.${key}` as UserPreferencesFormKeys, value);
+            setLanguagesButtonStates((prev) => ({ ...prev, [key]: value }));
+          }
+        }
+
+        setIsLoggedIn(true);
       } catch (error) {
-       
+        if (!signal.aborted) {
           console.error(
             'Erreur lors de la récupération des données utilisateur',
             error,
           );
-        
+        }
       }
     };
 
@@ -231,15 +224,14 @@ setUserData(userData)
   }, [userId, setValue]); // Ajoutez setValue aux dépendances du useEffect
   // Ajoutez setValue aux dépendances du useEffect
 
-
   if (!userData) {
     return <p>{'User data not found'}</p>;
   }
 
-  // const handleFormSubmit = (event: FormEvent) => {
-  //   event.preventDefault();
-  //   handlePreferencesSubmit();
-  // };
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    handlePreferencesSubmit();
+  };
 
   return (
     <>
@@ -254,21 +246,21 @@ setUserData(userData)
         <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
           {'My profil preferences'}
         </h1>
-        <form onSubmit={handleSubmit(handlePreferencesSubmit)}>
+        <form onSubmit={handleFormSubmit}>
           <div className=' ms-[5%] mt-10'>
             <textarea
               {...register('biography')}
               placeholder='Presentation'
               className='text-dark h-28 w-[95%] rounded-lg p-2'
-              // value={ userData.biography}
-              // onChange={(e) => {
-              //   setBiography(e.target.value);
-              // }}
+              value={biography || userData.biography.toString()}
+              onChange={(e) => {
+                setBiography(e.target.value);
+              }}
             />
             {errors.biography ? <p>{errors.biography.message}</p> : null}
           </div>
           <div className='mt-2 flex justify-around' />
-          {/* <div>
+          <div>
             <LanguagePreferences
               selectedLanguages={languagesButtonStates}
               availableLanguages={availableLanguagesFromState}
@@ -282,7 +274,7 @@ setUserData(userData)
             availableMusics={availableMusicsFromState}
             onChange={handleMusicPreferencesChange}
             musicStyles={musicsButtonStates}
-          /> */}
+          />
           <div className='mt-5 flex flex-col justify-between'>
             {Object.entries(acceptOptions).map((acceptOption) => (
               <label key={acceptOption[0]}>
@@ -294,7 +286,7 @@ setUserData(userData)
               </label>
             ))}
           </div>
-          {/* <div className='mt-5 flex flex-col justify-between'>
+          <div className='mt-5 flex flex-col justify-between'>
             {Object.entries({
               'accept smoking': acceptSmoking,
               'accept pets': acceptPets,
@@ -314,7 +306,7 @@ setUserData(userData)
                 <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
               </div>
             ))}
-          </div> */}
+          </div>
           {isLoggedIn ? (
             <button
               type='submit'

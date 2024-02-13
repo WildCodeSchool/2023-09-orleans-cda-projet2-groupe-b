@@ -1,5 +1,4 @@
-import type { NextFunction, Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 
 const userPreferences = [
     body('is_smoker_allowed')
