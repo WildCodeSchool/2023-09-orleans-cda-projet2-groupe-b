@@ -45,7 +45,7 @@ export default function Profile() {
         </div>
       </Link>
       <div className='border-light mx-auto w-[90%] border-b' />
-      <Link to='/my-car'>
+      <Link to='/cars'>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My cars'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
