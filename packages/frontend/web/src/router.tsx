@@ -45,14 +45,14 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: '/my-car',
+        path: '/cars',
         element: <MyCar />,
       },
       {
-        path: '/add-car',
+        path: '/cars/add',
         element: <AddACar />,
       },
-      { path: '/edit-car/:id', element: <EditCar /> },
+      { path: '/car/edit/:id', element: <EditCar /> },
     ],
   },
 ]);

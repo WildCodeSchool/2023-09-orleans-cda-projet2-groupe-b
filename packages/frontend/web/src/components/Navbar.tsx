@@ -158,7 +158,7 @@ export default function Navbar() {
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-car'>
+                      <Link to='/cars'>
                         <p>{'My cars'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />

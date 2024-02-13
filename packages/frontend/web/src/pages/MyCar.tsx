@@ -16,31 +16,24 @@ export default function MyCar() {
   const [cars, setCars] = useState<CarProfile[]>([]);
 
   useEffect(() => {
-    const fetchCar = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/car`, {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'content-type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          console.error('Failed to fetch car');
-        }
-
-        const data = await response.json();
+    const abortController = new AbortController();
+    fetch(`${import.meta.env.VITE_API_URL}/car`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((data) => {
         setCars(data);
-      } catch (error) {
-        console.error('Failed to fetch car:', error);
-      }
+      })
+      .catch((error) => {
+        console.error('Failed to fetch cars:', error);
+      });
+    return () => {
+      abortController.abort();
     };
-
-    fetchCar().catch((error) => {
-      console.error('Failed to fetch car:', error);
-    });
   }, []);
+
   return (
     <div className='flex flex-col md:mt-20 lg:mt-28 lg:flex-row-reverse lg:justify-around'>
       <Link to='/profile' className='w-7'>
@@ -50,7 +43,7 @@ export default function MyCar() {
         <h1 className='my-2 ms-8 text-3xl font-extrabold text-white sm:hidden'>
           {'My cars'}
         </h1>
-        <Link to='/add-car'>
+        <Link to='/cars/add'>
           <img
             src='/icons/add-car.svg'
             alt='add-car'
@@ -70,7 +63,7 @@ export default function MyCar() {
           <h1 className='my-10 ms-8 text-3xl font-extrabold text-white'>
             {'My Cars'}
           </h1>
-          <Link to='/add-car'>
+          <Link to='/cars/add'>
             <img
               src='/icons/add-car.svg'
               alt='add-car'
@@ -81,7 +74,7 @@ export default function MyCar() {
         {Array.isArray(cars)
           ? cars.map((car) => (
               <React.Fragment key={car.id}>
-                <Link to={`/edit-car/${car.id}`}>
+                <Link to={`/car/edit/${car.id}`}>
                   <div className='flex flex-row justify-between rounded-md bg-white text-black shadow-md sm:mx-auto sm:w-3/4'>
                     <p className='p-3 font-bold'>{car.model}</p>
                     <p className='p-3'>{car.plate_number}</p>

@@ -78,46 +78,81 @@ carRouter.get('/:id', loginIdUser, async (req: Request, res: Response) => {
   res.json(currentData[0]);
 });
 
-carRouter.put('/edit/:id', loginIdUser, async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { brand, model, photo, number_seat, color, plate_number } =
-      req.body as Car;
-    await db.transaction().execute(async (trx) => {
-      await trx
-        .updateTable('car')
-        .set({
-          brand,
-          model,
-          photo,
-          number_seat,
-          color,
-          plate_number,
-        })
-        .where('id', '=', BigInt(id))
-        .execute();
-      return res.json({
-        ok: true,
-      });
-    });
-    res.status(200).json('Car Updated');
-  } catch (error) {
-    return res.status(500).json({ ok: false, error });
-  }
-});
-
-carRouter.delete(
-  '/delete/:id',
+carRouter.put(
+  '/:id',
   loginIdUser,
-  async (req: Request, res: Response) => {
+  async (req: RequestWithUser, res: Response) => {
     try {
       const { id } = req.params;
+      const userId = req.userId;
+      const { brand, model, photo, number_seat, color, plate_number } =
+        req.body as Car;
       await db.transaction().execute(async (trx) => {
+        const car = await trx
+          .selectFrom('car')
+          .select('user_id')
+          .where('id', '=', BigInt(id))
+          .executeTakeFirst();
+
+        if (!car) {
+          return res.status(404).json({ ok: false, message: 'Car not found' });
+        }
+
+        if (car.user_id !== userId) {
+          return res.status(403).json({ ok: false, message: 'Not authorized' });
+        }
+
+        await trx
+          .updateTable('car')
+          .set({
+            brand,
+            model,
+            photo,
+            number_seat,
+            color,
+            plate_number,
+          })
+          .where('id', '=', BigInt(id))
+          .execute();
+        return res.json({
+          ok: true,
+        });
+      });
+      res.status(200).json('Car Updated');
+    } catch (error) {
+      return res.status(500).json({ ok: false, error });
+    }
+  },
+);
+
+carRouter.delete(
+  '/:id',
+  loginIdUser,
+  async (req: RequestWithUser, res: Response) => {
+    try {
+      const { id } = req.params;
+      const userId = req.userId;
+      await db.transaction().execute(async (trx) => {
+        const car = await trx
+          .selectFrom('car')
+          .select('user_id')
+          .where('id', '=', BigInt(id))
+          .executeTakeFirst();
+
+        if (!car) {
+          return res.status(404).json({ ok: false, message: 'Car not found' });
+        }
+
+        if (car.user_id !== userId) {
+          return res.status(403).json({ ok: false, message: 'Not authorized' });
+        }
+
         await trx
           .deleteFrom('car')
           .where('id', '=', BigInt(id))
           .executeTakeFirst();
       });
+
       res.status(200).json({ ok: true, message: 'Car Deleted' });
     } catch (error) {
       return res.status(500).json({ ok: false, error });
