@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -73,7 +73,7 @@ export default function MyCar() {
         </div>
         {Array.isArray(cars)
           ? cars.map((car) => (
-              <React.Fragment key={car.id}>
+              <Fragment key={car.id}>
                 <Link to={`/car/edit/${car.id}`}>
                   <div className='flex flex-row justify-between rounded-md bg-white text-black shadow-md sm:mx-auto sm:w-3/4'>
                     <p className='p-3 font-bold'>{car.model}</p>
@@ -86,7 +86,7 @@ export default function MyCar() {
                   </div>
                 </Link>
                 <div className='mb-6 mt-4 w-full border border-white border-opacity-50 sm:mx-auto sm:w-3/4' />
-              </React.Fragment>
+              </Fragment>
             ))
           : undefined}
       </div>

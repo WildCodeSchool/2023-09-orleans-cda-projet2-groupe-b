@@ -10,7 +10,7 @@ import type { Car } from '@app/types';
 import { validationCarSchema } from '@/schemas/validation-car-schema';
 
 export default function FormCar() {
-  const array = [2, 3, 4, 5, 6, 7, 8, 9];
+  const numberSeat = [2, 3, 4, 5, 6, 7, 8, 9];
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -212,7 +212,7 @@ export default function FormCar() {
               }`}
               {...register('number_seat')}
             >
-              {array.map((number) => (
+              {numberSeat.map((number) => (
                 <Fragment key={number}>
                   <option value={number}>{number}</option>
                 </Fragment>

@@ -114,11 +114,8 @@ carRouter.put(
           })
           .where('id', '=', BigInt(id))
           .execute();
-        return res.json({
-          ok: true,
-        });
       });
-      res.status(200).json('Car Updated');
+      res.status(200).json({ ok: true, message: 'Car Updated' });
     } catch (error) {
       return res.status(500).json({ ok: false, error });
     }
