@@ -31,7 +31,6 @@ export default function Login() {
     try {
       const res = await fetch(`/api/auth/register`, {
         method: 'POST',
-        // credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },
