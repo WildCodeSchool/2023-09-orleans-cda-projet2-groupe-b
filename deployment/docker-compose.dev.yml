@@ -10,6 +10,8 @@ services:
       - 80:8080
     volumes:
       - ./nginx.dev.conf:/etc/nginx/nginx.conf
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   database:
     image: mysql:8.2.0
