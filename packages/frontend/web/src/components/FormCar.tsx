@@ -2,15 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Fragment, useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import type { Car } from '@app/types';
 
 import { validationCarSchema } from '@/schemas/validation-car-schema';
 
+const numberSeat = [2, 3, 4, 5, 6, 7, 8, 9];
 export default function FormCar() {
-  const numberSeat = [2, 3, 4, 5, 6, 7, 8, 9];
   const { id } = useParams();
   const navigate = useNavigate();
 
