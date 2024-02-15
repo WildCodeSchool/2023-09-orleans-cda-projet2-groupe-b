@@ -66,7 +66,7 @@ export interface ReservationTable {
   id: Generated<bigint>;
   user_id: number;
   number_seat: number;
-  validated_at: Date;
+  validated_at?: Date;
   created_at: Date;
 }
 export type Reservation = Selectable<ReservationTable>;

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import DetailTrip from './components/DetailTrip';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: '/search-trip',
     element: <SearchTrip />,
+  },
+  {
+    path: 'search-trip/:id',
+    element: <DetailTrip />,
   },
 ]);
 

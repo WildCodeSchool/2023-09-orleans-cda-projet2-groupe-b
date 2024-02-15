@@ -1,42 +1,15 @@
-type SearchTripFilter = {
-  cp_t_id: bigint;
-  start_address: string;
-  end_address: string;
-  cp_t_kilometer: number;
-  cp_t_travel_time: number;
-  t_id: bigint;
-  driver_id: number;
-  car_id: number;
-  date: Date;
-  price: number;
-  comment?: string;
-  seat_available: number;
-  should_auto_validate: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_smoker_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
-  firstname: string;
-  lastname: string;
-  avatar?: string;
-  start_distance: number;
-  end_distance: number;
-  passengerCheckpointTrip: {
-    id: bigint;
-    reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
-  }[];
-}[];
+import { Link } from 'react-router-dom';
+
+import type { ResultSearchTripType } from '@app/types/src/search-trip-validation';
 
 export default function CardTrip({
-  searchTripFilter,
+  resultSearchTrip,
 }: {
-  readonly searchTripFilter: SearchTripFilter;
+  readonly resultSearchTrip: ResultSearchTripType;
 }) {
   return (
     <>
-      {searchTripFilter.map((search) => {
+      {resultSearchTrip.map((search) => {
         const timeStart = new Date(search.date);
         const timeEnd = new Date(search.date).setHours(
           new Date(search.date).getHours(),
@@ -52,7 +25,8 @@ export default function CardTrip({
         const travelTimeFormat = `${new Date(travelTime).getHours().toString().padStart(2, '0')}h${new Date(travelTime).getMinutes().toString().padStart(2, '0')}`;
 
         return (
-          <div
+          <Link
+            to={String(search.cp_t_id)}
             key={search.cp_t_id}
             className='text-primary flex h-[180px] w-[500px] justify-between rounded-xl bg-slate-100 p-4 font-semibold shadow-md'
           >
@@ -103,7 +77,7 @@ export default function CardTrip({
                 ))}
               </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </>

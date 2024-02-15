@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
+  type ResultSearchTripType,
   type SearchTripType,
   searchTripSchema,
 } from '@app/types/src/search-trip-validation';
@@ -22,43 +23,12 @@ interface PlaceEnd {
   y: number | undefined;
 }
 
-type SearchTripFilter = {
-  cp_t_id: bigint;
-  start_address: string;
-  end_address: string;
-  cp_t_kilometer: number;
-  cp_t_travel_time: number;
-  t_id: bigint;
-  driver_id: number;
-  car_id: number;
-  date: Date;
-  price: number;
-  comment?: string;
-  seat_available: number;
-  should_auto_validate: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_smoker_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
-  firstname: string;
-  lastname: string;
-  avatar?: string;
-  start_distance: number;
-  end_distance: number;
-  passengerCheckpointTrip: {
-    id: bigint;
-    reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
-  }[];
-}[];
-
 export default function SearchTrip() {
   const [placeStart, setPlaceStart] = useState<PlaceStart>();
   const [placeEnd, setPlaceEnd] = useState<PlaceEnd>();
 
-  const [searchTripFilter, setSearchTripFilter] = useState<
-    SearchTripFilter | undefined
+  const [resultSearchTrip, setResultSearchTrip] = useState<
+    ResultSearchTripType | undefined
   >();
 
   const {
@@ -136,7 +106,7 @@ export default function SearchTrip() {
           placeEnd?.x
         }&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
       ).then((res) => res.json());
-      setSearchTripFilter(response);
+      setResultSearchTrip(response);
     } catch (error) {
       throw new Error(String(error));
     }
@@ -225,8 +195,8 @@ export default function SearchTrip() {
         </form>
       </div>
       <div className='space-y-4'>
-        {searchTripFilter === undefined ? undefined : (
-          <CardTrip searchTripFilter={searchTripFilter} />
+        {resultSearchTrip === undefined ? undefined : (
+          <CardTrip resultSearchTrip={resultSearchTrip} />
         )}
       </div>
     </div>
