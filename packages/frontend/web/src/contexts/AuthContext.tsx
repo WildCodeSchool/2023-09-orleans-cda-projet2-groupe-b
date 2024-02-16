@@ -20,7 +20,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     const abortController = new AbortController();
 
     (async () => {
-      const res = await fetch(`/api/auth/check`, {});
+      const res = await fetch(`/api/auth/check`);
       const data = (await res.json()) as {
         ok: boolean;
         isLoggedIn: boolean;
