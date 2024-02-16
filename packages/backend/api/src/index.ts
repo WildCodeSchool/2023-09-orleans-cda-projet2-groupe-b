@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: `http://${FRONTEND_HOST}:${FRONTEND_PORT}`,
-    credentials: true,
   }),
 );
 app.use(cookieParser(COOKIE_SECRET));

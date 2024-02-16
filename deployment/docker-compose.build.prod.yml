@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  api:
+    image: jorispineau/carpool-api
+    build:
+      dockerfile: ./deployment/DockerfileBackendApi
+      context: ../
+
+  web:
+    image: jorispineau/carpool-web
+    build:
+      dockerfile: ./deployment/DockerfileFrontendWeb
+      context: ../
+
+  migrations:
+    image: jorispineau/carpool-migrations
+    build:
+      dockerfile: ./deployment/DockerfileBackendMigrations
+      context: ../

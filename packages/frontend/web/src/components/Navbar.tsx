@@ -167,10 +167,9 @@ export default function Navbar() {
                       <button
                         onClick={async () => {
                           try {
-                            const response = await fetch(
-                              `${import.meta.env.VITE_API_URL}/auth/logout`,
-                              { method: 'POST', credentials: 'include' },
-                            );
+                            const response = await fetch(`/api/auth/logout`, {
+                              method: 'POST',
+                            });
 
                             if (response.ok) {
                               setIsLoggedIn(false);
