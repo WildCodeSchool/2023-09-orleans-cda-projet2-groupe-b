@@ -1,3 +1,4 @@
+import { watch } from 'node:fs';
 import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -35,6 +36,7 @@ export default function SeatCar({
   }, [numberSeat]);
 
   useEffect(() => {
+    setValue('reservationSeat', seatAvailable);
     const reservationSeat = getValues('reservationSeat');
     try {
       reservationSeatPublishTripSchema.parse({
@@ -63,8 +65,6 @@ export default function SeatCar({
       });
     }
   };
-
-  setValue('reservationSeat', seatAvailable);
 
   const classSeatInTheCar = (seat: number) => {
     switch (seatInTheCar.length) {

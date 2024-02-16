@@ -32,9 +32,6 @@ export default function Search() {
   const inputReferenceFrom = useRef<HTMLInputElement>(null);
   const inputReferenceTo = useRef<HTMLInputElement>(null);
 
-  watch('from');
-  watch('to');
-
   const onPlaceChangedFrom = (place: google.maps.places.PlaceResult) => {
     if (place) {
       if (place.formatted_address !== undefined && place.name !== undefined) {
@@ -82,7 +79,7 @@ export default function Search() {
             onChange={(event) => {
               setValue('from', event.target.value);
             }}
-            value={getValues('from')}
+            value={watch('from')}
             ref={inputReferenceFrom}
             placeholder='Address start'
             className='w-full rounded-lg border p-2 drop-shadow'
@@ -152,7 +149,7 @@ export default function Search() {
             onChange={(event) => {
               setValue('to', event.target.value);
             }}
-            value={getValues('to')}
+            value={watch('to')}
             ref={inputReferenceTo}
             placeholder='Address destination'
             className='w-full rounded-lg border p-2 drop-shadow'

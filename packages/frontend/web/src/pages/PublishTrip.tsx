@@ -96,7 +96,7 @@ export default function PublishTrip() {
           navigate('/');
         }
       } catch (error) {
-        throw new Error(`${String(error)}`);
+        console.error(error);
       }
     }
   };
