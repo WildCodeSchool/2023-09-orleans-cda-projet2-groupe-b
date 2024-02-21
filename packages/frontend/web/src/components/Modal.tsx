@@ -12,7 +12,7 @@ export const Modal = ({ openModal, onClose, children }: ModalProps) => {
       onClick={onClose}
       className={`
       fixed inset-0 flex items-center justify-center transition-colors
-      ${openModal ? 'visible bg-black/50' : 'invisible'}
+      ${openModal ? 'bg-dark/50 visible' : 'invisible'}
     `}
     >
       <div
@@ -26,7 +26,7 @@ export const Modal = ({ openModal, onClose, children }: ModalProps) => {
       >
         <button
           onClick={onClose}
-          className='absolute right-2 top-2 h-10 w-10 rounded-lg bg-white p-1 text-gray-400 hover:bg-gray-50 hover:text-gray-600'
+          className='bg-light hover:text-secondary absolute right-2 top-2 h-10 w-10 rounded-lg p-1 text-gray-400 hover:bg-gray-50'
         >
           <img src='./icons/cross.svg' />
         </button>

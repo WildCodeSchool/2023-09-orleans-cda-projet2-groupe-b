@@ -99,21 +99,21 @@ export default function Profile() {
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
-      <div className='mx-auto w-[90%] border-b border-white' />
-      <Link to='/my-opinions'>
+      <div className='border-light mx-auto w-[90%] border-b' />
+      <Link to={`/my-opinions/${userId}`}>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My opinions'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
-      <div className='mx-auto w-[90%] border-b border-white' />
+      <div className='border-light mx-auto w-[90%] border-b' />
       <Link to={`/my-preferences/${userId}`}>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My profile preferences'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
-      <div className='mx-auto w-[90%] border-b border-white' />
+      <div className='border-light mx-auto w-[90%] border-b' />
       <Link to='My cars'>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My cars'}</p>

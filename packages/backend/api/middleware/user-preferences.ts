@@ -9,6 +9,8 @@ const userPreferences = [
     .isBoolean(),
     body('is_non_vaccinated_allowed')
     .isBoolean(),
+    body('selected_musics').toString(),
+    body('selected_languages').toString(),
 ];
 
 export default userPreferences;

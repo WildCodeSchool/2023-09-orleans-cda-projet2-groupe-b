@@ -58,6 +58,7 @@ preferenceRouter.put('/:userId', async (req, res) => {
       .where(sql`user.id = ${userId}`)
       .execute();
 
+
     res.status(200).send({ success: true });
   } catch (error) {
     console.error(error);

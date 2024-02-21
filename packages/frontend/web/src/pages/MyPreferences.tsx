@@ -1,16 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 
 import type { UserPreferencesBody } from '@app/types';
 
 import LanguagePreferences from '@/components/LanguagePreferences';
 import MusicPreferences from '@/components/MusicPreferences';
-import { useAuth } from '@/contexts/AuthContext';
 import {
-  type UserPreferencesFormKeys,
   type UserPreferencesType,
   userPreferencesSchema,
 } from '@/schemas/user-preferences-schema';
@@ -24,28 +21,30 @@ export default function PreferencesForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<UserPreferencesType>({
     resolver: zodResolver(userPreferencesSchema),
   });
 
   const [userData, setUserData] = useState<UserPreferencesBody>();
+
   const { userId } = useParams<{ userId: string }>();
-  const [acceptSmoking, setAcceptSmoking] = useState(false);
-  const [acceptPets, setAcceptPets] = useState(false);
-  const [acceptBaby, setAcceptBaby] = useState(false);
-  const [acceptUnvaccinated, setAcceptUnvaccinated] = useState(false);
-  const [biography, setBiography] = useState('');
-  const [selectionCompleted, setSelectionCompleted] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [musicsButtonStates, setMusicsButtonStates] =
-    useState<MusicsButtonStates>({
-      rock: false,
-      jazz: false,
-      rap: false,
-      rnb: false,
-      pop: false,
+
+  const [selectedLanguages, setSelectedLanguages] =
+    useState<LanguagesButtonStates>({
+      english: false,
+      spanish: false,
+      deutsch: false,
+      french: false,
     });
+  const [selectedMusics, setSelectedMusics] = useState<MusicsButtonStates>({
+    rock: false,
+    jazz: false,
+    rap: false,
+    rnb: false,
+    pop: false,
+  });
 
   const availableMusicsFromState: (keyof MusicsButtonStates)[] = [
     'rock',
@@ -56,16 +55,10 @@ export default function PreferencesForm() {
   ];
 
   const handleMusicPreferencesChange = (selectedMusics: MusicsButtonStates) => {
-    setMusicsButtonStates(selectedMusics);
+    console.log('handleMusicPreferencesChange:', selectedMusics);
+    setSelectedMusics(selectedMusics);
+    setValue('selected_musics', JSON.stringify(selectedMusics));
   };
-
-  const [languagesButtonStates, setLanguagesButtonStates] =
-    useState<LanguagesButtonStates>({
-      english: false,
-      spanish: false,
-      deutsch: false,
-      french: false,
-    });
 
   const availableLanguagesFromState: (keyof LanguagesButtonStates)[] = [
     'english',
@@ -77,86 +70,22 @@ export default function PreferencesForm() {
   const handleLanguagePreferencesChange = (
     selectedLanguages: LanguagesButtonStates,
   ) => {
-    setLanguagesButtonStates(selectedLanguages);
-  };
-
-  const handleCheckboxPreferences = (preferenceName: string) => {
-    switch (preferenceName) {
-      case 'accept smoking': {
-        setAcceptSmoking((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept pets': {
-        setAcceptPets((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept baby': {
-        setAcceptBaby((prevValue) => !prevValue);
-        break;
-      }
-      case 'accept unvaccinated': {
-        setAcceptUnvaccinated((prevValue) => !prevValue);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    console.log('handleLanguagePreferencesChange:', selectedLanguages);
+    setSelectedLanguages(selectedLanguages);
+    setValue('selected_languages', JSON.stringify(selectedLanguages));
   };
 
   const acceptOptions = {
-    is_smoker_allowed: acceptSmoking,
-    is_animal_allowed: acceptPets,
-    is_baby_allowed: acceptBaby,
-    is_non_vaccinated_allowed: acceptUnvaccinated,
-  };
-
-  const handlePreferencesSubmit = async () => {
-    if (selectionCompleted) {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
-          {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              is_smoker_allowed: acceptSmoking,
-              is_animal_allowed: acceptPets,
-              is_baby_allowed: acceptBaby,
-              is_non_vaccinated_allowed: acceptUnvaccinated,
-              selected_musics: musicsButtonStates,
-              selected_languages: languagesButtonStates,
-              biography,
-            }),
-          },
-        );
-
-        if (response.ok) {
-          console.log('Data saved successfully');
-
-          setSelectionCompleted(true);
-        } else {
-          const errorBody = await response.text(); // ou response.json() si le serveur renvoie du JSON
-          console.error('Error saving data:', errorBody);
-          throw new Error(errorBody);
-        }
-      } catch (error) {
-        console.error('Network error or while saving local data:', error);
-      }
-    } else {
-      console.log('The user has not completed his selections');
-    }
+    is_smoker_allowed: 'Accept smoking',
+    is_animal_allowed: 'Accept pets',
+    is_baby_allowed: 'Accept baby',
+    is_non_vaccinated_allowed: 'Accept unvaccinated',
   };
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-
     const fetchData = async () => {
-  
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
@@ -168,58 +97,24 @@ export default function PreferencesForm() {
         }
 
         const userData = await response.json();
-        const userLanguages = JSON.parse(userData.selected_languages);
-        const userMusics = JSON.parse(userData.selected_musics);
+        console.log('Fetched user data:', userData);
 
-        // Utilisez setValue pour chaque champ du formulaire
         setValue('biography', userData.biography);
-        setValue('is_smoker_allowed', userData.is_smoker_allowed);
-        setValue('is_animal_allowed', userData.is_animal_allowed);
-        setValue('is_baby_allowed', userData.is_baby_allowed);
+        setValue('is_smoker_allowed', Boolean(userData.is_smoker_allowed));
+        setValue('is_animal_allowed', Boolean(userData.is_animal_allowed));
+        setValue('is_baby_allowed', Boolean(userData.is_baby_allowed));
         setValue(
           'is_non_vaccinated_allowed',
-          userData.is_non_vaccinated_allowed,
+          Boolean(userData.is_non_vaccinated_allowed),
         );
-console.log('userData',userData);
-console.log('userLanguages', userLanguages);
-console.log('userMusics', userMusics);
-
-setUserData(userData)
-
-        // const musicStyleKeys: (keyof UserPreferencesType['musicStyles'])[] = [
-        //   'rock',
-        //   'jazz',
-        //   'rap',
-        //   'rnb',
-        //   'pop',
-        // ];
-        // const languageSpokenKeys: (keyof UserPreferencesType['languageSpoken'])[] =
-        //   ['english', 'spanish', 'deutsch', 'french'];
-
-        // Mettez à jour les valeurs pour musicStyles
-        // musicStyle.forEach((key) => {
-        //   const value = userMusics[key];
-        //   if (value !== undefined) {
-        //     setValue(`musicStyles.${key}` as UserPreferencesFormKeys, value);
-        //     setMusicsButtonStates((prev) => ({ ...prev, [key]: value }));
-        //   }
-        // });
-
-        // // Mettez à jour les valeurs pour languageSpoken
-        // languageSpokenKeys.forEach((key) => {
-        //   const value = userLanguages[key];
-        //   if (value !== undefined) {
-        //     setValue(`languageSpoken.${key}` as UserPreferencesFormKeys, value);
-        //     setLanguagesButtonStates((prev) => ({ ...prev, [key]: value }));
-        //   }
-        // });
+        setValue('selected_languages', userData.selected_languages);
+        setValue('selected_musics', userData.selected_musics);
+        setUserData(userData);
       } catch (error) {
-       
-          console.error(
-            'Erreur lors de la récupération des données utilisateur',
-            error,
-          );
-        
+        console.error(
+          'Erreur lors de la récupération des données utilisateur',
+          error,
+        );
       }
     };
 
@@ -228,18 +123,45 @@ setUserData(userData)
     return () => {
       abortController.abort();
     };
-  }, [userId, setValue]); // Ajoutez setValue aux dépendances du useEffect
-  // Ajoutez setValue aux dépendances du useEffect
-
+  }, [userId, setValue]);
 
   if (!userData) {
     return <p>{'User data not found'}</p>;
   }
 
-  // const handleFormSubmit = (event: FormEvent) => {
-  //   event.preventDefault();
-  //   handlePreferencesSubmit();
-  // };
+  const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
+    console.log('onSubmit data:', userData);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
+        {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            biography: userData.biography,
+            is_baby_allowed: userData.is_baby_allowed,
+            is_non_vaccinated_allowed: userData.is_non_vaccinated_allowed,
+            is_animal_allowed: userData.is_animal_allowed,
+            is_smoker_allowed: userData.is_smoker_allowed,
+            selected_languages: JSON.parse(userData.selected_languages),
+            selected_musics: JSON.parse(userData.selected_musics),
+          }),
+        },
+      );
+
+      if (response.ok) {
+        console.log('Data saved successfully');
+      } else {
+        console.error('Error saving data');
+      }
+    } catch (error) {
+      console.error('Network error or while saving local data:', error);
+    }
+  };
+console.log(userData);
 
   return (
     <>
@@ -254,75 +176,63 @@ setUserData(userData)
         <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
           {'My profil preferences'}
         </h1>
-        <form onSubmit={handleSubmit(handlePreferencesSubmit)}>
+        <form onSubmit={handleSubmit(onsubmit)}>
           <div className=' ms-[5%] mt-10'>
             <textarea
               {...register('biography')}
               placeholder='Presentation'
               className='text-dark h-28 w-[95%] rounded-lg p-2'
-              // value={ userData.biography}
-              // onChange={(e) => {
-              //   setBiography(e.target.value);
-              // }}
             />
             {errors.biography ? <p>{errors.biography.message}</p> : null}
           </div>
           <div className='mt-2 flex justify-around' />
-          {/* <div>
+          <div>
             <LanguagePreferences
-              selectedLanguages={languagesButtonStates}
+              selectedLanguages={JSON.parse(watch('selected_languages'))}
               availableLanguages={availableLanguagesFromState}
               onChange={handleLanguagePreferencesChange}
-              languageSpoken={languagesButtonStates}
+              register={register}
             />
-            <div className='mt-2 flex justify-around' />
+            {errors.selected_languages ? (
+              <p>{errors.selected_languages.message}</p>
+            ) : null}
           </div>
-          <MusicPreferences
-            selectedMusics={musicsButtonStates}
-            availableMusics={availableMusicsFromState}
-            onChange={handleMusicPreferencesChange}
-            musicStyles={musicsButtonStates}
-          /> */}
-          <div className='mt-5 flex flex-col justify-between'>
-            {Object.entries(acceptOptions).map((acceptOption) => (
-              <label key={acceptOption[0]}>
-                {acceptOption[1]}
-                <input
-                  type='checkbox'
-                  {...register(acceptOption[0] as keyof UserPreferencesType)}
-                />
+          <div className='mt-2 flex justify-around' />
+          <div>
+            <MusicPreferences
+              selectedMusics={JSON.parse(watch('selected_musics'))}
+              availableMusics={availableMusicsFromState}
+              onChange={handleMusicPreferencesChange}
+              register={register}
+            />
+            {errors.selected_musics ? (
+              <p>{errors.selected_musics.message}</p>
+            ) : null}
+          </div>
+          <div className='my-5 flex flex-col justify-between space-y-4 text-xl'>
+            {Object.entries(acceptOptions).map((option) => (
+              <label key={option[0]} className='flex justify-between'>
+                {option[1]}
+                <div className='relative h-5 w-14 cursor-pointer rounded-full bg-gray-200 '>
+                  <input
+                    type='checkbox'
+                    defaultChecked={
+                      userData[option[0] as keyof UserPreferencesType] === false
+                    }
+                    {...register(option[0] as keyof UserPreferencesType)}
+                    className='peer sr-only'
+                  />
+                  <span className='bg-dark peer-checked:bg-primary absolute left-0 top-[-4px] h-7 w-7 rounded-full transition-all duration-500 peer-checked:left-7' />
+                </div>
               </label>
             ))}
           </div>
-          {/* <div className='mt-5 flex flex-col justify-between'>
-            {Object.entries({
-              'accept smoking': acceptSmoking,
-              'accept pets': acceptPets,
-              'accept baby': acceptBaby,
-              'accept unvaccinated': acceptUnvaccinated,
-            }).map(([preferenceName, value], index) => (
-              <div key={index} className='mt-5 flex justify-between'>
-                <p className='ms-[5%] text-xl'>{preferenceName}</p>
-                <input
-                  type='checkbox'
-                  checked={value}
-                  onChange={() => {
-                    handleCheckboxPreferences(preferenceName);
-                  }}
-                  className='peer absolute left-1/2 h-5 w-full -translate-x-1/2 appearance-none rounded-md'
-                />
-                <span className='peer-checked:after:bg-primary me-[5%] ml-4 flex h-5 w-10 flex-shrink-0 items-center rounded-full bg-white duration-300 ease-in-out after:h-5 after:w-5 after:rounded-full after:bg-black after:shadow-md after:duration-300 peer-checked:bg-white peer-checked:after:translate-x-5' />
-              </div>
-            ))}
-          </div> */}
-          {isLoggedIn ? (
-            <button
-              type='submit'
-              className='ms-[5%] mt-5 w-[90%] rounded bg-white p-2 text-xl text-black'
-            >
-              {'Save'}
-            </button>
-          ) : undefined}
+          <button
+            type='submit'
+            className='bg-light text-dark mx-5 mt-5 w-[90%] rounded p-2 text-xl'
+          >
+            {'Save'}
+          </button>
         </form>
       </div>
     </>
