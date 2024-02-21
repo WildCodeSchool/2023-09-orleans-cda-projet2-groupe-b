@@ -21,7 +21,6 @@ export default function Search() {
     control,
     watch,
     setValue,
-    getValues,
     formState: { errors },
   } = useFormContext<SearchPublishTripType>();
   const { fields, append, remove } = useFieldArray({

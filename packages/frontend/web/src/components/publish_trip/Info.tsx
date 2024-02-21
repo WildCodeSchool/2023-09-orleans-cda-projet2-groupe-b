@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { type InfoPublishTripType, infoPublishTripSchema } from '@app/shared';
 
@@ -13,6 +14,7 @@ interface Cars {
   number_seat: number;
 }
 [];
+
 export default function Info() {
   const {
     register,
@@ -29,13 +31,9 @@ export default function Info() {
 
     (async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/trip/car`,
-          {
-            signal: controller.signal,
-            credentials: 'include',
-          },
-        );
+        const response = await fetch(`/api/trip/car`, {
+          signal: controller.signal,
+        });
 
         const data = await response.json();
         setCars(data);
@@ -90,9 +88,14 @@ export default function Info() {
                 </option>
               ))}
             </select>
-            <button type='button' className='rounded-lg border p-2 drop-shadow'>
-              <img src='/icons/add-car.svg' />
-            </button>
+            <Link to={'/cars/add'}>
+              <button
+                type='button'
+                className='flex justify-center rounded-lg border drop-shadow'
+              >
+                <img src='/icons/add-car.svg' className='mx-3 my-[6px]' />
+              </button>
+            </Link>
           </div>
           <span className='text-red-700'>{errors.carId?.message}</span>
         </div>

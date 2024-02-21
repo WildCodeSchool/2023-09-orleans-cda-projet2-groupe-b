@@ -83,9 +83,8 @@ export default function PublishTrip() {
           seatAvailable: data.reservationSeat.length,
         };
 
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/trip`, {
+        const response = await fetch(`/api/trip`, {
           method: 'POST',
-          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },

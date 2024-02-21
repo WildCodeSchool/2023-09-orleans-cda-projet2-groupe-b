@@ -42,25 +42,17 @@ export type TripUpdate = Updateable<TripTable>;
 
 export interface CarTable {
   id: Generated<bigint>;
+  brand: string;
+  model: string;
   photo: string;
   number_seat: number;
   color: string;
   plate_number: string;
-  user_id: bigint;
-  car_type_id: bigint;
+  user_id: number;
 }
 export type Car = Selectable<CarTable>;
 export type NewCar = Insertable<CarTable>;
 export type CarUpdate = Updateable<CarTable>;
-
-export interface CarTypeTable {
-  id: Generated<bigint>;
-  brand: string;
-  model: string;
-}
-export type CarType = Selectable<CarTypeTable>;
-export type NewCarType = Insertable<CarTypeTable>;
-export type CarTypeUpdate = Updateable<CarTypeTable>;
 
 export interface ReservationTable {
   id?: Generated<bigint>;
@@ -130,7 +122,7 @@ export interface Database {
   user: UserTable;
   trip: TripTable;
   car: CarTable;
-  car_type: CarTypeTable;
+
   reservation: ReservationTable;
   reservation_seat: ReservationSeatTable;
   checkpoint_trip: CheckpointTripTable;

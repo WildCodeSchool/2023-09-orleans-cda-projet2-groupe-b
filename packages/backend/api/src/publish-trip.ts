@@ -1,6 +1,7 @@
 import express from 'express';
+import type { Request } from 'express';
 import { sql } from 'kysely';
-import { getUser } from 'middleware/get-user';
+import loginIdUser from 'middleware/user-id';
 
 import { db } from '@app/backend-shared';
 import type {
@@ -10,25 +11,40 @@ import type {
 
 const publishTripRouter = express.Router();
 
-publishTripRouter.get('/car', getUser, async (req, res) => {
-  const user = res.locals.user;
-  try {
-    const cars = await db
-      .selectFrom('car')
-      .selectAll()
-      .where('car.user_id', '=', user.id)
-      .execute();
-    return res.json(cars);
-  } catch (error) {
-    return res.json({
-      ok: false,
-      error,
-    });
-  }
-});
+interface RequestWithUser extends Request {
+  userId?: number;
+}
 
-publishTripRouter.post('/', getUser, async (req, res) => {
-  const user = res.locals.user;
+publishTripRouter.get(
+  '/car',
+  loginIdUser,
+  async (req: RequestWithUser, res) => {
+    try {
+      if (!req.userId) {
+        throw new Error('User is not authenticated');
+      }
+      const userId = req.userId;
+
+      const cars = await db
+        .selectFrom('car')
+        .selectAll()
+        .where('car.user_id', '=', userId)
+        .execute();
+      return res.json(cars);
+    } catch (error) {
+      return res.json({
+        ok: false,
+        error,
+      });
+    }
+  },
+);
+
+publishTripRouter.post('/', loginIdUser, async (req: RequestWithUser, res) => {
+  if (!req.userId) {
+    throw new Error('User is not authenticated');
+  }
+  const userId = req.userId;
 
   const {
     kilometer,
@@ -51,7 +67,7 @@ publishTripRouter.post('/', getUser, async (req, res) => {
     const insertedTrip = await db
       .insertInto('trip')
       .values({
-        driver_id: user.id,
+        driver_id: BigInt(userId),
         created_at: createdAt,
         date,
         kilometer,
