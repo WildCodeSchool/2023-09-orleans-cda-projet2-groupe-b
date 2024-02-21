@@ -5,10 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
-import {
-  type SearchTripType,
-  searchTripSchema,
-} from '@app/types/src/search-trip-validation';
+import { type SearchTripType, searchTripSchema } from '@app/types';
 
 import CardTrip from '@/components/CardTrip';
 
@@ -52,6 +49,8 @@ type SearchTripFilter = {
     reservation_id: null | number;
   }[];
 }[];
+
+const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function SearchTrip() {
   const [placeStart, setPlaceStart] = useState<PlaceStart>();
@@ -130,19 +129,13 @@ export default function SearchTrip() {
 
     try {
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${
-          data.passenger
-        }&date=${date}`,
+        `/api/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
       ).then((res) => res.json());
       setSearchTripFilter(response);
     } catch (error) {
       throw new Error(String(error));
     }
   };
-
-  const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
     <div className='flex justify-center'>
@@ -194,7 +187,6 @@ export default function SearchTrip() {
                   selected={field.value}
                   inline
                   minDate={new Date()}
-                  showTimeInput
                   className='w-full rounded-2xl border bg-orange-400'
                 />
               )}

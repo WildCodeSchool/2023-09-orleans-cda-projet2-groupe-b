@@ -20,9 +20,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     const abortController = new AbortController();
 
     (async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
-        credentials: 'include',
-      });
+      const res = await fetch(`/api/auth/check`);
       const data = (await res.json()) as {
         ok: boolean;
         isLoggedIn: boolean;

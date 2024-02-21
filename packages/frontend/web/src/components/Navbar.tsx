@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import MyInfo from '@/pages/MyInfo';
 import MyOpinions from '@/pages/MyOpinions';
@@ -12,6 +12,7 @@ import { Modal } from './Modal';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
   const [openModals, setOpenModals] = useState<ModalState>({
     myInfo: false,
     myOpinions: false,
@@ -159,21 +160,22 @@ export default function Navbar() {
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <p>{'My cars'}</p>
+                      <Link to='/cars'>
+                        <p>{'My cars'}</p>
+                      </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
                       <button
                         onClick={async () => {
                           try {
-                            const response = await fetch(
-                              `${import.meta.env.VITE_API_URL}/auth/logout`,
-                              { method: 'POST', credentials: 'include' },
-                            );
+                            const response = await fetch(`/api/auth/logout`, {
+                              method: 'POST',
+                            });
 
                             if (response.ok) {
                               setIsLoggedIn(false);
-                              <Navigate to='/login' />;
+                              navigate('/login');
                             } else {
                               console.error('Logout failure');
                             }
