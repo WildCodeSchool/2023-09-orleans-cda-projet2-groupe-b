@@ -1,33 +1,34 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import type { Car } from '@app/types';
-
-import { validationCarSchema } from '@/schemas/validation-car-schema';
+import {
+  type ValidationCarSchema,
+  validationCarSchema,
+} from '@/schemas/validation-car-schema';
 
 const numberSeat = [2, 3, 4, 5, 6, 7, 8, 9];
 export default function FormCar() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [file, setFile] = useState<File | undefined>();
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Car>({
+  } = useForm<ValidationCarSchema>({
     resolver: zodResolver(validationCarSchema),
   });
 
   useEffect(() => {
     if (id) {
       // Fetch car data and set it
-      fetch(`${import.meta.env.VITE_API_URL}/car/${id}`, {
+      fetch(`/api/car/${id}`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },
@@ -36,7 +37,6 @@ export default function FormCar() {
         .then((data) => {
           setValue('brand', data.brand);
           setValue('model', data.model);
-          setValue('photo', data.photo);
           setValue('number_seat', data.number_seat);
           setValue('color', data.color);
           setValue('plate_number', data.plate_number);
@@ -47,22 +47,23 @@ export default function FormCar() {
     }
   }, [id]);
 
-  const onSubmit: SubmitHandler<Car> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationCarSchema> = async (data) => {
+    const formDataToSend = new FormData();
+    formDataToSend.append('brand', data.brand);
+    formDataToSend.append('model', data.model);
+    formDataToSend.append('number_seat', data.number_seat.toString());
+    formDataToSend.append('color', data.color);
+    formDataToSend.append('plate_number', data.plate_number);
+    if (file) {
+      formDataToSend.append('photo', file);
+    }
     const method = id ? 'PUT' : 'POST';
-    const url = id
-      ? `${import.meta.env.VITE_API_URL}/car/${id}`
-      : `${import.meta.env.VITE_API_URL}/car/add`;
+    const url = id ? `/api/car/${id}` : `/api/car/add`;
 
     try {
       const res = await fetch(url, {
         method,
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-        }),
+        body: formDataToSend,
       });
       const resData = (await res.json()) as {
         ok: boolean;
@@ -78,9 +79,8 @@ export default function FormCar() {
 
   const onDelete = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/car/${id}`, {
+      const res = await fetch(`/api/car/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },
@@ -132,6 +132,7 @@ export default function FormCar() {
           ) : undefined}
         </div>
         <form
+          encType='multipart/form-data'
           onSubmit={handleSubmit(onSubmit)}
           className='md:mt-2 md:py-3 lg:my-2 lg:h-96 lg:p-4'
         >
@@ -225,22 +226,19 @@ export default function FormCar() {
             ) : undefined}
           </div>
           <div className='mx-auto mb-16 h-7 md:w-[80%]'>
-            <label htmlFor='picture' className='text-xl'>
+            <label htmlFor='photo' className='text-xl'>
               {'Picture'}
             </label>
             <input
               type='file'
-              className={`placeholder-light mb-1 w-full bg-transparent text-xl ${
-                errors.photo && 'border-danger'
-              }`}
-              {...register('photo')}
+              id='photo'
+              name='photo'
+              onChange={(event) => {
+                setFile(event.target.files?.[0] || undefined);
+              }}
+              className={`placeholder-light mb-1 w-full bg-transparent text-xl`}
             />
             <div className='border-b-light border' />
-            {errors.photo ? (
-              <p className='text-danger ms-[10%] mt-2 italic'>
-                {errors.photo.message}
-              </p>
-            ) : undefined}
           </div>
           <div className='bg-light m-auto my-5 rounded-lg text-center shadow-lg md:w-[80%]'>
             <button

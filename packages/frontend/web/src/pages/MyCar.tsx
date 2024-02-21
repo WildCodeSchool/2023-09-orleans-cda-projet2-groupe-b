@@ -17,9 +17,8 @@ export default function MyCar() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    fetch(`${import.meta.env.VITE_API_URL}/car`, {
+    fetch(`/api/car`, {
       method: 'GET',
-      credentials: 'include',
       headers: { 'content-type': 'application/json' },
     })
       .then((res) => res.json())

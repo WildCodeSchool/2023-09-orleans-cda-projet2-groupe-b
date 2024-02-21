@@ -12,14 +12,6 @@ export const validationCarSchema = z.object({
     .min(1, { message: 'This field is required' })
     .max(25, { message: 'Should contain less than 25 characters' })
     .trim(),
-  photo: z.preprocess(
-    String,
-    z
-      .string()
-      .min(1, { message: 'This field is required' })
-      .max(255, { message: 'Should contain less than 255 characters' })
-      .trim(),
-  ),
 
   number_seat: z.preprocess(
     Number,
@@ -41,3 +33,5 @@ export const validationCarSchema = z.object({
     .max(12, { message: 'Should contain less than 12 characters' })
     .trim(),
 });
+
+export type ValidationCarSchema = z.infer<typeof validationCarSchema>;
