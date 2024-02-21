@@ -47,9 +47,27 @@ export default function CardTrip({
           new Date(init).getHours(),
           new Date(init).getMinutes() + search.cp_t_travel_time,
         );
-        const timeEndFormat = `${new Date(timeEnd).getHours().toString().padStart(2, '0')}h${new Date(timeEnd).getMinutes().toString().padStart(2, '0')}`;
-        const timeStartFormat = `${new Date(timeStart).getHours().toString().padStart(2, '0')}h${new Date(timeStart).getMinutes().toString().padStart(2, '0')}`;
-        const travelTimeFormat = `${new Date(travelTime).getHours().toString().padStart(2, '0')}h${new Date(travelTime).getMinutes().toString().padStart(2, '0')}`;
+        const timeEndFormat = `${new Date(timeEnd)
+          .getHours()
+          .toString()
+          .padStart(2, '0')}h${new Date(timeEnd)
+          .getMinutes()
+          .toString()
+          .padStart(2, '0')}`;
+        const timeStartFormat = `${new Date(timeStart)
+          .getHours()
+          .toString()
+          .padStart(2, '0')}h${new Date(timeStart)
+          .getMinutes()
+          .toString()
+          .padStart(2, '0')}`;
+        const travelTimeFormat = `${new Date(travelTime)
+          .getHours()
+          .toString()
+          .padStart(2, '0')}h${new Date(travelTime)
+          .getMinutes()
+          .toString()
+          .padStart(2, '0')}`;
 
         return (
           <div

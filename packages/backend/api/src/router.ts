@@ -28,6 +28,6 @@ router.get('/some-route', (_request, response) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/', searchTripRouter);
+router.use('/search-trip', searchTripRouter);
 
 export default router;

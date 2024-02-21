@@ -46,7 +46,7 @@ type SearchTripFilter = {
 
 const searchTripRouter = express.Router();
 
-searchTripRouter.get('/search-trip', async (req, res) => {
+searchTripRouter.get('/', async (req, res) => {
   const searchTripFilter: SearchTripFilter = [];
   const { startX, startY, endX, endY, passenger, date } =
     req.query as unknown as Search;

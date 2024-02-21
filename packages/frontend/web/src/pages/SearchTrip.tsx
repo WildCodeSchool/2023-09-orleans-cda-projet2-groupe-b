@@ -130,11 +130,11 @@ export default function SearchTrip() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/search-trip?startX=${
-          placeStart?.x
-        }&startY=${placeStart?.y}&endX=${
-          placeEnd?.x
-        }&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${
+          data.passenger
+        }&date=${date}`,
       ).then((res) => res.json());
       setSearchTripFilter(response);
     } catch (error) {
@@ -146,7 +146,7 @@ export default function SearchTrip() {
 
   return (
     <div className='flex justify-center'>
-      <div className=' text-primary flex h-[750px] w-[600px] justify-center bg-black'>
+      <div className='text-primary flex h-[750px] w-[600px] justify-center bg-black'>
         <form
           method='get'
           className='m-4 flex w-96 flex-col bg-slate-100 p-2'
@@ -214,7 +214,6 @@ export default function SearchTrip() {
             </select>
           </div>
           <div className='flex w-full justify-center'>
-            {' '}
             <button
               type='submit'
               className='bg-primary my-5 w-64 rounded-lg p-2 font-semibold text-white'

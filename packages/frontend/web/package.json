@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@app/frontend-shared": "workspace:*",
-    "@hookform/resolvers": "^3.3.4",
-    "@types/react-datepicker": "^4.19.5",
     "@vis.gl/react-google-maps": "^0.4.1",
     "react": "^18.2.0",
     "react-datepicker": "^4.25.0",
@@ -30,6 +28,8 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "@types/react-datepicker": "^4.19.5",
+    "@hookform/resolvers": "^3.3.4"
   }
 }
