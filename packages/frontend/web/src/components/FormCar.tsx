@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +13,6 @@ const numberSeat = [2, 3, 4, 5, 6, 7, 8, 9];
 export default function FormCar() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [file, setFile] = useState<File | undefined>();
 
   const {
     register,
@@ -54,8 +53,8 @@ export default function FormCar() {
     formDataToSend.append('number_seat', data.number_seat.toString());
     formDataToSend.append('color', data.color);
     formDataToSend.append('plate_number', data.plate_number);
-    if (file) {
-      formDataToSend.append('photo', file);
+    if (data.photo) {
+      formDataToSend.append('photo', data.photo[0]);
     }
     const method = id ? 'PUT' : 'POST';
     const url = id ? `/api/car/${id}` : `/api/car/add`;
@@ -232,12 +231,15 @@ export default function FormCar() {
             <input
               type='file'
               id='photo'
-              name='photo'
-              onChange={(event) => {
-                setFile(event.target.files?.[0] || undefined);
-              }}
-              className={`placeholder-light mb-1 w-full bg-transparent text-xl`}
+              {...register('photo')}
+              className={`placeholder-light mb-1 w-full bg-transparent text-xl  
+              ${errors.photo && 'border-danger'}`}
             />
+            {errors.photo ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.photo.message}
+              </p>
+            ) : undefined}
             <div className='border-b-light border' />
           </div>
           <div className='bg-light m-auto my-5 rounded-lg text-center shadow-lg md:w-[80%]'>
