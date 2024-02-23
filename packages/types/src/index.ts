@@ -1,6 +1,6 @@
 export * from './database';
 export * from './auth';
-export * from './userPreferences'
+export * from './user-preferences';
 
 export type User = {
   name: string;

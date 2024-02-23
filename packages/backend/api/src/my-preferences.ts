@@ -1,13 +1,15 @@
 import express from 'express';
-import { db } from '@app/backend-shared';
 import { sql } from 'kysely';
+import loginIdUser from 'middleware/user-id';
+
+import { db } from '@app/backend-shared';
 import type { UserPreferencesBody } from '@app/types';
 
 const preferenceRouter = express.Router();
 
 preferenceRouter.get('/:userId', async (req, res) => {
-  const userId = Number.parseInt(req.params.userId);
   try {
+    const { userId } = req.params;
     const user = await db
       .selectFrom('user')
       .select([
@@ -33,16 +35,18 @@ preferenceRouter.get('/:userId', async (req, res) => {
   }
 });
 
-preferenceRouter.put('/:userId', async (req, res) => {
-  const userId = BigInt(req.params.userId);
+preferenceRouter.put('/:userId', loginIdUser, async (req, res) => {
+  const { userId } = req.params;
   try {
-    const { biography,
+    const {
+      biography,
       is_baby_allowed,
       is_non_vaccinated_allowed,
       is_animal_allowed,
       is_smoker_allowed,
       selected_languages,
-      selected_musics } = req.body as UserPreferencesBody;
+      selected_musics,
+    } = req.body as UserPreferencesBody;
 
     await db
       .updateTable('user')
@@ -58,13 +62,11 @@ preferenceRouter.put('/:userId', async (req, res) => {
       .where(sql`user.id = ${userId}`)
       .execute();
 
-
     res.status(200).send({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).send('internalServerError');
   }
 });
-
 
 export { preferenceRouter };

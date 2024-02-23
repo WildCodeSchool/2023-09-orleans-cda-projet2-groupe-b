@@ -1,12 +1,13 @@
 import express from 'express';
 import { sql } from 'kysely';
+
 import { db } from '@app/backend-shared';
 
 const infoRouter = express.Router();
 
 infoRouter.get('/:userId', async (req, res) => {
-  const userId = Number.parseInt(req.params.userId);
   try {
+    const { userId } = req.params;
     const user = await db
       .selectFrom('user')
       .select(['id', 'firstname', 'lastname', 'email', 'birthdate', 'avatar'])

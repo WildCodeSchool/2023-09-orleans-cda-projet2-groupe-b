@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <MyInfo />,
       },
       {
-        path: '/my-opinions',
+        path: '/my-opinions/:userId',
         element: <MyOpinions />,
       },
       {

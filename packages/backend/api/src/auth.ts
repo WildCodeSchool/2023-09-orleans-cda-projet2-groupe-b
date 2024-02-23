@@ -77,7 +77,7 @@ authRouter.post(
         })
         .execute();
 
-        const userId = await db
+      const userId = await db
         .selectFrom('user')
         .select(['user.id'])
         .where('user.email', '=', email)

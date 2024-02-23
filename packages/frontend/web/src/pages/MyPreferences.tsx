@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 
 import type { UserPreferencesBody } from '@app/types';
@@ -11,69 +12,20 @@ import {
   type UserPreferencesType,
   userPreferencesSchema,
 } from '@/schemas/user-preferences-schema';
-import type {
-  LanguagesButtonStates,
-  MusicsButtonStates,
-} from '@/types/my-preferences';
 
 export default function PreferencesForm() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<UserPreferencesType>({
+  const methods = useForm<UserPreferencesType>({
     resolver: zodResolver(userPreferencesSchema),
   });
+  const {
+    setValue,
+    register,
+    formState: { errors },
+  } = methods;
 
   const [userData, setUserData] = useState<UserPreferencesBody>();
 
   const { userId } = useParams<{ userId: string }>();
-
-  const [selectedLanguages, setSelectedLanguages] =
-    useState<LanguagesButtonStates>({
-      english: false,
-      spanish: false,
-      deutsch: false,
-      french: false,
-    });
-  const [selectedMusics, setSelectedMusics] = useState<MusicsButtonStates>({
-    rock: false,
-    jazz: false,
-    rap: false,
-    rnb: false,
-    pop: false,
-  });
-
-  const availableMusicsFromState: (keyof MusicsButtonStates)[] = [
-    'rock',
-    'jazz',
-    'rap',
-    'rnb',
-    'pop',
-  ];
-
-  const handleMusicPreferencesChange = (selectedMusics: MusicsButtonStates) => {
-    console.log('handleMusicPreferencesChange:', selectedMusics);
-    setSelectedMusics(selectedMusics);
-    setValue('selected_musics', JSON.stringify(selectedMusics));
-  };
-
-  const availableLanguagesFromState: (keyof LanguagesButtonStates)[] = [
-    'english',
-    'spanish',
-    'deutsch',
-    'french',
-  ];
-
-  const handleLanguagePreferencesChange = (
-    selectedLanguages: LanguagesButtonStates,
-  ) => {
-    console.log('handleLanguagePreferencesChange:', selectedLanguages);
-    setSelectedLanguages(selectedLanguages);
-    setValue('selected_languages', JSON.stringify(selectedLanguages));
-  };
 
   const acceptOptions = {
     is_smoker_allowed: 'Accept smoking',
@@ -97,7 +49,6 @@ export default function PreferencesForm() {
         }
 
         const userData = await response.json();
-        console.log('Fetched user data:', userData);
 
         setValue('biography', userData.biography);
         setValue('is_smoker_allowed', Boolean(userData.is_smoker_allowed));
@@ -110,15 +61,16 @@ export default function PreferencesForm() {
         setValue('selected_languages', userData.selected_languages);
         setValue('selected_musics', userData.selected_musics);
         setUserData(userData);
-      } catch (error) {
-        console.error(
+      } catch {
+        throw new Error(
           'Erreur lors de la récupération des données utilisateur',
-          error,
         );
       }
     };
 
-    fetchData();
+    fetchData().catch(() => {
+      throw new Error('Erreur lors de la récupération des données utilisateur');
+    });
 
     return () => {
       abortController.abort();
@@ -130,7 +82,6 @@ export default function PreferencesForm() {
   }
 
   const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
-    console.log('onSubmit data:', userData);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
@@ -153,62 +104,51 @@ export default function PreferencesForm() {
       );
 
       if (response.ok) {
-        console.log('Data saved successfully');
+        ('Data saved successfully');
       } else {
-        console.error('Error saving data');
+        throw new Error('Error saving data');
       }
-    } catch (error) {
-      console.error('Network error or while saving local data:', error);
+    } catch {
+      throw new Error('Network error or while saving local data:');
     }
   };
-console.log(userData);
 
   return (
-    <>
-      <Link to='/profil' className='sm:hidden'>
+    <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
+      <Link to={`/profile/${userId}`}>
         <img
           src='/icons/right-arrow.svg'
           alt='left-arrow'
           className='my-5 ms-[5%] h-5 rotate-180'
         />
       </Link>
-      <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
-        <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
-          {'My profil preferences'}
-        </h1>
-        <form onSubmit={handleSubmit(onsubmit)}>
+      <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
+        {'My profil preferences'}
+      </h1>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onsubmit)}>
           <div className=' ms-[5%] mt-10'>
             <textarea
               {...register('biography')}
               placeholder='Presentation'
               className='text-dark h-28 w-[95%] rounded-lg p-2'
             />
-            {errors.biography ? <p>{errors.biography.message}</p> : null}
+            {errors.biography ? <p>{errors.biography.message}</p> : undefined}
           </div>
           <div className='mt-2 flex justify-around' />
           <div>
-            <LanguagePreferences
-              selectedLanguages={JSON.parse(watch('selected_languages'))}
-              availableLanguages={availableLanguagesFromState}
-              onChange={handleLanguagePreferencesChange}
-              register={register}
-            />
+            <LanguagePreferences />
             {errors.selected_languages ? (
               <p>{errors.selected_languages.message}</p>
-            ) : null}
+            ) : undefined}
           </div>
           <div className='mt-2 flex justify-around' />
-          <div>
-            <MusicPreferences
-              selectedMusics={JSON.parse(watch('selected_musics'))}
-              availableMusics={availableMusicsFromState}
-              onChange={handleMusicPreferencesChange}
-              register={register}
-            />
-            {errors.selected_musics ? (
-              <p>{errors.selected_musics.message}</p>
-            ) : null}
-          </div>
+
+          <MusicPreferences />
+          {errors.selected_musics ? (
+            <p>{errors.selected_musics.message}</p>
+          ) : undefined}
+
           <div className='my-5 flex flex-col justify-between space-y-4 text-xl'>
             {Object.entries(acceptOptions).map((option) => (
               <label key={option[0]} className='flex justify-between'>
@@ -234,7 +174,7 @@ console.log(userData);
             {'Save'}
           </button>
         </form>
-      </div>
-    </>
+      </FormProvider>
+    </div>
   );
 }

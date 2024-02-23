@@ -1,12 +1,14 @@
 import express from 'express';
+import type { Request, Response } from 'express';
 import { sql } from 'kysely';
+
 import { db } from '@app/backend-shared';
 
 const userRouter = express.Router();
 
-userRouter.get('/:userId', async (req, res) => {
-  const userId = Number.parseInt(req.params.userId);
+userRouter.get('/:userId', async (req: Request, res: Response) => {
   try {
+    const { userId } = req.params;
     const user = await db
       .selectFrom('user')
       .select([
@@ -17,7 +19,7 @@ userRouter.get('/:userId', async (req, res) => {
         'created_at',
         'driver_kilometer_traveled',
         'passenger_kilometer_traveled',
-        'avatar'
+        'avatar',
       ])
       .where(sql`id = ${userId}`)
       .execute();

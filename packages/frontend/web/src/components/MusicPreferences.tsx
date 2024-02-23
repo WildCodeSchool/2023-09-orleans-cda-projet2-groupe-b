@@ -1,71 +1,53 @@
-import { useState } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-import { UserPreferencesType } from '@/schemas/user-preferences-schema';
 import type { MusicsButtonStates } from '@/types/my-preferences';
 
-interface MusicPreferencesProps {
-  readonly selectedMusics: MusicsButtonStates;
-  readonly availableMusics: (keyof MusicsButtonStates)[];
-  readonly onChange: (selectedLanguages: MusicsButtonStates) => void;
-  readonly register: UseFormRegister<UserPreferencesType>;
-}
+const availableMusics: (keyof MusicsButtonStates)[] = [
+  'rock',
+  'jazz',
+  'rap',
+  'rnb',
+  'pop',
+];
 
-export default function MusicPreferences({
-  selectedMusics,
-  availableMusics,
-  onChange,
-  register,
-}: MusicPreferencesProps) {
-  const [musicsSelections, setMusicsSelections] = useState<MusicsButtonStates>(
-    availableMusics.reduce((acc: MusicsButtonStates, key) => {
-      acc[key as keyof MusicsButtonStates] =
-        !!selectedMusics[key as keyof MusicsButtonStates];
-      return acc;
-    }, {} as MusicsButtonStates),
-  );
+export default function MusicPreferences() {
+  const { setValue, watch } = useFormContext();
+  const musicSelections = JSON.parse(watch('selected_musics'));
 
-
-  
-  const handleMusicChange = (music: keyof MusicsButtonStates) => {
-    const newMusicSelections: MusicsButtonStates = {
-      ...musicsSelections,
-      [music]: !musicsSelections[music],
+  const handleMusicPreferencesChange = (music: keyof MusicsButtonStates) => {
+    const newSelectedMusics = {
+      ...musicSelections,
+      [music]: !musicSelections[music],
     };
-    setMusicsSelections(newMusicSelections);
-    onChange(newMusicSelections);
-    console.log('New music selections:', newMusicSelections);
+    setValue('selected_musics', JSON.stringify(newSelectedMusics));
   };
 
   return (
-    <div>
-      <h1 className='my-5 ms-[5%] text-xl'>{'Select your musics'}</h1>
+    <>
+      <h1 className='my-2 ms-[5%] text-xl'>{'Select your musics'}</h1>
       <div className='my-5 flex flex-row justify-between'>
         {availableMusics.map((music: keyof MusicsButtonStates) => (
           <label
             key={music}
             className={`${
-              musicsSelections[music] ? 'bg-primary' : 'bg-light'
+              musicSelections[music] ? 'bg-primary' : 'bg-light'
             } w-18 cursor-pointer items-center rounded-lg p-2 transition-colors duration-300 sm:w-24 sm:rounded-full`}
           >
-            {' '}
             <span className='text-dark text-sm sm:mx-1 sm:text-xl'>
               {music.charAt(0).toUpperCase() + music.slice(1)}
             </span>
             <input
               hidden
               type='checkbox'
-              {...register('selected_musics')}
-              checked={musicsSelections[music]}
               value={music}
+              checked={musicSelections[music]}
               onChange={() => {
-                console.log(`Checkbox for ${music} changed`);
-                handleMusicChange(music);
+                handleMusicPreferencesChange(music);
               }}
             />
           </label>
         ))}
       </div>
-    </div>
+    </>
   );
 }
