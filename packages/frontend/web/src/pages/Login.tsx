@@ -26,9 +26,8 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<ValidationLoginSchema> = async (data) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const res = await fetch(`/api/auth/login`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },

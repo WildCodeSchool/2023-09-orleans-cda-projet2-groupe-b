@@ -17,7 +17,7 @@ export default function MyInfo() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/my-informations/${userId}`)
+    fetch(`/api/my-informations/${userId}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erreur HTTP ! Statut : ${res.status}`);

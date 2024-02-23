@@ -84,7 +84,8 @@ You can add `--with-sql` to generate a migration file using raw SQL instead of t
 
 - [Bun](https://bun.sh/) - A CLI tool to manage this monorepo, run scripts, ...
 - [Docker](https://www.docker.com/) - Manages the containers
-- [Docker Compose](https://docs.docker.com/compose/) - Manages the containers
+- [Docker CoCP \*:http (LISTEN)
+  wolf@wolf:~/2023-09-orleans-cda-projet2-groupe-b$ mpose](https://docs.docker.com/compose/) - Manages the containers
 - [ExpressJS](https://expressjs.com/) - Backend framework
 - [MySQL](https://www.mysql.com/) - Database
 - [React](https://reactjs.org/) - Frontend framework

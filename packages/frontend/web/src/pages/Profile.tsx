@@ -33,7 +33,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/profile/${userId}`)
+    fetch(`/api/profile/${userId}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erreur HTTP ! Statut : ${res.status}`);
@@ -114,7 +114,7 @@ export default function Profile() {
         </div>
       </Link>
       <div className='border-light mx-auto w-[90%] border-b' />
-      <Link to='My cars'>
+      <Link to='/cars'>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My cars'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />

@@ -39,10 +39,9 @@ export default function PreferencesForm() {
     const signal = abortController.signal;
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
-          { signal },
-        );
+        const response = await fetch(`/api/my-preferences/${userId}`, {
+          signal,
+        });
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
@@ -83,25 +82,22 @@ export default function PreferencesForm() {
 
   const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/my-preferences/${userId}`,
-        {
-          method: 'PUT',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            biography: userData.biography,
-            is_baby_allowed: userData.is_baby_allowed,
-            is_non_vaccinated_allowed: userData.is_non_vaccinated_allowed,
-            is_animal_allowed: userData.is_animal_allowed,
-            is_smoker_allowed: userData.is_smoker_allowed,
-            selected_languages: JSON.parse(userData.selected_languages),
-            selected_musics: JSON.parse(userData.selected_musics),
-          }),
+      const response = await fetch(`/api/my-preferences/${userId}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({
+          biography: userData.biography,
+          is_baby_allowed: userData.is_baby_allowed,
+          is_non_vaccinated_allowed: userData.is_non_vaccinated_allowed,
+          is_animal_allowed: userData.is_animal_allowed,
+          is_smoker_allowed: userData.is_smoker_allowed,
+          selected_languages: JSON.parse(userData.selected_languages),
+          selected_musics: JSON.parse(userData.selected_musics),
+        }),
+      });
 
       if (response.ok) {
         ('Data saved successfully');

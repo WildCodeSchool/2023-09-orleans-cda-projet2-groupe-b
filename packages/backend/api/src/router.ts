@@ -5,6 +5,7 @@ import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
+import { carRouter } from './car';
 import { infoRouter } from './my-informations';
 import { preferenceRouter } from './my-preferences';
 import { userRouter } from './profile';
@@ -33,5 +34,6 @@ router.use('/auth', authRouter);
 router.use('/profile', userRouter);
 router.use('/my-informations', infoRouter);
 router.use('/my-preferences', preferenceRouter);
+router.use('/car', carRouter);
 
 export default router;
