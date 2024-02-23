@@ -1,6 +1,5 @@
 import express from 'express';
 import { sql } from 'kysely';
-import loginIdUser from 'middleware/user-id';
 
 import { db } from '@app/backend-shared';
 import type { UserPreferencesBody } from '@app/types';
@@ -35,7 +34,7 @@ preferenceRouter.get('/:userId', async (req, res) => {
   }
 });
 
-preferenceRouter.put('/:userId', loginIdUser, async (req, res) => {
+preferenceRouter.put('/:userId', async (req, res) => {
   const { userId } = req.params;
   try {
     const {
