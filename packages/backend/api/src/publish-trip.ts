@@ -41,29 +41,30 @@ publishTripRouter.get(
 );
 
 publishTripRouter.post('/', loginIdUser, async (req: RequestWithUser, res) => {
-  if (!req.userId) {
-    throw new Error('User is not authenticated');
-  }
-  const userId = req.userId;
-
-  const {
-    kilometer,
-    travelTime,
-    seatAvailable,
-    price,
-    comment,
-    shouldAutoValidate,
-    isBabyAllowed,
-    isNonVaccinatedAllowed,
-    isAnimalAllowed,
-    isSmokerAllowed,
-    hasTolls,
-    carId,
-  } = req.body as RequestBodyTripType;
-
-  const date = new Date(req.body.date);
-  const createdAt = new Date();
   try {
+    if (!req.userId) {
+      throw new Error('User is not authenticated');
+    }
+    const userId = req.userId;
+
+    const {
+      kilometer,
+      travelTime,
+      seatAvailable,
+      price,
+      comment,
+      shouldAutoValidate,
+      isBabyAllowed,
+      isNonVaccinatedAllowed,
+      isAnimalAllowed,
+      isSmokerAllowed,
+      hasTolls,
+      carId,
+    } = req.body as RequestBodyTripType;
+
+    const date = new Date(req.body.date);
+    const createdAt = new Date();
+
     const insertedTrip = await db
       .insertInto('trip')
       .values({
