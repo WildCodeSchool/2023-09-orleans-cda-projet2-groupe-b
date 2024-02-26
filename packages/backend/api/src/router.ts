@@ -7,6 +7,7 @@ import type { SomeInterface } from '@app/types';
 import { authRouter } from './auth';
 import { carRouter } from './car';
 import { publishTripRouter } from './publish-trip';
+import { searchTripRouter } from './search-trip';
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.get('/some-route', (_request, response) => {
 
 router.use('/trip', publishTripRouter);
 router.use('/auth', authRouter);
+router.use('/search-trip', searchTripRouter);
 router.use('/car', carRouter);
 
 export default router;
