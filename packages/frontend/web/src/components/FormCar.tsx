@@ -25,7 +25,6 @@ export default function FormCar() {
 
   useEffect(() => {
     if (id) {
-      // Fetch car data and set it
       fetch(`/api/car/${id}`, {
         method: 'GET',
         headers: {

@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/no-null */
 // undefined avec Multer ça fonctionne pas d'ou le disable unicorn/no-null
+import { Request } from 'express';
 import multer from 'multer';
 import crypto from 'node:crypto';
 

@@ -10,6 +10,7 @@ import MyInfo from './pages/MyInfo';
 import MyOpinions from './pages/MyOpinions';
 import MyPreferences from './pages/MyPreferences';
 import Profile from './pages/Profile';
+import PublishTrip from './pages/PublishTrip';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       },
       { path: '/car/edit/:id', element: <EditCar /> },
     ],
+  },
+  {
+    path: '/publish-trip',
+    element: <PublishTrip />,
   },
 ]);
 
