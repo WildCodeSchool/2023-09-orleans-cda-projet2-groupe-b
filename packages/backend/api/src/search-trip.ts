@@ -14,30 +14,6 @@ type Search = {
   date: Date;
 };
 
-// type SearchTrip = {
-//   cp_t_id: bigint;
-//   start_address: string;
-//   end_address: string;
-//   cp_t_kilometer: number;
-//   cp_t_travel_time: number;
-//   t_id: bigint;
-//   driver_id: number;
-//   date: Date;
-//   price: number;
-//   seat_available: number;
-//   firstname: string;
-//   lastname: string;
-//   avatar?: string;
-//   start_distance: number;
-//   end_distance: number;
-//   passengerSearchTrip: {
-//     id: bigint;
-//     reserved_seat: number;
-//     checkpoint_trip_id: number;
-//     reservation_id: null | number;
-//   }[];
-// };
-
 const searchTripRouter = express.Router();
 
 searchTripRouter.get('/', async (req, res) => {
