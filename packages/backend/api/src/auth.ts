@@ -18,7 +18,7 @@ const SECRET = new TextEncoder().encode(JWT_SECRET);
 
 const authRouter = express.Router();
 
-authRouter.get('/check', async (req, res) => {
+authRouter.get('/check', async (req: Request, res: Response) => {
   const jwt: string | undefined = req.signedCookies.token;
 
   if (jwt === undefined) {
@@ -77,14 +77,14 @@ authRouter.post(
         })
         .execute();
 
-      const user = await db
+      const userId = await db
         .selectFrom('user')
         .select(['user.id'])
         .where('user.email', '=', email)
         .executeTakeFirst();
 
       const jwt = await new jose.SignJWT({
-        sub: user?.id.toString(),
+        sub: userId?.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',

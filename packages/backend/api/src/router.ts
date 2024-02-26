@@ -6,6 +6,9 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { carRouter } from './car';
+import { infoRouter } from './my-informations';
+import { preferenceRouter } from './my-preferences';
+import { userRouter } from './profile';
 import { publishTripRouter } from './publish-trip';
 import { searchTripRouter } from './search-trip';
 
@@ -31,6 +34,10 @@ router.get('/some-route', (_request, response) => {
 
 router.use('/trip', publishTripRouter);
 router.use('/auth', authRouter);
+
+router.use('/profile', userRouter);
+router.use('/my-informations', infoRouter);
+router.use('/my-preferences', preferenceRouter);
 router.use('/search-trip', searchTripRouter);
 router.use('/car', carRouter);
 
