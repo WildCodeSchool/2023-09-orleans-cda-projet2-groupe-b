@@ -50,7 +50,7 @@ export interface CarTable {
   id: Generated<bigint>;
   brand: string;
   model: string;
-  photo: string;
+  photo: string | null;
   number_seat: number;
   color: string;
   plate_number: string;
@@ -126,7 +126,6 @@ export interface Database {
   user: UserTable;
   trip: TripTable;
   car: CarTable;
-
   reservation: ReservationTable;
   reservation_seat: ReservationSeatTable;
   checkpoint_trip: CheckpointTripTable;

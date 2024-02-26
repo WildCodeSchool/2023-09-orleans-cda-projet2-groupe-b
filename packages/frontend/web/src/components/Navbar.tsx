@@ -33,6 +33,23 @@ export default function Navbar() {
     }));
   };
 
+  const Logout = async () => {
+    try {
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(false);
+        navigate('/login');
+      } else {
+        console.error('Logout failure');
+      }
+    } catch (error) {
+      console.error('disconnection error', error);
+    }
+  };
+
   return (
     <div className='sm:bg-custom-gradient sm:shadow-custom bg-primary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
       <div className='ml-[8%] mr-[8%] mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
@@ -164,26 +181,7 @@ export default function Navbar() {
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <button
-                        onClick={async () => {
-                          try {
-                            const response = await fetch(`/api/auth/logout`, {
-                              method: 'POST',
-                            });
-
-                            if (response.ok) {
-                              setIsLoggedIn(false);
-                              navigate('/login');
-                            } else {
-                              console.error('Logout failure');
-                            }
-                          } catch (error) {
-                            console.error('disconnection error', error);
-                          }
-                        }}
-                      >
-                        {'Logout'}
-                      </button>
+                      <button onClick={Logout}>{'Logout'}</button>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                   </ul>
@@ -193,7 +191,7 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <div className='mt-6 duration-75 sm:hidden'>
+            <div className='mt-6 duration-75 sm:mt-2 sm:hidden'>
               <Link to='/login'>
                 <img
                   src='/icons/login.svg'
@@ -204,12 +202,14 @@ export default function Navbar() {
             </div>
 
             <div className='hidden sm:mr-5 sm:flex sm:flex-col sm:items-center sm:justify-end'>
-              <img
-                src='/icons/login.svg'
-                alt='connect'
-                className='h-7 w-full'
-              />
-              <Link to='/login'>{'Login'}</Link>
+              <Link to='/login'>
+                <img
+                  src='/icons/login.svg'
+                  alt='connect'
+                  className='h-7 w-full'
+                />
+                <p className='sm:mb-1'>{'Login'}</p>
+              </Link>
             </div>
           </>
         )}

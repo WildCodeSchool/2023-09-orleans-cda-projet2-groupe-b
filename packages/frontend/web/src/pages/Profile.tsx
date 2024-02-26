@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 interface UserData {
   userId: number;
@@ -31,7 +31,7 @@ export default function Profile() {
   const { userId } = useParams<{ userId: string }>();
   const [userData, setUserData] = useState<UserData | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`/api/profile/${userId}`)
       .then((res) => {
@@ -70,6 +70,23 @@ export default function Profile() {
   if (!userData) {
     return <p>{'User data not found'}</p>;
   }
+
+  const Logout = async () => {
+    try {
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        console.error('Logout failure');
+      }
+    } catch (error) {
+      console.error('disconnection error', error);
+    }
+  };
+
   return (
     <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[40%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
       <img
@@ -120,6 +137,14 @@ export default function Profile() {
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
+      <div className='border-light mx-auto w-[90%] border-b' />
+      <div className=' mt-5 flex justify-between'>
+        <button className='ms-[5%]' onClick={Logout}>
+          {'Logout'}
+        </button>
+        <img src='/icons/right-arrow.svg' className='me-[5%]' />
+      </div>
+      <div className='border-light mx-auto w-[90%] border-b' />
     </div>
   );
 }

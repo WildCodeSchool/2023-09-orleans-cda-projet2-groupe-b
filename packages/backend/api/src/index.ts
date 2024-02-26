@@ -12,7 +12,7 @@ const FRONTEND_HOST = process.env.FRONTEND_HOST;
 const FRONTEND_PORT = process.env.FRONTEND_PORT;
 
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
-
+app.use(express.static('uploads'));
 app.use(express.json());
 app.use(
   cors({
