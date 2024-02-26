@@ -1,38 +1,9 @@
-type SearchTripFilter = {
-  cp_t_id: bigint;
-  start_address: string;
-  end_address: string;
-  cp_t_kilometer: number;
-  cp_t_travel_time: number;
-  t_id: bigint;
-  driver_id: number;
-  car_id: number;
-  date: Date;
-  price: number;
-  comment?: string;
-  seat_available: number;
-  should_auto_validate: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_smoker_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
-  firstname: string;
-  lastname: string;
-  avatar?: string;
-  start_distance: number;
-  end_distance: number;
-  passengerCheckpointTrip: {
-    id: bigint;
-    reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
-  }[];
-}[];
+import type { DataSearchTrip } from '@app/types';
 
 export default function CardTrip({
   searchTripFilter,
 }: {
-  readonly searchTripFilter: SearchTripFilter;
+  readonly searchTripFilter: DataSearchTrip[];
 }) {
   return (
     <>
@@ -100,16 +71,32 @@ export default function CardTrip({
                 {' €'}
               </p>
               <div className='flex space-x-1'>
-                {search.passengerCheckpointTrip.map((seat) => (
-                  <img
-                    key={seat.id}
-                    src={
-                      seat.reserved_seat === null
-                        ? '/icons/reserved-seat.svg'
-                        : '/icons/empty-seat.svg'
+                {[...search.passengerSearchTrip]
+                  .sort((a, b) => {
+                    if (
+                      a.reservation_id === null &&
+                      b.reservation_id !== null
+                    ) {
+                      return -1;
                     }
-                  />
-                ))}
+                    if (
+                      a.reservation_id !== null &&
+                      b.reservation_id === null
+                    ) {
+                      return 1;
+                    }
+                    return 0;
+                  })
+                  .map((seat) => (
+                    <img
+                      key={seat.id}
+                      src={
+                        seat.reservation_id === null
+                          ? '/icons/reserved-seat.svg'
+                          : '/icons/empty-seat.svg'
+                      }
+                    />
+                  ))}
               </div>
             </div>
           </div>

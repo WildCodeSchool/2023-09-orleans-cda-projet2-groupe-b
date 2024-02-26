@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
+import type { DataSearchTrip } from '@app/types';
 import { type SearchTripType, searchTripSchema } from '@app/types';
 
 import CardTrip from '@/components/CardTrip';
@@ -19,37 +20,6 @@ interface PlaceEnd {
   y: number | undefined;
 }
 
-type SearchTripFilter = {
-  cp_t_id: bigint;
-  start_address: string;
-  end_address: string;
-  cp_t_kilometer: number;
-  cp_t_travel_time: number;
-  t_id: bigint;
-  driver_id: number;
-  car_id: number;
-  date: Date;
-  price: number;
-  comment?: string;
-  seat_available: number;
-  should_auto_validate: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_smoker_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
-  firstname: string;
-  lastname: string;
-  avatar?: string;
-  start_distance: number;
-  end_distance: number;
-  passengerCheckpointTrip: {
-    id: bigint;
-    reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
-  }[];
-}[];
-
 const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function SearchTrip() {
@@ -57,7 +27,7 @@ export default function SearchTrip() {
   const [placeEnd, setPlaceEnd] = useState<PlaceEnd>();
 
   const [searchTripFilter, setSearchTripFilter] = useState<
-    SearchTripFilter | undefined
+    DataSearchTrip[] | undefined
   >();
 
   const {

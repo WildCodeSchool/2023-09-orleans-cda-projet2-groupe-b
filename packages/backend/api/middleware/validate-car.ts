@@ -14,12 +14,7 @@ const validationCar = [
     .isString()
     .isLength({ max: 25 })
     .withMessage({ message: 'Should contain less than 25 characters' }),
-  body('photo')
-    .trim()
-    .notEmpty()
-    .isString()
-    .isLength({ max: 255 })
-    .withMessage({ message: 'Should contain less than 255 characters' }),
+
   body('number_seat')
     .trim()
     .notEmpty()

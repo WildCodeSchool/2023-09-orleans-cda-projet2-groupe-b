@@ -1,5 +1,8 @@
+/* eslint-disable unicorn/no-null */
+// undefined avec Multer ça fonctionne pas d'ou le disable unicorn/no-null
 import type { Request, Response } from 'express';
 import express from 'express';
+import multerConfig from 'middleware/multer-config';
 import loginIdUser from 'middleware/user-id';
 import validationCar from 'middleware/validate-car';
 
@@ -15,32 +18,28 @@ interface RequestWithUser extends Request {
 carRouter.post(
   '/add',
   loginIdUser,
+  multerConfig,
   validationCar,
   async (req: RequestWithUser, res: Response) => {
+    const { brand, model, number_seat, color, plate_number } = req.body;
+    const photo = req.file ? req.file.path : null;
+    if (!req.userId) {
+      throw new Error('User is not authenticated');
+    }
+    const userId = req.userId;
     try {
-      await db.transaction().execute(async (trx) => {
-        const { brand, model, photo, number_seat, color, plate_number } =
-          req.body as Car;
-
-        if (!req.userId) {
-          throw new Error('User is not authenticated');
-        }
-
-        const userId = req.userId;
-
-        await trx
-          .insertInto('car')
-          .values({
-            brand,
-            model,
-            photo,
-            number_seat,
-            color,
-            plate_number,
-            user_id: userId,
-          })
-          .execute();
-      });
+      await db
+        .insertInto('car')
+        .values({
+          brand,
+          model,
+          photo: photo,
+          number_seat,
+          color,
+          plate_number,
+          user_id: userId,
+        })
+        .execute();
       res.status(200).json({ ok: true, message: 'success' });
     } catch (error) {
       return res.status(500).json({ ok: false, error });
@@ -81,11 +80,13 @@ carRouter.get('/:id', loginIdUser, async (req: Request, res: Response) => {
 carRouter.put(
   '/:id',
   loginIdUser,
+  multerConfig,
   async (req: RequestWithUser, res: Response) => {
     try {
       const { id } = req.params;
       const userId = req.userId;
-      const { brand, model, photo, number_seat, color, plate_number } =
+      const photo = req.file ? (req.file.path as Car['photo']) : '';
+      const { brand, model, number_seat, color, plate_number } =
         req.body as Car;
       await db.transaction().execute(async (trx) => {
         const car = await trx
@@ -107,7 +108,7 @@ carRouter.put(
           .set({
             brand,
             model,
-            photo,
+            photo: photo,
             number_seat,
             color,
             plate_number,
