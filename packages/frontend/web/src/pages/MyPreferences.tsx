@@ -66,11 +66,9 @@ export default function PreferencesForm() {
         );
       }
     };
-
     fetchData().catch(() => {
-      throw new Error('Erreur lors de la récupération des données utilisateur');
+      console.error('Erreur lors de la récupération des données utilisateur');
     });
-
     return () => {
       abortController.abort();
     };
@@ -84,7 +82,6 @@ export default function PreferencesForm() {
     try {
       const response = await fetch(`/api/my-preferences/${userId}`, {
         method: 'PUT',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -105,7 +102,7 @@ export default function PreferencesForm() {
         throw new Error('Error saving data');
       }
     } catch {
-      throw new Error('Network error or while saving local data:');
+      console.error('Network error or while saving local data:');
     }
   };
 
