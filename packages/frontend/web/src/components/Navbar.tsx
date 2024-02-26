@@ -68,8 +68,14 @@ export default function Navbar() {
       </div>
       <div className='flex flex-row justify-center gap-[3rem] sm:gap-14'>
         <div className='mt-6 hidden h-0 w-0 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
-          <img src='/icons/publish.svg' alt='publish' className='h-7 w-full' />
-          <p className='text-center'>{'Publish'}</p>
+          <Link to={'/publish-trip'}>
+            <img
+              src='/icons/publish.svg'
+              alt='publish'
+              className='h-7 w-full'
+            />
+            <p className='text-center'>{'Publish'}</p>
+          </Link>
         </div>
         <div className='mt-6 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
           <img src='/icons/message.svg' alt='message' className='h-7 w-full' />

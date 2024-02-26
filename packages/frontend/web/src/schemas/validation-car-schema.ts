@@ -21,9 +21,9 @@ export const validationCarSchema = z.object({
     .trim(),
   photo: z
     .custom<FileList>()
-    .refine((files) => {
-      return [...(files ?? [])].length > 0;
-    }, 'Image is required')
+    // .refine((files) => {
+    //   return [...(files ?? [])].length > 0;
+    // }, 'Image is required')
     .refine((files) => {
       return [...(files ?? [])].every(
         (file) => sizeInMB(file.size) <= MAX_IMAGE_SIZE,

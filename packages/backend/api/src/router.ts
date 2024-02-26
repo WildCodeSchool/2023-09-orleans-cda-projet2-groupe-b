@@ -6,6 +6,7 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { carRouter } from './car';
+import { publishTripRouter } from './publish-trip';
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.get('/some-route', (_request, response) => {
   return response.json(value);
 });
 
+router.use('/trip', publishTripRouter);
 router.use('/auth', authRouter);
 router.use('/car', carRouter);
 
