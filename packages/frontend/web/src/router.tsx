@@ -10,6 +10,7 @@ import MyInfo from './pages/MyInfo';
 import MyOpinions from './pages/MyOpinions';
 import MyPreferences from './pages/MyPreferences';
 import Profile from './pages/Profile';
+import PublishTrip from './pages/PublishTrip';
 import Register from './pages/Register';
 import SearchTrip from './pages/SearchTrip';
 
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: '/search-trip',
     element: <SearchTrip />,
+  },
+  {
+    path: '/publish-trip',
+    element: <PublishTrip />,
   },
 ]);
 

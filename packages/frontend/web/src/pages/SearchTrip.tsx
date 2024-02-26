@@ -5,8 +5,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
+import { type SearchTripType, searchTripSchema } from '@app/shared';
 import type { DataSearchTrip } from '@app/types';
-import { type SearchTripType, searchTripSchema } from '@app/types';
 
 import CardTrip from '@/components/CardTrip';
 

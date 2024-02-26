@@ -5,7 +5,7 @@ export type DataSearchTrip = {
   cp_t_kilometer: number;
   cp_t_travel_time: number;
   t_id: bigint;
-  driver_id: number;
+  driver_id: bigint;
   date: Date;
   price: number;
   seat_available: number;
@@ -17,7 +17,7 @@ export type DataSearchTrip = {
   passengerSearchTrip: {
     id: bigint;
     reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
+    checkpoint_trip_id: bigint;
+    reservation_id: bigint | undefined;
   }[];
 };

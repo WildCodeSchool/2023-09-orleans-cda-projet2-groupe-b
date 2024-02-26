@@ -62,7 +62,7 @@ searchTripRouter.get('/', async (req, res) => {
       .execute();
 
     for await (const searchTrip of searchTrips) {
-      const id = Number(searchTrip.cp_t_id);
+      const id = searchTrip.cp_t_id;
 
       const passengerSearchTrip = await db
         .selectFrom('reservation_seat')

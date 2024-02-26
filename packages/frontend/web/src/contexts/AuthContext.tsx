@@ -9,7 +9,7 @@ type AuthProviderState = {
   setIsLoggedIn: (value: boolean) => void;
 };
 
-const AuthProviderContext = createContext<AuthProviderState | undefined>(
+const authProviderContext = createContext<AuthProviderState | undefined>(
   undefined,
 );
 
@@ -36,14 +36,14 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const value = useMemo(() => ({ isLoggedIn, setIsLoggedIn }), [isLoggedIn]);
 
   return (
-    <AuthProviderContext.Provider {...props} value={value}>
+    <authProviderContext.Provider {...props} value={value}>
       {children}
-    </AuthProviderContext.Provider>
+    </authProviderContext.Provider>
   );
 }
 
 export const useAuth = () => {
-  const context = useContext(AuthProviderContext);
+  const context = useContext(authProviderContext);
 
   if (!context) throw new Error('useAuth must be used within a AuthProvider');
 
