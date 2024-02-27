@@ -23,7 +23,8 @@
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.20",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "@types/multer": "^1.4.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
