@@ -33,7 +33,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch(`/api/profile/${userId}`)
+    fetch(`/api/profile`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erreur HTTP ! Statut : ${res.status}`);
@@ -110,21 +110,21 @@ export default function Profile() {
         <p className='mt-2'>{'CO2'}</p>
         <p className='mt-2'>{'Price economy'}</p>{' '}
       </div>
-      <Link to={`/my-informations/${userId}`}>
+      <Link to={`/my-informations`}>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My informations'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
       <div className='border-light mx-auto w-[90%] border-b' />
-      <Link to={`/my-opinions/${userId}`}>
+      <Link to={`/my-opinions`}>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My opinions'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
         </div>
       </Link>
       <div className='border-light mx-auto w-[90%] border-b' />
-      <Link to={`/my-preferences/${userId}`}>
+      <Link to={`/my-preferences`}>
         <div className=' mt-5 flex justify-between'>
           <p className='ms-[5%]'>{'My profile preferences'}</p>
           <img src='/icons/right-arrow.svg' className='me-[5%]' />
