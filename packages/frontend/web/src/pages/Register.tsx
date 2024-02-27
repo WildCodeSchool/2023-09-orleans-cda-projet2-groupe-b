@@ -13,11 +13,6 @@ import {
 export default function Login() {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstname, setFirstname] = useState<string>('');
-  const [lastname, setLastname] = useState<string>('');
-  const [birthdate, setBirthdate] = useState<Date | string>('');
 
   const {
     register,
@@ -78,10 +73,6 @@ export default function Login() {
               type='text'
               placeholder='firstname'
               {...register('firstname')}
-              value={firstname}
-              onChange={(event) => {
-                setFirstname(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.firstname ? (
@@ -98,10 +89,6 @@ export default function Login() {
               type='text'
               placeholder='lastname'
               {...register('lastname')}
-              value={lastname}
-              onChange={(event) => {
-                setLastname(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.lastname ? (
@@ -118,14 +105,6 @@ export default function Login() {
               type='date'
               placeholder='birthdate'
               {...register('birthdate')}
-              value={
-                typeof birthdate === 'string'
-                  ? birthdate
-                  : birthdate.toISOString().split('T')[0]
-              }
-              onChange={(event) => {
-                setBirthdate(event.target.value);
-              }}
             />
             <div className='mb border-b-light border' />
             {errors.birthdate ? (
@@ -142,10 +121,6 @@ export default function Login() {
               type='email'
               placeholder='Email'
               {...register('email')}
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.email ? (
@@ -162,10 +137,6 @@ export default function Login() {
               type='password'
               placeholder='Password'
               {...register('password')}
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.password ? (

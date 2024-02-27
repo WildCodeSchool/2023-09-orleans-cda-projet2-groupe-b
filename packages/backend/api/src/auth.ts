@@ -77,7 +77,7 @@ authRouter.post(
           is_baby_allowed: false,
           is_non_vaccinated_allowed: false,
           is_animal_allowed: false,
-          is_smoker_allowed: false
+          is_smoker_allowed: false,
         })
         .execute();
 

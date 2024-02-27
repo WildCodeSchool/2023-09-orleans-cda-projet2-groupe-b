@@ -13,8 +13,6 @@ import {
 export default function Login() {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
 
   const {
     register,
@@ -91,10 +89,6 @@ export default function Login() {
               type='email'
               placeholder='Email'
               {...register('email')}
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
           </div>
@@ -106,10 +100,6 @@ export default function Login() {
               type='password'
               placeholder='Password'
               {...register('password')}
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
           </div>
