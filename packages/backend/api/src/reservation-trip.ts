@@ -1,7 +1,8 @@
 // import type { Request, Response } from 'express';
 import express from 'express';
+import type { Request } from 'express';
 import { sql } from 'kysely';
-import { getUser } from 'middleware/get-user';
+import loginIdUser from 'middleware/user-id';
 
 import { db } from '@app/backend-shared';
 
@@ -10,72 +11,84 @@ type Reservation = {
   seatSelectId: bigint[];
 };
 
+interface RequestWithUser extends Request {
+  userId?: number;
+}
+
 const reservationTripRouter = express.Router();
 
-reservationTripRouter.post('/', getUser, async (req, res) => {
-  const user = res.locals.user;
-  const { shouldAutoValidate, seatSelectId } = req.body as Reservation;
+reservationTripRouter.post(
+  '/',
+  loginIdUser,
+  async (req: RequestWithUser, res) => {
+    try {
+      if (!req.userId) {
+        throw new Error('User is not authenticated');
+      }
+      const userId = req.userId;
 
-  console.log('LLLAAAA', shouldAutoValidate, seatSelectId);
+      const { shouldAutoValidate, seatSelectId } = req.body as Reservation;
 
-  const createdAt = new Date();
+      console.log('LLLAAAA', shouldAutoValidate, seatSelectId);
 
-  const validatedAt: Date | null = new Date();
+      const createdAt = new Date();
 
-  // if shouldAutoValidate false -> validated_at = null else new Date()
+      let validatedAt: Date | undefined = new Date();
+      if (!shouldAutoValidate) {
+        validatedAt = undefined;
+      }
 
-  try {
-    const selectReservationSeat = await db
-      .selectFrom('reservation_seat')
-      .selectAll()
-      .where('id', 'in', seatSelectId)
-      .execute();
+      const selectReservationSeat = await db
+        .selectFrom('reservation_seat')
+        .selectAll()
+        .where('id', 'in', seatSelectId)
+        .execute();
 
-    const seatUnavailable = selectReservationSeat.find(
-      (seat) => seat.reservation_id !== null,
-    );
+      const seatUnavailable = selectReservationSeat.find(
+        (seat) => seat.reservation_id !== null,
+      );
 
-    if (seatUnavailable !== undefined) {
-      console.log('Seat unavailable');
+      if (seatUnavailable !== undefined) {
+        console.log('Seat unavailable');
+
+        return res.json({
+          ok: false,
+          error: 'Seat unavailable',
+        });
+      }
+      console.log('la');
+
+      const insertReservation = await db
+        .insertInto('reservation')
+        .values({
+          user_id: BigInt(userId),
+          number_seat: seatSelectId.length,
+          validated_at: validatedAt,
+          created_at: createdAt,
+        })
+        .executeTakeFirst();
+      console.log(insertReservation);
+      console.log('laa');
+
+      const reservationId = insertReservation.insertId;
+
+      await db
+        .updateTable('reservation_seat')
+        .set({ reservation_id: reservationId })
+        .where('id', 'in', seatSelectId)
+        .execute();
+      console.log('laaa');
 
       return res.json({
+        ok: true,
+      });
+    } catch (error) {
+      return res.json({
         ok: false,
-        error: 'Seat unavailable',
+        error,
       });
     }
-
-    const insertReservation = await db
-      .insertInto('reservation')
-      .values({
-        user_id: Number(user.id),
-        number_seat: seatSelectId.length,
-        validated_at: createdAt,
-        created_at: createdAt,
-      })
-      .executeTakeFirst();
-
-    const reservationId = Number(insertReservation.insertId);
-
-    const insertReservationSeat = await db
-      .updateTable('reservation_seat')
-      .set({ reservation_id: reservationId })
-      .where('id', 'in', seatSelectId)
-      .execute();
-
-    for await (const id of insertReservationSeat) {
-      console.log(id);
-    }
-
-    return res.json({
-      ok: true,
-      reservationId,
-    });
-  } catch (error) {
-    return res.json({
-      ok: false,
-      error,
-    });
-  }
-});
+  },
+);
 
 export { reservationTripRouter };

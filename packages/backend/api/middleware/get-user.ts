@@ -43,6 +43,7 @@ export const getUser = async (
       .executeTakeFirst();
 
     res.locals.user = user;
+
     next();
   } catch (error) {
     return res.status(401).json({

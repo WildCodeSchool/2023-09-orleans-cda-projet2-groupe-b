@@ -5,11 +5,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
-import {
-  type ResultSearchTripType,
-  type SearchTripType,
-  searchTripSchema,
-} from '@app/types/src/search-trip-validation';
+import { type SearchTripType, searchTripSchema } from '@app/shared';
+import type { DataSearchTrip } from '@app/types';
 
 import CardTrip from '@/components/CardTrip';
 
@@ -23,12 +20,14 @@ interface PlaceEnd {
   y: number | undefined;
 }
 
+const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
+
 export default function SearchTrip() {
   const [placeStart, setPlaceStart] = useState<PlaceStart>();
   const [placeEnd, setPlaceEnd] = useState<PlaceEnd>();
 
-  const [resultSearchTrip, setResultSearchTrip] = useState<
-    ResultSearchTripType | undefined
+  const [searchTripFilter, setSearchTripFilter] = useState<
+    DataSearchTrip[] | undefined
   >();
 
   const {
@@ -100,23 +99,17 @@ export default function SearchTrip() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/search-trip?startX=${
-          placeStart?.x
-        }&startY=${placeStart?.y}&endX=${
-          placeEnd?.x
-        }&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
+        `/api/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
       ).then((res) => res.json());
-      setResultSearchTrip(response);
+      setSearchTripFilter(response);
     } catch (error) {
       throw new Error(String(error));
     }
   };
 
-  const passengers = [1, 2, 3, 4, 5, 6, 7, 8];
-
   return (
     <div className='flex justify-center'>
-      <div className=' text-primary flex h-[750px] w-[600px] justify-center bg-black'>
+      <div className='text-primary flex h-[750px] w-[600px] justify-center bg-black'>
         <form
           method='get'
           className='m-4 flex w-96 flex-col bg-slate-100 p-2'
@@ -164,7 +157,6 @@ export default function SearchTrip() {
                   selected={field.value}
                   inline
                   minDate={new Date()}
-                  showTimeInput
                   className='w-full rounded-2xl border bg-orange-400'
                 />
               )}
@@ -184,7 +176,6 @@ export default function SearchTrip() {
             </select>
           </div>
           <div className='flex w-full justify-center'>
-            {' '}
             <button
               type='submit'
               className='bg-primary my-5 w-64 rounded-lg p-2 font-semibold text-white'
@@ -195,8 +186,8 @@ export default function SearchTrip() {
         </form>
       </div>
       <div className='space-y-4'>
-        {resultSearchTrip === undefined ? undefined : (
-          <CardTrip resultSearchTrip={resultSearchTrip} />
+        {searchTripFilter === undefined ? undefined : (
+          <CardTrip searchTripFilter={searchTripFilter} />
         )}
       </div>
     </div>

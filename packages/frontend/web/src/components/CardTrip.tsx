@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 
-import type { ResultSearchTripType } from '@app/types/src/search-trip-validation';
+import type { DataSearchTrip } from '@app/types';
 
 export default function CardTrip({
-  resultSearchTrip,
+  searchTripFilter,
 }: {
-  readonly resultSearchTrip: ResultSearchTripType;
+  readonly searchTripFilter: DataSearchTrip[];
 }) {
   return (
     <>
-      {resultSearchTrip.map((search) => {
+      {searchTripFilter.map((search) => {
         const timeStart = new Date(search.date);
         const timeEnd = new Date(search.date).setHours(
           new Date(search.date).getHours(),
@@ -20,9 +20,18 @@ export default function CardTrip({
           new Date(init).getHours(),
           new Date(init).getMinutes() + search.cp_t_travel_time,
         );
-        const timeEndFormat = `${new Date(timeEnd).getHours().toString().padStart(2, '0')}h${new Date(timeEnd).getMinutes().toString().padStart(2, '0')}`;
-        const timeStartFormat = `${new Date(timeStart).getHours().toString().padStart(2, '0')}h${new Date(timeStart).getMinutes().toString().padStart(2, '0')}`;
-        const travelTimeFormat = `${new Date(travelTime).getHours().toString().padStart(2, '0')}h${new Date(travelTime).getMinutes().toString().padStart(2, '0')}`;
+        const timeFormat = (time: Date | number) => {
+          return `${new Date(time)
+            .getHours()
+            .toString()
+            .padStart(2, '0')}h${new Date(time)
+            .getMinutes()
+            .toString()
+            .padStart(2, '0')}`;
+        };
+        const timeStartFormat = timeFormat(timeStart);
+        const travelTimeFormat = timeFormat(travelTime);
+        const timeEndFormat = timeFormat(timeEnd);
 
         return (
           <Link
@@ -65,16 +74,32 @@ export default function CardTrip({
                 {' €'}
               </p>
               <div className='flex space-x-1'>
-                {search.passengerCheckpointTrip.map((seat) => (
-                  <img
-                    key={seat.id}
-                    src={
-                      seat.reserved_seat === null
-                        ? '/icons/reserved-seat.svg'
-                        : '/icons/empty-seat.svg'
+                {[...search.passengerSearchTrip]
+                  .sort((a, b) => {
+                    if (
+                      a.reservation_id === null &&
+                      b.reservation_id !== null
+                    ) {
+                      return 1;
                     }
-                  />
-                ))}
+                    if (
+                      a.reservation_id !== null &&
+                      b.reservation_id === null
+                    ) {
+                      return -1;
+                    }
+                    return 0;
+                  })
+                  .map((seat) => (
+                    <img
+                      key={seat.id}
+                      src={
+                        seat.reservation_id === null
+                          ? '/icons/empty-seat.svg'
+                          : '/icons/reserved-seat.svg'
+                      }
+                    />
+                  ))}
               </div>
             </div>
           </Link>

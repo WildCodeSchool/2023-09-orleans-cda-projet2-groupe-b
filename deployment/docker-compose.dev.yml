@@ -3,6 +3,17 @@ version: '3'
 name: '2023-09-orleans-cda-projet2-dev'
 
 services:
+  nginx:
+    image: nginx:1.23.3
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./../packages/backend/api/uploads:/uploads
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
   database:
     image: mysql:8.2.0
     restart: always

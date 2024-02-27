@@ -3,6 +3,7 @@ import express from 'express';
 import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
+import type { DataSearchTrip } from '@app/types';
 
 type Search = {
   startX: number;
@@ -13,41 +14,10 @@ type Search = {
   date: Date;
 };
 
-type SearchTripFilter = {
-  cp_t_id: bigint;
-  start_address: string;
-  end_address: string;
-  cp_t_kilometer: number;
-  cp_t_travel_time: number;
-  t_id: bigint;
-  driver_id: number;
-  car_id: number;
-  date: Date;
-  price: number;
-  comment?: string;
-  seat_available: number;
-  should_auto_validate: boolean;
-  is_animal_allowed: boolean;
-  is_baby_allowed: boolean;
-  is_smoker_allowed: boolean;
-  is_non_vaccinated_allowed: boolean;
-  firstname: string;
-  lastname: string;
-  avatar?: string;
-  start_distance: number;
-  end_distance: number;
-  passengerCheckpointTrip: {
-    id: bigint;
-    reserved_seat: number;
-    checkpoint_trip_id: number;
-    reservation_id: null | number;
-  }[];
-}[];
-
 const searchTripRouter = express.Router();
 
-searchTripRouter.get('/search-trip', async (req, res) => {
-  const searchTripFilter: SearchTripFilter = [];
+searchTripRouter.get('/', async (req, res) => {
+  const searchTripFilter: DataSearchTrip[] = [];
   const { startX, startY, endX, endY, passenger, date } =
     req.query as unknown as Search;
 
@@ -62,7 +32,7 @@ searchTripRouter.get('/search-trip', async (req, res) => {
   `;
 
   try {
-    const checkpointsTrip = await db
+    const searchTrips = await db
       .selectFrom('checkpoint_trip')
       .innerJoin('trip', 'checkpoint_trip.trip_id', 'trip.id')
       .innerJoin('user', 'trip.driver_id', 'user.id')
@@ -73,16 +43,9 @@ searchTripRouter.get('/search-trip', async (req, res) => {
         'checkpoint_trip.kilometer as cp_t_kilometer',
         'checkpoint_trip.travel_time as cp_t_travel_time',
         'trip.id as t_id',
-        'car_id',
-        'trip.date',
-        'trip.price',
-        'comment',
-        'trip.seat_available',
-        'should_auto_validate',
-        'is_animal_allowed',
-        'is_baby_allowed',
-        'is_smoker_allowed',
-        'is_non_vaccinated_allowed',
+        'date',
+        'price',
+        'seat_available',
         'driver_id',
         'firstname',
         'lastname',
@@ -98,16 +61,16 @@ searchTripRouter.get('/search-trip', async (req, res) => {
       )
       .execute();
 
-    for await (const checkpointTrip of checkpointsTrip) {
-      const id = Number(checkpointTrip.cp_t_id);
+    for await (const searchTrip of searchTrips) {
+      const id = searchTrip.cp_t_id;
 
-      const passengerCheckpointTrip = await db
+      const passengerSearchTrip = await db
         .selectFrom('reservation_seat')
         .selectAll()
         .where('checkpoint_trip_id', '=', id)
         .execute();
-      if (passengerCheckpointTrip.length >= passenger) {
-        searchTripFilter.push({ ...checkpointTrip, passengerCheckpointTrip });
+      if (passengerSearchTrip.length >= passenger) {
+        searchTripFilter.push({ ...searchTrip, passengerSearchTrip });
       }
     }
 

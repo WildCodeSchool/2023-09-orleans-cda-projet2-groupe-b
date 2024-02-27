@@ -12,12 +12,11 @@ const FRONTEND_HOST = process.env.FRONTEND_HOST;
 const FRONTEND_PORT = process.env.FRONTEND_PORT;
 
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
-
+app.use(express.static('uploads'));
 app.use(express.json());
 app.use(
   cors({
     origin: `http://${FRONTEND_HOST}:${FRONTEND_PORT}`,
-    credentials: true,
   }),
 );
 app.use(cookieParser(COOKIE_SECRET));

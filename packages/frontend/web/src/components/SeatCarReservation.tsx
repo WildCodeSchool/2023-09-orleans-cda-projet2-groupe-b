@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   type ReservationSeatTripType,
@@ -75,23 +75,19 @@ export default function SeatCarReservation({
   const onSubmit: SubmitHandler<ReservationSeatTripType> = async (data) => {
     console.log(data);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/reservation`,
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+      const response = await fetch(`/api/reservation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
       const responseData = await response.json();
       if (responseData.ok === true) {
         navigate('/');
       }
     } catch (error) {
-      throw new Error(`${String(error)}`);
+      console.error(error);
     }
   };
 
@@ -227,10 +223,6 @@ export default function SeatCarReservation({
     }
   };
 
-  if (!isLoggedIn) {
-    return <Navigate to={'/login'} />;
-  }
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -238,37 +230,37 @@ export default function SeatCarReservation({
     >
       <h1 className='text-primary'>{'Select your seats'}</h1>
       <div className='mt-9 grid grid-cols-6'>
-        {seatInTheCar.map((seat) => (
-          <div
-            key={seat}
-            className={`relative h-[54px] w-[50px] ${classSeatInTheCar(seat)}`}
-          >
-            <input
-              type='checkbox'
-              onChange={handleCheckboxChange}
-              value={seat}
-              checked={seatSelect.includes(seat)}
-              className='absolute h-full w-full opacity-0'
-              disabled={seatReservable.includes(seat) ? false : true}
-            />
-            <img
-              src={
-                seatSelect.includes(seat)
-                  ? '/icons/seat-select.svg'
-                  : seatReservable.includes(seat)
-                    ? '/icons/seat.svg'
-                    : '/icons/no-seat.svg'
-              }
-              className='h-full w-full'
-            />
-            {seat === 1 ? (
-              <img
-                src={'/icons/steering-wheel.svg'}
-                className='absolute top-[-29px] h-full w-full p-1'
+        {seatInTheCar.map((seat) => {
+          let imgSeat = '/icons/no-seat.svg';
+
+          if (seatSelect.includes(seat)) {
+            imgSeat = '/icons/seat-select.svg';
+          } else if (seatReservable.includes(seat)) {
+            imgSeat = '/icons/seat.svg';
+          }
+          return (
+            <div
+              key={seat}
+              className={`relative h-[54px] w-[50px] ${classSeatInTheCar(seat)}`}
+            >
+              <input
+                type='checkbox'
+                onChange={handleCheckboxChange}
+                value={seat}
+                checked={seatSelect.includes(seat)}
+                className='absolute h-full w-full opacity-0'
+                disabled={seatReservable.includes(seat) ? false : true}
               />
-            ) : undefined}
-          </div>
-        ))}
+              <img src={imgSeat} className='h-full w-full' />
+              {seat === 1 ? (
+                <img
+                  src={'/icons/steering-wheel.svg'}
+                  className='absolute top-[-29px] h-full w-full p-1'
+                />
+              ) : undefined}
+            </div>
+          );
+        })}
       </div>
       {errors.seatSelectId?.message ? (
         <span className='text-red-700'>{errors.seatSelectId.message}</span>
