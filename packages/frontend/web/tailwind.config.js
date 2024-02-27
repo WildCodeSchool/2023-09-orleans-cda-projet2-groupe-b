@@ -15,7 +15,7 @@ export default {
       },
       backgroundImage: {
         'custom-background':
-          "url('/background.svg'), linear-gradient(180deg, #a3b7c8 0%, #5a9891 100%)",
+          "url('/images/background.svg'), linear-gradient(180deg, #a3b7c8 0%, #5a9891 100%)",
       },
     },
   },
