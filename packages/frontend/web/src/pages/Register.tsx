@@ -51,8 +51,8 @@ export default function Login() {
         setIsLoggedIn(true);
         navigate('/');
       }
-    } catch {
-      throw new Error('Erreur lors de la requête:');
+    } catch (error) {
+      console.error('Error during request', error);
     }
   };
 
@@ -70,37 +70,6 @@ export default function Login() {
           className='md:mt-10  lg:my-[8%] lg:p-8'
           onSubmit={handleSubmit(onSubmit)}
         >
-          {errors.firstname ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.firstname.message}
-            </p>
-          ) : undefined}
-          {errors.lastname ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.lastname.message}
-            </p>
-          ) : undefined}
-          {errors.birthdate ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.birthdate.message}
-            </p>
-          ) : undefined}
-          {errors.email ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.email.message}
-            </p>
-          ) : undefined}
-          {errors.password ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.password.message}
-            </p>
-          ) : undefined}
-          {errors.confirmPassword ? (
-            <p className='text-danger ms-[10%] mt-2 italic'>
-              {errors.confirmPassword.message}
-            </p>
-          ) : undefined}
-
           <div className='mx-auto my-5 h-10 md:w-[80%]'>
             <input
               className={`placeholder-light w-full bg-transparent text-xl ${
@@ -115,6 +84,11 @@ export default function Login() {
               }}
             />
             <div className='border-b-light border' />
+            {errors.firstname ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.firstname.message}
+              </p>
+            ) : undefined}
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
@@ -130,6 +104,11 @@ export default function Login() {
               }}
             />
             <div className='border-b-light border' />
+            {errors.lastname ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.lastname.message}
+              </p>
+            ) : undefined}
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
@@ -149,6 +128,11 @@ export default function Login() {
               }}
             />
             <div className='mb border-b-light border' />
+            {errors.birthdate ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.birthdate.message}
+              </p>
+            ) : undefined}
           </div>
           <div className='mx-auto mt-10 h-10 md:w-[80%]'>
             <input
@@ -164,6 +148,11 @@ export default function Login() {
               }}
             />
             <div className='border-b-light border' />
+            {errors.email ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.email.message}
+              </p>
+            ) : undefined}
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
@@ -179,6 +168,11 @@ export default function Login() {
               }}
             />
             <div className='border-b-light border' />
+            {errors.password ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.password.message}
+              </p>
+            ) : undefined}
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
             <input
@@ -190,8 +184,12 @@ export default function Login() {
               {...register('confirmPassword')}
             />
             <div className='border-b-light border' />
+            {errors.confirmPassword ? (
+              <p className='text-danger ms-[10%] mt-2 italic'>
+                {errors.confirmPassword.message}
+              </p>
+            ) : undefined}
           </div>
-
           <div className='bg-light text-dark m-auto my-10 h-10 rounded text-center shadow-lg md:mb-10 md:w-[80%]'>
             <button type='submit' className='my-1 text-xl font-semibold'>
               {'Register'}

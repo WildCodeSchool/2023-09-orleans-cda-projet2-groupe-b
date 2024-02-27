@@ -74,6 +74,10 @@ authRouter.post(
           passenger_kilometer_traveled: 0,
           driver_kilometer_traveled: 0,
           economy_achieved: 0,
+          is_baby_allowed: false,
+          is_non_vaccinated_allowed: false,
+          is_animal_allowed: false,
+          is_smoker_allowed: false
         })
         .execute();
 

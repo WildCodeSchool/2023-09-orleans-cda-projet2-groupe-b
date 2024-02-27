@@ -45,8 +45,8 @@ export default function Login() {
         setIsLoggedIn(true);
         navigate('/');
       }
-    } catch {
-      throw new Error('Erreur lors de la requête:');
+    } catch (error) {
+      console.error('Error during request', error);
     }
   };
 
@@ -95,7 +95,7 @@ export default function Login() {
               onChange={(event) => {
                 setEmail(event.target.value);
               }}
-            />{' '}
+            />
             <div className='border-b-light border' />
           </div>
           <div className='mx-auto mt-5 h-10 md:w-[80%]'>
@@ -116,21 +116,18 @@ export default function Login() {
           <div className='text-end md:me-[10%]'>
             <p>{'forgot password ?'}</p>
           </div>
-          <div className='bg-light m-auto my-7 h-10 rounded-lg text-center shadow-lg md:w-[80%]'>
-            <button
-              type='submit'
-              className='text-dark my-1 text-xl font-semibold'
-            >
+          <div className='bg-light text-dark m-auto my-10 h-10 rounded text-center shadow-lg md:mb-10 md:w-[80%]'>
+            <button type='submit' className='my-1 text-xl font-semibold'>
               {'Login'}
             </button>
           </div>
-          <div className='mt-5 flex justify-end text-end md:me-[10%]'>
-            <p className='px-5'>{'Not account ?'}</p>
-            <Link to='/register' className='border-light text-light border-b'>
-              {'Sign up'}
-            </Link>
-          </div>
         </form>
+        <div className='mt-5 flex justify-end text-end md:me-[10%]'>
+          <p className='px-5'>{'Not account ?'}</p>
+          <Link to='/register' className='border-light text-light border-b'>
+            {'Sign up'}
+          </Link>
+        </div>
       </div>
     </div>
   );
