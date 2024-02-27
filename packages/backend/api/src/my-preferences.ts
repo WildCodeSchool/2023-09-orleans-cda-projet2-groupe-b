@@ -49,10 +49,10 @@ preferenceRouter.put(
   '/',
   loginIdUser,
   async (req: RequestWithUser, res: Response) => {
-    if (!req.userId) {
-      throw new Error('User is not authenticated');
-    }
     try {
+      if (!req.userId) {
+        throw new Error('User is not authenticated');
+      }
       const {
         biography,
         is_baby_allowed,
