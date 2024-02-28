@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout';
+import SearchTripDetails from './components/SearchTripDetails';
 import AddACar from './pages/AddACar';
 import EditCar from './pages/EditCar';
 import Home from './pages/Home';
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: '/search-trip',
     element: <SearchTrip />,
+  },
+  {
+    path: 'search-trip/:id',
+    element: <SearchTripDetails />,
   },
   {
     path: '/publish-trip',
