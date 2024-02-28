@@ -31,9 +31,7 @@ const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
       }),
     });
 
-    if (response.ok) {
-      ('Data saved successfully');
-    } else {
+    if (!response.ok) {
       throw new Error('Error saving data');
     }
   } catch {
