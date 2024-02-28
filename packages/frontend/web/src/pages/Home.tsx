@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Home() {
   return (
     <div className='md:mt-18 mt-20 flex flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
@@ -14,19 +16,26 @@ export default function Home() {
           </h1>
         </div>
         <div className='mt-10 flex flex-row items-center justify-center gap-8 '>
-          <div className='flex flex-col'>
-            <img src='/icons/passenger.svg' alt='passenger' className='h-2/4' />
-            <p className='mt-3 text-center text-lg'>{'Passenger'}</p>
-          </div>
-
-          <div className='flex flex-col'>
-            <img
-              src='/icons/driver.svg'
-              alt='driver'
-              className='h-2/4 sm:h-full'
-            />
-            <p className='text-center text-lg'>{'Driver'}</p>
-          </div>
+          <Link to='/search-trip'>
+            <div className='flex flex-col'>
+              <img
+                src='/icons/passenger.svg'
+                alt='passenger'
+                className='h-2/4'
+              />
+              <p className='mt-3 text-center text-lg'>{'Passenger'}</p>
+            </div>
+          </Link>
+          <Link to='/publish-trip'>
+            <div className='flex flex-col'>
+              <img
+                src='/icons/driver.svg'
+                alt='driver'
+                className='h-2/4 sm:h-full'
+              />
+              <p className='text-center text-lg'>{'Driver'}</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
