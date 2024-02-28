@@ -24,19 +24,19 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/profile/:userId',
+        path: '/profile',
         element: <Profile />,
       },
       {
-        path: '/my-informations/:userId',
+        path: '/my-informations',
         element: <MyInfo />,
       },
       {
-        path: '/my-opinions/:userId',
+        path: '/my-opinions',
         element: <MyOpinions />,
       },
       {
-        path: '/my-preferences/:userId',
+        path: '/my-preferences',
         element: <MyPreferences />,
       },
       {

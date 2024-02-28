@@ -17,7 +17,7 @@ export default function MyInfo() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/my-informations/${userId}`)
+    fetch(`/api/my-informations`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erreur HTTP ! Statut : ${res.status}`);
@@ -55,16 +55,19 @@ export default function MyInfo() {
 
   return (
     <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
-      <Link to={`/profile/${userId}`}>
-        <img
-          src='/icons/right-arrow.svg'
-          alt='left-arrow'
-          className='my-5 ms-[5%] h-5 rotate-180'
-        />
-      </Link>
-      <h1 className='text-bold ms-[5%] text-2xl sm:mt-20 md:mt-10'>
-        {'My informations'}
-      </h1>
+      <div className='flex justify-between'>
+        <Link to={`/profile`}>
+          <img
+            src='/icons/right-arrow.svg'
+            alt='left-arrow'
+            className='my-5 ms-[5%] h-5 rotate-180'
+          />
+        </Link>
+        <h1 className='text-bold me-[5%] text-2xl sm:mt-20 md:mt-10'>
+          {'My informations'}
+        </h1>
+      </div>
+
       <div className='flex justify-between'>
         <img
           src='../images/user-placeholder.jpg'
