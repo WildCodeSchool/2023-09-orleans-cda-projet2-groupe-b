@@ -1,10 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function MyOpinions() {
-  const { userId } = useParams<{ userId: string }>();
   return (
     <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
-      <Link to={`/profile/${userId}`}>
+      <Link to={`/profile`}>
         <img
           src='/icons/right-arrow.svg'
           alt='left-arrow'

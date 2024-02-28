@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const navigate = useNavigate();
 
   const Logout = async () => {
@@ -104,19 +105,19 @@ export default function Navbar() {
                 <div className='aria-hidden bg-custom-gradient shadow-custom fixed right-2 top-14 mt-2 w-60 rounded-md border'>
                   <ul className='mb-2 ml-3 mr-6 mt-3'>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-informations'>
+                      <Link to={`/my-informations`}>
                         <p>{'My informations'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-opinions'>
+                      <Link to={`/my-opinions`}>
                         <p>{'My opinions'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-preferences'>
+                      <Link to={`/my-preferences/`}>
                         <p>{'My preferences'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />

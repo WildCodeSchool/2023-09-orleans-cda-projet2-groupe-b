@@ -1,28 +1,39 @@
 import express from 'express';
-import { sql } from 'kysely';
+import type { Request, Response } from 'express';
+import loginIdUser from 'middleware/user-id';
 
 import { db } from '@app/backend-shared';
 
+interface RequestWithUser extends Request {
+  userId?: number;
+}
+
 const infoRouter = express.Router();
 
-infoRouter.get('/:userId', async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const user = await db
-      .selectFrom('user')
-      .select(['id', 'firstname', 'lastname', 'email', 'birthdate', 'avatar'])
-      .where(sql`id = ${userId}`)
-      .execute();
+infoRouter.get(
+  '/',
+  loginIdUser,
+  async (req: RequestWithUser, res: Response) => {
+    try {
+      if (!req.userId) {
+        throw new Error('User is not authenticated');
+      }
+      const user = await db
+        .selectFrom('user')
+        .select(['id', 'firstname', 'lastname', 'email', 'birthdate'])
+        .where('id', '=', BigInt(req.userId))
+        .execute();
 
-    if (user.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
+      if (user.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.status(200).json(user[0]);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    res.status(200).json(user[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+  },
+);
 
 export { infoRouter };

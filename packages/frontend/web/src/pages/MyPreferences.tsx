@@ -13,6 +13,32 @@ import {
   userPreferencesSchema,
 } from '@/schemas/user-preferences-schema';
 
+const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
+  try {
+    const response = await fetch(`/api/my-preferences`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        biography: userData.biography,
+        is_baby_allowed: userData.is_baby_allowed,
+        is_non_vaccinated_allowed: userData.is_non_vaccinated_allowed,
+        is_animal_allowed: userData.is_animal_allowed,
+        is_smoker_allowed: userData.is_smoker_allowed,
+        selected_languages: JSON.parse(userData.selected_languages),
+        selected_musics: JSON.parse(userData.selected_musics),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error saving data');
+    }
+  } catch {
+    console.error('Network error or while saving local data:');
+  }
+};
+
 export default function PreferencesForm() {
   const methods = useForm<UserPreferencesType>({
     resolver: zodResolver(userPreferencesSchema),
@@ -39,7 +65,7 @@ export default function PreferencesForm() {
     const signal = abortController.signal;
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/my-preferences/${userId}`, {
+        const response = await fetch(`/api/my-preferences`, {
           signal,
         });
 
@@ -78,37 +104,9 @@ export default function PreferencesForm() {
     return <p>{'User data not found'}</p>;
   }
 
-  const onsubmit: SubmitHandler<UserPreferencesType> = async (userData) => {
-    try {
-      const response = await fetch(`/api/my-preferences/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          biography: userData.biography,
-          is_baby_allowed: userData.is_baby_allowed,
-          is_non_vaccinated_allowed: userData.is_non_vaccinated_allowed,
-          is_animal_allowed: userData.is_animal_allowed,
-          is_smoker_allowed: userData.is_smoker_allowed,
-          selected_languages: JSON.parse(userData.selected_languages),
-          selected_musics: JSON.parse(userData.selected_musics),
-        }),
-      });
-
-      if (response.ok) {
-        ('Data saved successfully');
-      } else {
-        throw new Error('Error saving data');
-      }
-    } catch {
-      console.error('Network error or while saving local data:');
-    }
-  };
-
   return (
     <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-28 md:h-[50rem] md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:p-5 md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:py-5'>
-      <Link to={`/profile/${userId}`}>
+      <Link to={`/profile`}>
         <img
           src='/icons/right-arrow.svg'
           alt='left-arrow'
