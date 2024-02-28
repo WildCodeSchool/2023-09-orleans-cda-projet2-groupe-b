@@ -3,13 +3,12 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   type ReservationSeatTripType,
   reservationSeatTripSchema,
-} from '@app/types/src/search-trip-validation';
+} from '@app/shared';
 
 import { useAuth } from '@/contexts/AuthContext';
 

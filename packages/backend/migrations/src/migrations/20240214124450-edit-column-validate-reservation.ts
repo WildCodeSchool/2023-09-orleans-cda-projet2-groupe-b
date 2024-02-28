@@ -16,7 +16,6 @@ export async function up(db: Kysely<Database>): Promise<void> {
 export async function down(db: Kysely<Database>): Promise<void> {
   // Migration code that reverts the database to the previous state.
   await db.transaction().execute(async (trx) => {
-    await trx.schema.dropTable('item').ifExists().execute();
     await trx.schema
       .alterTable('reservation')
       .modifyColumn('validated_at', 'datetime', (col) => col.notNull())
