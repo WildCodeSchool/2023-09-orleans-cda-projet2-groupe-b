@@ -6,8 +6,9 @@ COPY package.json bun.lockb tsconfig.json ./
 COPY packages packages 
 RUN bun install --frozen-lockfile --ignore-scripts
 
-ARG API_URL
-ENV VITE_API_URL $API_URL
+ARG VITE_REACT_GOOGLE_MAPS_API_KEY
+ENV VITE_REACT_GOOGLE_MAPS_API_KEY $VITE_REACT_GOOGLE_MAPS_API_KEY
+
 
 RUN bun run build:frontend:web
 

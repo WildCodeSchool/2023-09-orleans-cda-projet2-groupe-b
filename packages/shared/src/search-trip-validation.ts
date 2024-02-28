@@ -26,3 +26,11 @@ export const searchTripSchema = z.object({
   }),
 });
 export type SearchTripType = z.infer<typeof searchTripSchema>;
+
+export const reservationSeatTripSchema = z.object({
+  seatSelectId: z.array(z.number()).refine((data) => data.length > 0, {
+    message: 'ⓘ Please select a valid passenger seat',
+  }),
+  shouldAutoValidate: z.boolean(),
+});
+export type ReservationSeatTripType = z.infer<typeof reservationSeatTripSchema>;

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import type { DataSearchTrip } from '@app/types';
 
 export default function CardTrip({
@@ -32,7 +34,8 @@ export default function CardTrip({
         const timeEndFormat = timeFormat(timeEnd);
 
         return (
-          <div
+          <Link
+            to={String(search.cp_t_id)}
             key={search.cp_t_id}
             className='text-primary flex h-[150px] w-[500px] justify-between rounded-xl bg-slate-100 p-4 font-semibold shadow-md'
           >
@@ -77,13 +80,13 @@ export default function CardTrip({
                       a.reservation_id === null &&
                       b.reservation_id !== null
                     ) {
-                      return -1;
+                      return 1;
                     }
                     if (
                       a.reservation_id !== null &&
                       b.reservation_id === null
                     ) {
-                      return 1;
+                      return -1;
                     }
                     return 0;
                   })
@@ -92,14 +95,14 @@ export default function CardTrip({
                       key={seat.id}
                       src={
                         seat.reservation_id === null
-                          ? '/icons/reserved-seat.svg'
-                          : '/icons/empty-seat.svg'
+                          ? '/icons/empty-seat.svg'
+                          : '/icons/reserved-seat.svg'
                       }
                     />
                   ))}
               </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </>

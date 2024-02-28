@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const navigate = useNavigate();
 
   const Logout = async () => {
@@ -32,7 +33,7 @@ export default function Navbar() {
           <img
             src='/icons/home.svg'
             alt='home'
-            className='w-7 sm:hidden md:hidden'
+            className='ml-2 w-7 sm:hidden md:hidden'
           />
           <img
             src='/icons/logo.svg'
@@ -52,11 +53,12 @@ export default function Navbar() {
             <p className='text-center'>{'Publish'}</p>
           </Link>
         </div>
-        <div className='mt-6 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
-          <img src='/icons/message.svg' alt='message' className='h-7 w-full' />
-          <p className='invisible text-center sm:visible md:visible'>
-            {'Message'}
-          </p>
+        <div className='mt-6 duration-75 sm:mt-2 sm:hidden sm:h-full sm:w-full sm:flex-col'>
+          <img
+            src='/icons/publish.svg'
+            alt='message'
+            className='ml-2 h-7 w-full sm:hidden'
+          />
         </div>
         <div className='mt-6 duration-75 sm:mt-2 sm:flex sm:h-full sm:w-full sm:flex-col'>
           <Link to={'/search-trip'}>
@@ -104,19 +106,19 @@ export default function Navbar() {
                 <div className='aria-hidden bg-custom-gradient shadow-custom fixed right-2 top-14 mt-2 w-60 rounded-md border'>
                   <ul className='mb-2 ml-3 mr-6 mt-3'>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-informations'>
+                      <Link to={`/my-informations`}>
                         <p>{'My informations'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-opinions'>
+                      <Link to={`/my-opinions`}>
                         <p>{'My opinions'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />
                     </li>
                     <li className='flex w-full flex-row justify-between'>
-                      <Link to='/my-preferences'>
+                      <Link to={`/my-preferences/`}>
                         <p>{'My preferences'}</p>
                       </Link>
                       <img src='/icons/right-arrow.svg' alt='right-arrow' />

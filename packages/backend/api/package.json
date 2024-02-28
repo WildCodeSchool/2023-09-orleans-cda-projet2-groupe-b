@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@app/types": "workspace:*",
-    "@types/multer": "^1.4.11",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.20",

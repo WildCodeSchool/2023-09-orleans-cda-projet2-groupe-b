@@ -22,15 +22,15 @@ export default function Itinerary() {
       <h1 className='text-bold text-center me-[5%]  text-2xl md:mt-5'>
         {'maps'}
       </h1>
-      <div className='mt-5 h-full '>
+      <div className='my-5 h-full '>
         <Map
-          className='mx-auto h-[80%] w-[80%] rounded'
+          className='mx-auto h-[80%] w-full rounded'
           zoom={5}
           gestureHandling={'greedy'}
           disableDefaultUI
         />
         <label className='my-5 flex justify-between'>
-          {'Without tolls'}{' '}
+          {'Without tolls'}
           <div className='relative h-5 w-14 cursor-pointer rounded-full bg-gray-200 shadow-inner'>
             <input
               type='checkbox'

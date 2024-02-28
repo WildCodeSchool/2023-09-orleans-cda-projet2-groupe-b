@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout';
+import SearchTripDetails from './components/SearchTripDetails';
 import AddACar from './pages/AddACar';
 import EditCar from './pages/EditCar';
 import Home from './pages/Home';
@@ -23,19 +24,19 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/profile/:userId',
+        path: '/profile',
         element: <Profile />,
       },
       {
-        path: '/my-informations/:userId',
+        path: '/my-informations',
         element: <MyInfo />,
       },
       {
-        path: '/my-opinions/:userId',
+        path: '/my-opinions',
         element: <MyOpinions />,
       },
       {
-        path: '/my-preferences/:userId',
+        path: '/my-preferences',
         element: <MyPreferences />,
       },
       {
@@ -60,12 +61,15 @@ const router = createBrowserRouter([
         element: <SearchTrip />,
       },
       {
+        path: 'search-trip/:id',
+        element: <SearchTripDetails />,
+      },
+      {
         path: '/publish-trip',
         element: <PublishTrip />,
       },
     ],
   },
-
 ]);
 
 export default router;

@@ -139,14 +139,14 @@ export default function Directions() {
   }, [routeIndex, routes, hasTolls]);
 
   return (
-    <div className='flex flex-col w-full h-full md:mt- lg:mt-28 lg:flex-row-reverse lg:justify-around'>
+    <div className='flex h-full w-full flex-col lg:mt-28 lg:flex-row-reverse lg:justify-around'>
       {routes.map((route, index) => (
         <label
           onClick={() => {
             setValue('routeIndex', index);
           }}
           key={route.summary}
-          className='flex justify-between  h-28  bg-light rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-400 has-[:checked]:bg-primary has-[:checked]:text-light has-[:checked]:ring-indigo-200'
+          className='bg-light ring-primary has-[:checked]:bg-primary has-[:checked]:text-light has-[:checked]:ring-dark my-2 flex h-28 justify-between rounded-xl p-2 text-slate-700 ring-1 hover:bg-slate-400'
         >
           {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
@@ -168,15 +168,21 @@ export default function Directions() {
               <p>{listLegs.at(-1)?.end_address}</p>
             </div>
           ) : (
-            <div>
-              <p>{route.legs[0].start_address.split(',')[0]}</p>
-              <div className='flex space-x-3'>
-                <p>{route.summary}</p>
-                <p>{route.legs[0].distance?.text}</p>
+            <div className='flex w-full flex-col'>
+              <p className='ms-[20%]'>
+                {route.legs[0].start_address.split(',')[0]}
+              </p>
+
+              <div className=' my-4 flex w-full flex-row justify-between text-sm'>
                 <p>{route.legs[0].duration?.text}</p>
-                <p>{hasTolls ? 'without tolls' : 'with tolls'}</p>
+                <img src="icon/symbole-itinerary.svg" />
+                <p>{route.legs[0].distance?.text}</p>
+                <p>{route.summary}</p>
+                <p className=''>{hasTolls ? 'without tolls' : 'with tolls'}</p>
               </div>
-              <p>{route.legs[0].end_address.split(',')[0]}</p>
+              <p className='mb-0 text-center'>
+                {route.legs[0].end_address.split(',')[0]}
+              </p>
             </div>
           )}
 
@@ -192,7 +198,7 @@ export default function Directions() {
                 onChange={() => {
                   field.onChange(index, currentItinerary);
                 }}
-                className='box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding outline-none ring-1 ring-gray-950/10 checked:border-indigo-500 checked:ring-indigo-500'
+                className='ring-dark checked:border-dark checked:ring-dark box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] ring-1'
               />
             )}
           />
