@@ -65,7 +65,7 @@ services:
     image: jorispineau/carpool-staging-migrations
     env_file:
       - ./common.env
-      - ./web.env
+      - ./api.env
     depends_on:
       database:
         condition: service_healthy
@@ -74,6 +74,7 @@ services:
 
 volumes:
   web-client-build:
+  uploads:
 
 networks:
   backend:

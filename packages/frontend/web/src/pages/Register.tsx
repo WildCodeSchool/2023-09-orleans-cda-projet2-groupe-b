@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -13,11 +12,6 @@ import {
 export default function Login() {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstname, setFirstname] = useState<string>('');
-  const [lastname, setLastname] = useState<string>('');
-  const [birthdate, setBirthdate] = useState<Date | string>('');
 
   const {
     register,
@@ -51,8 +45,8 @@ export default function Login() {
         setIsLoggedIn(true);
         navigate('/');
       }
-    } catch {
-      throw new Error('Erreur lors de la requête:');
+    } catch (error) {
+      console.error('Error during request', error);
     }
   };
 
@@ -78,10 +72,6 @@ export default function Login() {
               type='text'
               placeholder='firstname'
               {...register('firstname')}
-              value={firstname}
-              onChange={(event) => {
-                setFirstname(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.firstname ? (
@@ -98,10 +88,6 @@ export default function Login() {
               type='text'
               placeholder='lastname'
               {...register('lastname')}
-              value={lastname}
-              onChange={(event) => {
-                setLastname(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.lastname ? (
@@ -118,14 +104,6 @@ export default function Login() {
               type='date'
               placeholder='birthdate'
               {...register('birthdate')}
-              value={
-                typeof birthdate === 'string'
-                  ? birthdate
-                  : birthdate.toISOString().split('T')[0]
-              }
-              onChange={(event) => {
-                setBirthdate(event.target.value);
-              }}
             />
             <div className='mb border-b-light border' />
             {errors.birthdate ? (
@@ -142,10 +120,6 @@ export default function Login() {
               type='email'
               placeholder='Email'
               {...register('email')}
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.email ? (
@@ -162,10 +136,6 @@ export default function Login() {
               type='password'
               placeholder='Password'
               {...register('password')}
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
             />
             <div className='border-b-light border' />
             {errors.password ? (
@@ -190,7 +160,6 @@ export default function Login() {
               </p>
             ) : undefined}
           </div>
-
           <div className='bg-light text-dark m-auto my-10 h-10 rounded text-center shadow-lg md:mb-10 md:w-[80%]'>
             <button type='submit' className='my-1 text-xl font-semibold'>
               {'Register'}
