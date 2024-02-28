@@ -9,11 +9,8 @@ const searchTripDetailsRouter = express.Router();
 
 searchTripDetailsRouter.get('/:id', async (req, res) => {
   const id = req.params.id;
-  console.log('la');
 
   try {
-    console.log('laaaa');
-
     const searchTripDetails = await db
       .selectFrom('checkpoint_trip as cp_t')
       .select((eb) => [
@@ -91,9 +88,7 @@ searchTripDetailsRouter.get('/:id', async (req, res) => {
         ).as('reservations'),
       ])
       .where('cp_t.id', '=', BigInt(id))
-      // .where(sql`date > CURRENT_TIMESTAMP`)
       .executeTakeFirst();
-    console.log(searchTripDetails);
 
     return res.json(searchTripDetails);
   } catch (error) {

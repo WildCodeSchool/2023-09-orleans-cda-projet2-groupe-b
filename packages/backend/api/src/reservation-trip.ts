@@ -29,8 +29,6 @@ reservationTripRouter.post(
 
       const { shouldAutoValidate, seatSelectId } = req.body as Reservation;
 
-      console.log('LLLAAAA', shouldAutoValidate, seatSelectId);
-
       const createdAt = new Date();
 
       let validatedAt: Date | undefined = new Date();
@@ -56,7 +54,6 @@ reservationTripRouter.post(
           error: 'Seat unavailable',
         });
       }
-      console.log('la');
 
       const insertReservation = await db
         .insertInto('reservation')
@@ -67,8 +64,6 @@ reservationTripRouter.post(
           created_at: createdAt,
         })
         .executeTakeFirst();
-      console.log(insertReservation);
-      console.log('laa');
 
       const reservationId = insertReservation.insertId;
 
@@ -77,7 +72,6 @@ reservationTripRouter.post(
         .set({ reservation_id: reservationId })
         .where('id', 'in', seatSelectId)
         .execute();
-      console.log('laaa');
 
       return res.json({
         ok: true,

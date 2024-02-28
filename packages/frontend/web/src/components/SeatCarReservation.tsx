@@ -73,7 +73,6 @@ export default function SeatCarReservation({
     },
   });
   const onSubmit: SubmitHandler<ReservationSeatTripType> = async (data) => {
-    console.log(data);
     try {
       const response = await fetch(`/api/reservation`, {
         method: 'POST',
@@ -103,8 +102,6 @@ export default function SeatCarReservation({
         }
       })
       .filter((seat) => seat !== undefined) as number[];
-
-    console.log('seatSelectWithId', seatSelectId);
 
     setValue('seatSelectId', seatSelectId);
   }, [seatSelect]);

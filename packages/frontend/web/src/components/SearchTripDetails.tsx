@@ -33,8 +33,6 @@ export default function SearchTripDetails() {
         });
         const data = await response.json();
         setTrip(data);
-        console.log(data);
-        console.log('azeazdaze', data.reservations);
 
         const filterSeatAvailable = data.reservations
           .map((seat: Reservations) => {
@@ -81,15 +79,8 @@ export default function SearchTripDetails() {
   const travelTimeFormat = timeFormat(travelTime);
   const timeEndFormat = timeFormat(timeEnd);
 
-  console.log(
-    'aaaaaaaaaaaaaa',
-    timeStartFormat,
-    travelTimeFormat,
-    timeEndFormat,
-  );
-
   return (
-    <div className=' mt-8 flex flex-col items-center'>
+    <div className='mt-8 flex flex-col items-center'>
       <div className='w-[800px] space-y-6 rounded-lg bg-blue-300 p-8'>
         <div className='text-xl font-semibold'>
           {new Date(trip.trip.date).toDateString()}
