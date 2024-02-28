@@ -105,37 +105,38 @@ export default function PublishTrip() {
   }
 
   return (
-    <div className=' text-primary mt-20 flex justify-center'>
-      <FormProvider {...methods}>
-        <div className='flex w-[600px] justify-center rounded-xl sm:mt-12 sm:bg-slate-50'>
-          <form
-            onSubmit={methods.handleSubmit(formSubmit)}
-            className='flex flex-col items-center'
-          >
-            <APIProvider apiKey={KEY} libraries={['places']}>
-              <div className='flex w-full justify-start'>
-                <button
-                  type='button'
-                  onClick={() => {
-                    setStepForm(stepForm - 1);
-                  }}
-                >
-                  {stepForm <= 0 ? undefined : (
-                    <img src='/icons/return.svg' className='m-4 mx-6' />
-                  )}
+    <div className='mx-auto h-[60%] w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-24 md:h-[42rem]  md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:w-[35rem] lg:h-auto lg:mt-36'>
+      <div className=' text-light mt-7 sm:mt-20 md:mt-10 flex justify-center'>
+        <FormProvider {...methods}>
+          <div className='flex w-[600px] justify-center rounded-xl'>
+            <form
+              onSubmit={methods.handleSubmit(formSubmit)}
+              className='flex flex-col items-center'
+            >
+              <APIProvider apiKey={KEY} libraries={['places']}>
+                <div className='ms-[5%] md:mt-5 md:ms-[5%]'>
+                  <button
+                    type='button'
+                    onClick={() => {
+                      setStepForm(stepForm - 1);
+                    }}
+                  >
+                    {stepForm <= 0 ? undefined : (
+                      <img src='/icons/arrow-left.svg' className=' ' />
+                    )}
+                  </button>
+                </div>
+                {displayStepForm()}
+              </APIProvider>
+              <div className='bg-light text-dark m-auto my-10 h-10 rounded text-center shadow-lg md:mb-10 w-[80%]'>
+                <button type='submit' className='my-1 text-xl font-semibold'>
+                  {stepForm >= 2 ? 'Publish' : 'Next'}
                 </button>
               </div>
-              {displayStepForm()}
-            </APIProvider>
-            <button
-              type='submit'
-              className='bg-primary m-2 mb-8 w-64 rounded-lg p-2 font-semibold text-white'
-            >
-              {stepForm >= 2 ? 'Publish' : 'Next'}
-            </button>
-          </form>
-        </div>
-      </FormProvider>
+            </form>
+          </div>
+        </FormProvider>
+      </div>
     </div>
   );
 }

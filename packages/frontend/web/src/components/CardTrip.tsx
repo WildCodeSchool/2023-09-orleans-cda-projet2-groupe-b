@@ -34,7 +34,7 @@ export default function CardTrip({
         return (
           <div
             key={search.cp_t_id}
-            className='text-primary flex h-[180px] w-[500px] justify-between rounded-xl bg-slate-100 p-4 font-semibold shadow-md'
+            className='text-primary flex h-[150px] w-[500px] justify-between rounded-xl bg-slate-100 p-4 font-semibold shadow-md'
           >
             <div className='flex flex-col items-start justify-between'>
               <div className='flex space-x-4'>

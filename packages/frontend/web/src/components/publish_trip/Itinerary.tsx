@@ -18,16 +18,18 @@ export default function Itinerary() {
   const [hasTolls, setHasTolls] = useState(false);
 
   return (
-    <>
-      <h1>{'maps'}</h1>
-      <div className='h-[500px] w-[800px]'>
+    <div className='flex flex-col w-full h-full md:mt- lg:mt-28 lg:flex-row-reverse lg:justify-around'>
+      <h1 className='text-bold text-center me-[5%]  text-2xl md:mt-5'>
+        {'maps'}
+      </h1>
+      <div className='mt-5 h-full '>
         <Map
-          className='h-full w-full'
+          className='mx-auto h-[80%] w-[80%] rounded'
           zoom={5}
           gestureHandling={'greedy'}
           disableDefaultUI
         />
-        <label className='flex justify-between'>
+        <label className='my-5 flex justify-between'>
           {'Without tolls'}{' '}
           <div className='relative h-5 w-14 cursor-pointer rounded-full bg-gray-200 shadow-inner'>
             <input
@@ -42,11 +44,11 @@ export default function Itinerary() {
               }}
               className='peer sr-only'
             />
-            <span className='absolute left-0 top-[-4px] h-7 w-7 rounded-full bg-gray-300 transition-all duration-500 peer-checked:left-7 peer-checked:bg-gray-800' />
+            <span className='bg-dark peer-checked:bg-primary absolute left-0 top-[-4px] h-7 w-7 rounded-full transition-all duration-500 peer-checked:left-7' />
           </div>
         </label>
         <Directions />
       </div>
-    </>
+    </div>
   );
 }

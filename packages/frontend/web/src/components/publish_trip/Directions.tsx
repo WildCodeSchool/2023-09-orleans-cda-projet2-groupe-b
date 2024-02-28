@@ -139,19 +139,19 @@ export default function Directions() {
   }, [routeIndex, routes, hasTolls]);
 
   return (
-    <div className='mt-4 w-full space-y-2 bg-white'>
+    <div className='flex flex-col w-full h-full md:mt- lg:mt-28 lg:flex-row-reverse lg:justify-around'>
       {routes.map((route, index) => (
         <label
           onClick={() => {
             setValue('routeIndex', index);
           }}
           key={route.summary}
-          className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
+          className='flex justify-between  h-28  bg-light rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-400 has-[:checked]:bg-primary has-[:checked]:text-light has-[:checked]:ring-indigo-200'
         >
           {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
               <p>{leg === undefined ? undefined : leg.start_address}</p>
-              <div className='flex space-x-3'>
+              <div className='flex'>
                 <p>{route.summary}</p>
                 <p>
                   {Math.round(totalDistanceWithWaypoints / 1000)}

@@ -55,16 +55,17 @@ const router = createBrowserRouter([
         element: <AddACar />,
       },
       { path: '/car/edit/:id', element: <EditCar /> },
+      {
+        path: '/search-trip',
+        element: <SearchTrip />,
+      },
+      {
+        path: '/publish-trip',
+        element: <PublishTrip />,
+      },
     ],
   },
-  {
-    path: '/search-trip',
-    element: <SearchTrip />,
-  },
-  {
-    path: '/publish-trip',
-    element: <PublishTrip />,
-  },
+
 ]);
 
 export default router;
