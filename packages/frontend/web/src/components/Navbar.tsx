@@ -27,14 +27,10 @@ export default function Navbar() {
   };
 
   return (
-    <div className='sm:bg-custom-gradient sm:shadow-custom bg-primary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-start rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
+    <div className='sm:bg-custom-gradient sm:shadow-custom bg-primary text-light fixed bottom-0 mb-2 ml-[8%] flex w-[84.5%] flex-row justify-around rounded-full border-solid duration-75 sm:top-0 sm:mx-0 sm:h-16 sm:w-full sm:justify-between sm:rounded-none'>
       <div className='ml-[8%] mr-[8%] mt-5 duration-75 sm:mt-2 sm:w-[20%] md:mt-2 md:w-[10%]'>
         <Link to={'/'}>
-          <img
-            src='/icons/home.svg'
-            alt='home'
-            className='ml-2 w-7 sm:hidden md:hidden'
-          />
+          <img src='/icons/home.svg' alt='home' className='w-7 sm:hidden' />
           <img
             src='/icons/logo.svg'
             alt='logo'

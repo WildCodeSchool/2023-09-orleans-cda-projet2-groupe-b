@@ -105,13 +105,13 @@ export default function PublishTrip() {
   }
 
   return (
-    <div className='mx-auto h-[60%] w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mt-24 md:h-auto md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:mt-36 lg:w-[35rem]'>
+    <div className='mx-auto h-full w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mb-4 md:mt-24 md:h-auto md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:mt-28 lg:w-[80%]'>
       <div className=' text-light mt-7 flex justify-center sm:mt-20 md:mt-10'>
         <FormProvider {...methods}>
-          <div className='flex w-full justify-center rounded-xl'>
+          <div className='flex h-[80%] w-full justify-center rounded-xl'>
             <form
               onSubmit={methods.handleSubmit(formSubmit)}
-              className='flex flex-col items-center'
+              className='flex flex-col items-center lg:w-full'
             >
               <APIProvider apiKey={KEY} libraries={['places']}>
                 <div className='flex w-full justify-start'>
@@ -124,14 +124,14 @@ export default function PublishTrip() {
                     {stepForm <= 0 ? undefined : (
                       <img
                         src='/icons/arrow-left.svg'
-                        className=' ms-[10%] md:ms-[5%] md:mt-5'
+                        className=' ms-[10%] md:ms-[5%] md:mt-5 lg:ms-10'
                       />
                     )}
                   </button>
                 </div>
                 {displayStepForm()}
               </APIProvider>
-              <div className='bg-light text-dark mb-0 h-10 w-[80%] rounded text-center shadow-lg md:mb-10'>
+              <div className='bg-light text-dark mb-[30%] mt-5 h-10 w-full rounded text-center shadow-lg sm:mb-5 lg:w-96'>
                 <button type='submit' className='my-1 text-xl font-semibold'>
                   {stepForm >= 2 ? 'Publish' : 'Next'}
                 </button>

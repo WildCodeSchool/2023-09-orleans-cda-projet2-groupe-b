@@ -108,80 +108,87 @@ export default function SearchTrip() {
   };
 
   return (
-    <div className='flex justify-center'>
-      <div className='text-primary flex h-[750px] w-[600px] justify-center bg-black'>
+    <div className='mx-auto w-[85%] from-[#FFFFFF]/10 to-[#FFFFFF]/0 md:mb-4 md:mt-24 md:h-auto md:w-[60%] md:rounded-[1.5rem] md:bg-gradient-to-br md:shadow-2xl lg:ms-auto lg:mt-44 lg:w-[80%]'>
+      <h1 className='text-bold mt-5 pt-4 text-center text-2xl sm:mt-20 md:mt-10'>
+        {'Search Trip'}
+      </h1>{' '}
+      <div className='flex w-full justify-center'>
         <form
           method='get'
-          className='m-4 flex w-96 flex-col bg-slate-100 p-2'
+          className='flex w-96 flex-col lg:ms-[10%] lg:h-[30rem] lg:w-full lg:flex-row'
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className='mt-8'>
-            <label>{'From'}</label>
-            <input
-              type='text'
-              {...register('from')}
-              onChange={(event) => {
-                setValue('from', event.target.value);
-              }}
-              value={watch('from')}
-              ref={inputReferenceFrom}
-              placeholder='Address start'
-              className='w-full rounded-lg border p-2 drop-shadow'
-            />
-            <span className='text-red-700'>{errors.from?.message}</span>
+          <div className='lg:w-[30%]'>
+            <div className='my-4'>
+              <label>{'From'}</label>
+              <input
+                type='text'
+                {...register('from')}
+                onChange={(event) => {
+                  setValue('from', event.target.value);
+                }}
+                value={watch('from')}
+                ref={inputReferenceFrom}
+                placeholder='Address start'
+                className='text-dark w-full rounded-lg border p-2 drop-shadow '
+              />
+              <span className='text-red-700'>{errors.from?.message}</span>
+            </div>
+            <div className='my-4'>
+              <label>{'To'}</label>
+              <input
+                type='text'
+                {...register('to')}
+                onChange={(event) => {
+                  setValue('to', event.target.value);
+                }}
+                value={watch('to')}
+                ref={inputReferenceTo}
+                placeholder='Address end'
+                className='text-dark w-full rounded-lg border p-2 drop-shadow'
+              />
+              <span className='text-red-700'>{errors.to?.message}</span>
+            </div>
           </div>
-          <div className='mt-4'>
-            <label>{'To'}</label>
-            <input
-              type='text'
-              {...register('to')}
-              onChange={(event) => {
-                setValue('to', event.target.value);
-              }}
-              value={watch('to')}
-              ref={inputReferenceTo}
-              placeholder='Address end'
-              className='w-full rounded-lg border p-2 drop-shadow'
-            />
-            <span className='text-red-700'>{errors.to?.message}</span>
+          <div className='lg:flex lg:flex-row-reverse lg:justify-between'>
+            <div className='mt-8 flex justify-center lg:-me-[50%] lg:h-72 lg:justify-end'>
+              <Controller
+                control={control}
+                name='date'
+                render={({ field }) => (
+                  <DatePicker
+                    onChange={(date: Date) => {
+                      field.onChange(date);
+                    }}
+                    selected={field.value}
+                    inline
+                    minDate={new Date()}
+                    className='w-full rounded-2xl border bg-orange-400'
+                  />
+                )}
+              />
+            </div>
+
+            <div className='my-4 flex w-full items-center justify-center space-x-3 lg:-ms-[80%] lg:mt-10'>
+              <p>{'Passanger number : '}</p>
+              <select
+                {...register('passenger')}
+                className='w-16 rounded-lg border-2 border-white bg-transparent p-2 text-center'
+              >
+                {passengers.map((passenger) => (
+                  <option key={passenger} value={passenger}>
+                    {passenger}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className='mt-8 flex justify-center'>
-            <Controller
-              control={control}
-              name='date'
-              render={({ field }) => (
-                <DatePicker
-                  onChange={(date: Date) => {
-                    field.onChange(date);
-                  }}
-                  selected={field.value}
-                  inline
-                  minDate={new Date()}
-                  className='w-full rounded-2xl border bg-orange-400'
-                />
-              )}
-            />
-          </div>
-          <div className='my-4 flex w-full items-center justify-center space-x-3'>
-            <p>{'Passanger number : '}</p>
-            <select
-              {...register('passenger')}
-              className='w-16 rounded-lg border-2 border-white bg-transparent p-2 text-center'
-            >
-              {passengers.map((passenger) => (
-                <option key={passenger} value={passenger}>
-                  {passenger}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='flex w-full justify-center'>
-            <button
-              type='submit'
-              className='bg-primary my-5 w-64 rounded-lg p-2 font-semibold text-white'
-            >
-              {'Search'}
-            </button>
+          <div className='lg:-ms-[28rem] lg:mb-5 lg:flex lg:items-end'>
+            <div className='bg-light text-dark mt-5 h-10 w-full rounded text-center shadow-lg sm:mb-5 lg:mb-0 lg:w-96 lg:justify-center '>
+              <button type='submit' className='my-1 text-xl font-semibold'>
+                {'Login'}
+              </button>
+            </div>
           </div>
         </form>
       </div>
