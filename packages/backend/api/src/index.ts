@@ -14,11 +14,6 @@ const FRONTEND_PORT = process.env.FRONTEND_PORT;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
 app.use(express.static('uploads'));
 app.use(express.json());
-app.use(
-  cors({
-    origin: `http://${FRONTEND_HOST}:${FRONTEND_PORT}`,
-  }),
-);
 app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api', router);
