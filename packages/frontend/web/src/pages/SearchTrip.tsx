@@ -96,12 +96,12 @@ export default function SearchTrip() {
       .getDate()
       .toString()
       .padStart(2, '0')}`;
-
     try {
       const response = await fetch(
         `/api/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
       ).then((res) => res.json());
       setSearchTripFilter(response);
+      console.log(searchTripFilter);
     } catch (error) {
       throw new Error(String(error));
     }
@@ -186,7 +186,7 @@ export default function SearchTrip() {
           <div className='lg:-ms-[28rem] lg:mb-5 lg:flex lg:items-end'>
             <div className='bg-light text-dark mt-5 h-10 w-full rounded text-center shadow-lg sm:mb-5 lg:mb-0 lg:w-96 lg:justify-center '>
               <button type='submit' className='my-1 text-xl font-semibold'>
-                {'Login'}
+                {'Search'}
               </button>
             </div>
           </div>

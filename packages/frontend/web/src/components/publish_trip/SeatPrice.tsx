@@ -26,18 +26,19 @@ export default function SeatPrice() {
   };
 
   return (
-    <div className='flex flex-col items-center space-y-4 bg-slate-100 p-4'>
+    <div className='flex flex-col items-center space-y-4 p-4'>
       <label>{'Price of the place'}</label>
       <div className='flex space-x-4'>
         <button
           type='button'
           onClick={handleDecrement}
-          className='bg-slate-100 p-4'
+          className='p-4 text-2xl'
         >
           {'-'}
         </button>
         <input
           type='number'
+          className='text-dark text-center'
           defaultValue={Number(1)}
           {...register('price', {
             validate: (value) => {
@@ -50,7 +51,7 @@ export default function SeatPrice() {
         <button
           type='button'
           onClick={handleIncrement}
-          className='bg-slate-100 p-4'
+          className='p-4 text-2xl'
         >
           {'+'}
         </button>
