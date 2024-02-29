@@ -96,12 +96,13 @@ export default function SearchTrip() {
       .getDate()
       .toString()
       .padStart(2, '0')}`;
-
+    console.log(searchTripFilter);
     try {
       const response = await fetch(
         `/api/search-trip?startX=${placeStart?.x}&startY=${placeStart?.y}&endX=${placeEnd?.x}&endY=${placeEnd?.y}&passenger=${data.passenger}&date=${date}`,
       ).then((res) => res.json());
       setSearchTripFilter(response);
+      console.log(searchTripFilter);
     } catch (error) {
       throw new Error(String(error));
     }
