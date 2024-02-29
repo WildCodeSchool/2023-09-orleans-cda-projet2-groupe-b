@@ -187,7 +187,7 @@ export default function SearchTrip() {
           <div className='lg:-ms-[28rem] lg:mb-5 lg:flex lg:items-end'>
             <div className='bg-light text-dark mt-5 h-10 w-full rounded text-center shadow-lg sm:mb-5 lg:mb-0 lg:w-96 lg:justify-center '>
               <button type='submit' className='my-1 text-xl font-semibold'>
-                {'Login'}
+                {'Search'}
               </button>
             </div>
           </div>
