@@ -139,19 +139,19 @@ export default function Directions() {
   }, [routeIndex, routes, hasTolls]);
 
   return (
-    <div className='mt-4 w-full space-y-2 bg-white'>
+    <div className='flex h-full w-full flex-col lg:ms-[10%] lg:mt-36 lg:w-[70%] lg:flex-col lg:justify-start'>
       {routes.map((route, index) => (
         <label
           onClick={() => {
             setValue('routeIndex', index);
           }}
           key={route.summary}
-          className='flex items-center justify-between gap-6 space-x-4 rounded-xl p-3 px-8 text-slate-700 ring-1 ring-transparent hover:bg-slate-100 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-500 has-[:checked]:ring-indigo-200'
+          className='bg-light ring-primary has-[:checked]:bg-primary has-[:checked]:text-light has-[:checked]:ring-dark my-2 flex h-28 justify-between rounded-xl text-slate-700 ring-1 hover:bg-slate-400'
         >
           {listLegs !== undefined && listLegs.length > 1 ? (
             <div>
               <p>{leg === undefined ? undefined : leg.start_address}</p>
-              <div className='flex space-x-3'>
+              <div className='flex'>
                 <p>{route.summary}</p>
                 <p>
                   {Math.round(totalDistanceWithWaypoints / 1000)}
@@ -160,7 +160,7 @@ export default function Directions() {
                 <p>
                   {Math.floor(totalDurationWithWaypoints / 3600)}
                   {' heures'}{' '}
-                  {Math.floor((totalDurationWithWaypoints % 3600) / 60)}{' '}
+                  {Math.floor((totalDurationWithWaypoints % 3600) / 60)}
                   {'minutes'}
                 </p>
                 <p>{hasTolls ? 'without tolls' : 'with tolls'}</p>
@@ -168,15 +168,39 @@ export default function Directions() {
               <p>{listLegs.at(-1)?.end_address}</p>
             </div>
           ) : (
-            <div>
-              <p>{route.legs[0].start_address.split(',')[0]}</p>
-              <div className='flex space-x-3'>
-                <p>{route.summary}</p>
-                <p>{route.legs[0].distance?.text}</p>
-                <p>{route.legs[0].duration?.text}</p>
-                <p>{hasTolls ? 'without tolls' : 'with tolls'}</p>
+            <div className='flex w-full flex-col'>
+              <div className='mx-5 mt-4 flex w-full flex-row justify-between text-sm'>
+                <div className='my-auto'>
+                  <p>
+                    {route.legs[0].duration?.text
+                      .replace('heure', 'h')
+                      .replace('heures', 'h')
+                      .replace('minutes', '')
+                      .replace('min', '')}
+                  </p>
+                </div>
+                <div className='flex flex-col items-stretch'>
+                  {route.legs[0].start_address.split(',')[0]}
+                  <img
+                    src='/icons/symbole-itinerary.svg'
+                    alt='symbole-itinerary'
+                    className='h-10'
+                  />
+                  {route.legs[0].end_address.split(',')[0]}
+                </div>
+                <div className='my-auto'>
+                  <p>{route.legs[0].distance?.text}</p>
+                </div>
+
+                <div className='mx-5 my-auto w-10'>
+                  <p>{route.summary}</p>
+                </div>
+
+                <p className='mx-5 my-auto'>
+                  {hasTolls ? 'without tolls' : 'with tolls'}
+                </p>
               </div>
-              <p>{route.legs[0].end_address.split(',')[0]}</p>
+              <p className=' ms-[25%]' />
             </div>
           )}
 
@@ -192,7 +216,7 @@ export default function Directions() {
                 onChange={() => {
                   field.onChange(index, currentItinerary);
                 }}
-                className='box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding outline-none ring-1 ring-gray-950/10 checked:border-indigo-500 checked:ring-indigo-500'
+                className='ring-dark checked:border-dark checked:ring-dark me-2 mt-2 box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] ring-1'
               />
             )}
           />

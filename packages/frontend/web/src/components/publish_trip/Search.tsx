@@ -81,7 +81,7 @@ export default function Search() {
             value={watch('from')}
             ref={inputReferenceFrom}
             placeholder='Address start'
-            className='w-full rounded-lg border p-2 drop-shadow'
+            className='text-dark w-full rounded-lg border p-2 drop-shadow'
           />
           <span className='text-red-700'>{errors.from?.message}</span>
         </div>
@@ -106,7 +106,7 @@ export default function Search() {
                   },
                 })}
                 placeholder={`Address checkpoint ${index + 1}`}
-                className='w-full rounded-lg border p-2 drop-shadow'
+                className='text-dark w-full rounded-lg border p-2 drop-shadow'
               />
 
               <span
@@ -151,7 +151,7 @@ export default function Search() {
             value={watch('to')}
             ref={inputReferenceTo}
             placeholder='Address destination'
-            className='w-full rounded-lg border p-2 drop-shadow'
+            className='text-dark w-full rounded-lg border p-2 drop-shadow'
           />
           <span className='text-red-700'>{errors.to?.message}</span>
         </div>
