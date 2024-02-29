@@ -69,7 +69,7 @@ export default function Info() {
     <div className='flex justify-center'>
       <div className='flex w-96 flex-col space-y-4 p-6'>
         <SeatPrice />
-        <div className='space-y-5 bg-slate-100 p-4'>
+        <div className='space-y-5 p-4'>
           <h1 className='text-center'>{'Select your car'}</h1>
           <div className='flex space-x-2'>
             <select
@@ -80,7 +80,7 @@ export default function Info() {
                   return result.success ? true : result.error.errors[0].message;
                 },
               })}
-              className='w-full rounded-lg border p-2 drop-shadow'
+              className='text-dark w-full rounded-lg border p-2 drop-shadow'
             >
               {cars.map((car) => (
                 <option key={car.id} value={String(car.id)}>
@@ -103,7 +103,7 @@ export default function Info() {
           <SeatCar numberSeat={numberSeat} />
         )}
 
-        <div className='space-y-5 bg-slate-100 p-4'>
+        <div className='space-y-5 p-4'>
           <h1 className='text-center'>{'Preferences'}</h1>
           {Object.entries(preferences).map((preference) => (
             <label key={preference[0]} className='flex justify-between'>
@@ -128,7 +128,7 @@ export default function Info() {
             },
           })}
           placeholder='Message'
-          className='rounded-lg border p-2 drop-shadow'
+          className='text-dark rounded-lg border p-2 drop-shadow'
         />
         <span className='text-red-700'>{errors.comment?.message}</span>
       </div>
